@@ -27,24 +27,51 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
       updatedAt: field.temporal.updatedAtString(),
     },
   });
-  const Post = model('Post', {
+  const Playlist = model('Playlist', {  
     fields: {
       id: field.id.uuidv7String(),
-      title: field.text(),
-      content: field.text().optional(),
-      artistId: field.uuidString(),
+      name: field.text(),
+      userId: field.uuidString(),
+      coverUrl: field.text().optional(),
+      isPublic: field.boolean(),
+      description: field.text().optional(),
       createdAt: field.temporal.createdAtString(),
       updatedAt: field.temporal.updatedAtString(),
-    }});
+    },
+  });
 
+  const PlaylistSong = model('PlaylistSong', {
+    fields: {
+      id: field.id.uuidv7String(),
+      playlistId: field.uuidString(),
+      songId: field.uuidString(),
+      position: field.int(),
+      createdAt: field.temporal.createdAtString(),
+      updatedAt: field.temporal.updatedAtString(),
+    },
+  });
   return {
+
+   
   models: {
-    Artist: Artist.relations({
+  
+    User: User.relations({
+      Playlists: rel.hasMany(Playlist, {by: 'userId'}),
+    }),
+     Artist: Artist.relations({
       songs: rel.hasMany(Song, { by: 'artistId' }),
     }),
-
+    PlaylistSong: PlaylistSong.relations({
+      playlist: rel.belongsTo(Playlist, { from: 'playlistId', to: 'id' }),
+      song: rel.belongsTo(Song, { from: 'songId', to: 'id' }),
+    }),
+    Playlist: Playlist.relations({
+      user: rel.belongsTo(User, { from: 'userId', to: 'id'}),
+      songs: rel.hasMany(PlaylistSong, { by: 'playlistId' }),
+    }),   
     Song: Song.relations({
       artist: rel.belongsTo(Artist, { from: 'artistId', to: 'id' }),
+      playlists: rel.hasMany(PlaylistSong, { by: 'songId' }),
     }),
   },
 }});
