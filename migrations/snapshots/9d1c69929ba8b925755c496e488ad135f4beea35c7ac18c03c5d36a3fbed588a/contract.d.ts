@@ -34,9 +34,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'47b54635260bac4c780916bae979978495174bea3ef2d9223136e4ccb839388d'>;
+  StorageHashBase<'9d1c69929ba8b925755c496e488ad135f4beea35c7ac18c03c5d36a3fbed588a'>;
 export type ExecutionHash =
-  ExecutionHashBase<'5bb55013b47a3629742e00e1739bf0c41634bc613e78b0fa271d59ef076cb4d8'>;
+  ExecutionHashBase<'861925a099f80bd2668ca97577c2a5ead1b27a97247a5384852ee10721b1999b'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -242,14 +242,6 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
 
 export type FieldOutputTypes = {
   readonly public: {
-    readonly Album: {
-      readonly id: Char<36>;
-      readonly title: CodecTypes['pg/text@1']['output'];
-      readonly type: CodecTypes['pg/text@1']['output'];
-      readonly artistId: Char<36>;
-      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
-      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    };
     readonly Artist: {
       readonly id: Char<36>;
       readonly name: CodecTypes['pg/text@1']['output'];
@@ -279,7 +271,6 @@ export type FieldOutputTypes = {
       readonly title: CodecTypes['pg/text@1']['output'];
       readonly duration: CodecTypes['pg/int4@1']['output'];
       readonly artistId: Char<36>;
-      readonly albumId: Char<36>;
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
@@ -295,14 +286,6 @@ export type FieldOutputTypes = {
 };
 export type FieldInputTypes = {
   readonly public: {
-    readonly Album: {
-      readonly id: CodecTypes['sql/char@1']['input'];
-      readonly title: CodecTypes['pg/text@1']['input'];
-      readonly type: CodecTypes['pg/text@1']['input'];
-      readonly artistId: CodecTypes['sql/char@1']['input'];
-      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
-      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
-    };
     readonly Artist: {
       readonly id: CodecTypes['sql/char@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
@@ -332,7 +315,6 @@ export type FieldInputTypes = {
       readonly title: CodecTypes['pg/text@1']['input'];
       readonly duration: CodecTypes['pg/int4@1']['input'];
       readonly artistId: CodecTypes['sql/char@1']['input'];
-      readonly albumId: CodecTypes['sql/char@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
     };
@@ -348,14 +330,6 @@ export type FieldInputTypes = {
 };
 export type StorageColumnTypes = {
   readonly public: {
-    readonly Album: {
-      readonly artistId: Char<36>;
-      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
-      readonly id: Char<36>;
-      readonly title: CodecTypes['pg/text@1']['output'];
-      readonly type: CodecTypes['pg/text@1']['output'];
-      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    };
     readonly Artist: {
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly id: Char<36>;
@@ -381,7 +355,6 @@ export type StorageColumnTypes = {
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
     readonly Song: {
-      readonly albumId: Char<36>;
       readonly artistId: Char<36>;
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly duration: CodecTypes['pg/int4@1']['output'];
@@ -401,14 +374,6 @@ export type StorageColumnTypes = {
 };
 export type StorageColumnInputTypes = {
   readonly public: {
-    readonly Album: {
-      readonly artistId: CodecTypes['sql/char@1']['input'];
-      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
-      readonly id: CodecTypes['sql/char@1']['input'];
-      readonly title: CodecTypes['pg/text@1']['input'];
-      readonly type: CodecTypes['pg/text@1']['input'];
-      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
-    };
     readonly Artist: {
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly id: CodecTypes['sql/char@1']['input'];
@@ -434,7 +399,6 @@ export type StorageColumnInputTypes = {
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
     };
     readonly Song: {
-      readonly albumId: CodecTypes['sql/char@1']['input'];
       readonly artistId: CodecTypes['sql/char@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly duration: CodecTypes['pg/int4@1']['input'];
@@ -454,17 +418,6 @@ export type StorageColumnInputTypes = {
 };
 
 export namespace Models {
-  export type public_Album = {
-    id: Char<36>;
-    title: CodecTypes['pg/text@1']['output'];
-    type: CodecTypes['pg/text@1']['output'];
-    artistId: Char<36>;
-    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    artist: public_Artist;
-    songs: public_Song[];
-    readonly [RelationKeys]?: 'artist' | 'songs';
-  };
   export type public_User = {
     id: Char<36>;
     name: CodecTypes['pg/text@1']['output'];
@@ -472,8 +425,8 @@ export namespace Models {
     password: CodecTypes['pg/text@1']['output'];
     createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    playlists: public_Playlist[];
-    readonly [RelationKeys]?: 'playlists';
+    Playlists: public_Playlist[];
+    readonly [RelationKeys]?: 'Playlists';
   };
   export type public_Artist = {
     id: Char<36>;
@@ -481,8 +434,7 @@ export namespace Models {
     createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     songs: public_Song[];
-    albums: public_Album[];
-    readonly [RelationKeys]?: 'songs' | 'albums';
+    readonly [RelationKeys]?: 'songs';
   };
   export type public_PlaylistSong = {
     id: Char<36>;
@@ -513,19 +465,16 @@ export namespace Models {
     title: CodecTypes['pg/text@1']['output'];
     duration: CodecTypes['pg/int4@1']['output'];
     artistId: Char<36>;
-    albumId: Char<36>;
     createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     artist: public_Artist;
     playlists: public_PlaylistSong[];
-    album: public_Album;
-    readonly [RelationKeys]?: 'artist' | 'playlists' | 'album';
+    readonly [RelationKeys]?: 'artist' | 'playlists';
   };
 }
 
 export declare const models: {
   public: {
-    Album: Models.public_Album;
     User: Models.public_User;
     Artist: Models.public_Artist;
     PlaylistSong: Models.public_PlaylistSong;
@@ -552,47 +501,6 @@ type ContractBase = Omit<
         readonly kind: 'postgres-schema';
         readonly entries: {
           readonly table: {
-            readonly Album: {
-              columns: {
-                readonly id: {
-                  readonly nativeType: 'character';
-                  readonly codecId: 'sql/char@1';
-                  readonly nullable: false;
-                  readonly typeParams: { readonly length: 36 };
-                };
-                readonly title: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-                readonly type: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-                readonly artistId: {
-                  readonly nativeType: 'character';
-                  readonly codecId: 'sql/char@1';
-                  readonly nullable: false;
-                  readonly typeParams: { readonly length: 36 };
-                };
-                readonly createdAt: {
-                  readonly nativeType: 'timestamptz';
-                  readonly codecId: 'pg/timestamptz-string@1';
-                  readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
-                };
-                readonly updatedAt: {
-                  readonly nativeType: 'timestamptz';
-                  readonly codecId: 'pg/timestamptz-string@1';
-                  readonly nullable: false;
-                };
-              };
-              primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [];
-              indexes: readonly [];
-              foreignKeys: readonly [];
-            };
             readonly Artist: {
               columns: {
                 readonly id: {
@@ -740,12 +648,6 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly typeParams: { readonly length: 36 };
                 };
-                readonly albumId: {
-                  readonly nativeType: 'character';
-                  readonly codecId: 'sql/char@1';
-                  readonly nullable: false;
-                  readonly typeParams: { readonly length: 36 };
-                };
                 readonly createdAt: {
                   readonly nativeType: 'timestamptz';
                   readonly codecId: 'pg/timestamptz-string@1';
@@ -814,7 +716,6 @@ type ContractBase = Omit<
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
   readonly roots: {
-    readonly Album: { readonly namespace: 'public' & NamespaceId; readonly model: 'Album' };
     readonly User: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
     readonly Artist: { readonly namespace: 'public' & NamespaceId; readonly model: 'Artist' };
     readonly PlaylistSong: {
@@ -828,82 +729,6 @@ type ContractBase = Omit<
     readonly namespaces: {
       readonly public: {
         readonly models: {
-          readonly Album: {
-            readonly fields: {
-              readonly id: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'sql/char@1';
-                  readonly typeParams: { readonly length: 36 };
-                };
-              };
-              readonly title: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly type: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly artistId: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'sql/char@1';
-                  readonly typeParams: { readonly length: 36 };
-                };
-              };
-              readonly createdAt: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-string@1';
-                };
-              };
-              readonly updatedAt: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-string@1';
-                };
-              };
-            };
-            readonly relations: {
-              readonly artist: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Artist';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['artistId'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
-              readonly songs: {
-                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Song' };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['id'];
-                  readonly targetFields: readonly ['albumId'];
-                };
-              };
-            };
-            readonly storage: {
-              readonly table: 'Album';
-              readonly namespaceId: 'public';
-              readonly fields: {
-                readonly id: { readonly column: 'id' };
-                readonly title: { readonly column: 'title' };
-                readonly type: { readonly column: 'type' };
-                readonly artistId: { readonly column: 'artistId' };
-                readonly createdAt: { readonly column: 'createdAt' };
-                readonly updatedAt: { readonly column: 'updatedAt' };
-              };
-            };
-          };
           readonly Artist: {
             readonly fields: {
               readonly id: {
@@ -936,17 +761,6 @@ type ContractBase = Omit<
             readonly relations: {
               readonly songs: {
                 readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Song' };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['id'];
-                  readonly targetFields: readonly ['artistId'];
-                };
-              };
-              readonly albums: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Album';
-                };
                 readonly cardinality: '1:N';
                 readonly on: {
                   readonly localFields: readonly ['id'];
@@ -1158,14 +972,6 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly length: 36 };
                 };
               };
-              readonly albumId: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'sql/char@1';
-                  readonly typeParams: { readonly length: 36 };
-                };
-              };
               readonly createdAt: {
                 readonly nullable: false;
                 readonly type: {
@@ -1205,18 +1011,6 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['songId'];
                 };
               };
-              readonly album: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Album';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['albumId'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
             };
             readonly storage: {
               readonly table: 'Song';
@@ -1226,7 +1020,6 @@ type ContractBase = Omit<
                 readonly title: { readonly column: 'title' };
                 readonly duration: { readonly column: 'duration' };
                 readonly artistId: { readonly column: 'artistId' };
-                readonly albumId: { readonly column: 'albumId' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
@@ -1270,7 +1063,7 @@ type ContractBase = Omit<
               };
             };
             readonly relations: {
-              readonly playlists: {
+              readonly Playlists: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
                   readonly model: 'Playlist';
@@ -1322,23 +1115,6 @@ type ContractBase = Omit<
     readonly executionHash: ExecutionHash;
     readonly mutations: {
       readonly defaults: readonly [
-        {
-          readonly ref: {
-            readonly namespace: 'public';
-            readonly table: 'Album';
-            readonly column: 'id';
-          };
-          readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv7' };
-        },
-        {
-          readonly ref: {
-            readonly namespace: 'public';
-            readonly table: 'Album';
-            readonly column: 'updatedAt';
-          };
-          readonly onCreate: { readonly kind: 'generator'; readonly id: 'timestampNow' };
-          readonly onUpdate: { readonly kind: 'generator'; readonly id: 'timestampNow' };
-        },
         {
           readonly ref: {
             readonly namespace: 'public';
