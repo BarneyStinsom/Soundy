@@ -13,6 +13,13 @@ export class UserController {
         findPlaylists(@Param('id') id: string) {
           return this.userService.findPlaylists(id);
         }
+
+      @Post('login')
+        login(
+        @Body('email') email: string,
+        @Body('password') password: string) {
+        return this.userService.login(email, password);
+        }  
      @Post()
         create(
           @Body() user: CreateUserDto

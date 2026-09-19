@@ -57,5 +57,20 @@ export class UserService {
         .delete();
     }
     
+async login(email: string, password: string) {
+  const user = await db.orm.public.User
+    .where({ email })
+    .first();
+
+  if (!user || user.password !== password) {
+    throw new NotFoundException('Email ou senha incorretos');
+  }
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  };
+}
 
 }

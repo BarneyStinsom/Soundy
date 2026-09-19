@@ -3,14 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <title>Soundy</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
+
+  body {
+    display: flex;
+    height: 100dvh;
+    width: 100dvw;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .conteiner {
+    height: 100dvh;
+    width: 800px;
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 30px;
+    padding-bottom: 8rem;
+  }
+
+  .imgC {
+    background-image: url('../imagem_2026-09-19_120430397-removebg-preview__1_-removebg-preview.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 300px;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .imgT {
+    background-image: url('../imagem_2026-09-19_130942363-removebg-preview.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 700px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn {
+    height: 100px;
+    width: 300px;
+    background: linear-gradient(90deg, rgb(62, 168, 255), rgb(19, 126, 175), rgb(17, 76, 131) );
+    border-radius: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.1rem;
+    font-family: "Shrikhand", serif;
+    font-weight: 200;
+    color: white;
+    transition: all 1s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      color: #a4dbe9;
+    }
+
+</style>
 <body>
 
-  <h1>Soundy</h1>
-  <h1>Artistas</h1>
+<div class="conteiner">
+  <div class="imgC"></div>
+  <div class="imgT"></div>
+  <a href="menu/menu.html" class="btn">CONHECER</a>
+</div>
 
-    <div id="artists"></div>
-
-  <script src="script.js"></script>
 </body>
 </html>
