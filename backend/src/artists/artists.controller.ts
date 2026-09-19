@@ -18,7 +18,7 @@ export class ArtistsController {
   }
   @Post()
 create(@Body() artist: CreateArtistDto) {
-  return this.artistsService.create(artist.name);
+  return this.artistsService.create(artist.name, artist.coverUrl);
 }
 @Patch(':id')
 update(

@@ -16,7 +16,7 @@ export class AlbumsService {
 
   async findOne(id: string) {
   return await db.orm.public.Album
-    .where({ id: id as Char<36> })
+    .where({ id })
     .select('id', 'title', 'type')
     .include('artist', (artist) =>
       artist.select('name')
@@ -24,10 +24,10 @@ export class AlbumsService {
     .first();
 }
 
-  async create(title: string, type: string, artistId: string) {
+  async create(title: string, type: string, artistId: string, coverUrl?: string) {
 
   const artist = await db.orm.public.Artist
-    .where({ id: artistId as Char<36> })
+    .where({ id: artistId })
     .first();
 
   if (!artist) {
@@ -37,7 +37,8 @@ export class AlbumsService {
   return await db.orm.public.Album.create({
     title,
     type,
-    artistId: artistId as Char<36>,
+    artistId: artistId,
+    coverUrl
   });
 }
 
@@ -73,7 +74,7 @@ export class AlbumsService {
   }
   async findSongs(id: string) { 
     const album = await db.orm.public.Album
-      .where({ id: id as Char<36> })
+      .where({ id })
       .first();
     if (!album) {
       throw new NotFoundException('Álbum não encontrado');

@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString, IsUUID, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID, Min } from 'class-validator';
 
 export class CreateSongDto {
   @IsString()
@@ -21,6 +21,10 @@ export class CreateSongDto {
 
   @IsUUID()
   id: string;
+
+  @IsUrl()
+  @IsOptional()
+  songCoverUrl: string;
 }
 
 

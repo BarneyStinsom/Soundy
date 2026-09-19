@@ -22,7 +22,8 @@ export class PlaylistController {
         return this.playlistService.create(
             playlist.name, 
             playlist.userId, 
-            playlist.isPublic
+            playlist.isPublic,
+            playlist.coverUrl
         );
     }
 

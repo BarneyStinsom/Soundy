@@ -13,7 +13,7 @@ export class SongsService {
     .all();
 }
   async create(title: string, duration: number, songUrl: string,
-     artistId: string, albumId: string) {
+     artistId: string, albumId: string, songCoverUrl?: string) {
   
     const artist = await db.orm.public.Artist
       .where({ id: artistId as Char<36> })
@@ -33,8 +33,9 @@ export class SongsService {
     title,
     duration,
     songUrl,
-    artistId: artistId as Char<36>,
-    albumId: albumId as Char<36>,
+    artistId: artistId,
+    albumId: albumId,
+    songCoverUrl,
   });
 }
 
@@ -63,5 +64,34 @@ async delete(id: string) {
   return await db.orm.public.Song
     .where({ id: id as Char<36> })
     .delete();
+}
+
+async findTopSongs(limitCount = 10) {
+  const plan = db.sql.public.PlayHistory
+    .select('songId')
+    .select('playCount', (f, fns) => (fns as any).count(f.songId))
+    .groupBy('songId')
+    .orderBy('playCount', { direction: 'desc' })
+    .limit(limitCount)
+    .build();
+
+  const runtime = db.runtime();
+  const counts = await runtime.query(plan);
+
+  const topSongs = [];
+  for (const row of counts) {
+    const song = await db.orm.public.Song
+      .select('id', 'title')
+      .where({ id: row.songId  })
+      .first();
+
+    topSongs.push({
+      songId: row.songId,
+      title: song?.title ?? 'Desconhecida',
+      playCount: row.playCount,
+    });
+  }
+
+  return topSongs;
 }
 }

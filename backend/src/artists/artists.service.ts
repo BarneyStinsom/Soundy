@@ -16,9 +16,10 @@ export class ArtistsService {
       .where({ id: id as Char<36> })
       .first();
   }
-  async create(name: string) {
+  async create(name: string, coverUrl?: string) {
   return await db.orm.public.Artist.create({
     name,
+    coverUrl,
   });
 }
 async update(id: string, name: string) {

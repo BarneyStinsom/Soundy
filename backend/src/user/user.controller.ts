@@ -1,6 +1,7 @@
 import { Controller, Patch, Delete, Param, Body, Post, Get } from '@nestjs/common';
 import { UserService } from './user.service.js';
 import { CreateUserDto } from './user.dto.js';
+import { LoginUserDto } from './login.dto.js';
 
 @Controller('users')
 export class UserController {
@@ -13,12 +14,15 @@ export class UserController {
         findPlaylists(@Param('id') id: string) {
           return this.userService.findPlaylists(id);
         }
-
-      @Post('login')
+        @Get(':id')
+        findOne (
+          @Param('id') id: string){   
+            return this.userService.findOne(id)
+          }
+       @Post('login')
         login(
-        @Body('email') email: string,
-        @Body('password') password: string) {
-        return this.userService.login(email, password);
+        @Body() user: LoginUserDto) {
+        return this.userService.login(user.email, user.password);
         }  
      @Post()
         create(
@@ -27,7 +31,8 @@ export class UserController {
           return this.userService.create(
             user.name, 
             user.email, 
-            user.password
+            user.password,
+            user.pictureUrl,
           );
         }
 
@@ -40,7 +45,8 @@ export class UserController {
             id, 
             user.name, 
             user.email, 
-            user.password);
+            user.password,
+            user.pictureUrl);
         }
 
         @Delete(':id')

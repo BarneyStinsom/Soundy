@@ -49,6 +49,13 @@
                   }
                 }
               },
+              "coverUrl": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "createdAt": {
                 "nullable": false,
                 "type": {
@@ -126,6 +133,9 @@
                 "artistId": {
                   "column": "artistId"
                 },
+                "coverUrl": {
+                  "column": "coverUrl"
+                },
                 "createdAt": {
                   "column": "createdAt"
                 },
@@ -148,6 +158,13 @@
           },
           "Artist": {
             "fields": {
+              "coverUrl": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "createdAt": {
                 "nullable": false,
                 "type": {
@@ -214,6 +231,9 @@
             },
             "storage": {
               "fields": {
+                "coverUrl": {
+                  "column": "coverUrl"
+                },
                 "createdAt": {
                   "column": "createdAt"
                 },
@@ -612,6 +632,13 @@
                   }
                 }
               },
+              "songCoverUrl": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "songUrl": {
                 "nullable": false,
                 "type": {
@@ -715,6 +742,9 @@
                 "id": {
                   "column": "id"
                 },
+                "songCoverUrl": {
+                  "column": "songCoverUrl"
+                },
                 "songUrl": {
                   "column": "songUrl"
                 },
@@ -764,6 +794,13 @@
               },
               "password": {
                 "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "pictureUrl": {
+                "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
@@ -826,6 +863,9 @@
                 "password": {
                   "column": "password"
                 },
+                "pictureUrl": {
+                  "column": "pictureUrl"
+                },
                 "updatedAt": {
                   "column": "updatedAt"
                 }
@@ -852,6 +892,11 @@
                   "typeParams": {
                     "length": 36
                   }
+                },
+                "coverUrl": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
                 },
                 "createdAt": {
                   "codecId": "pg/timestamptz-string@1",
@@ -897,6 +942,11 @@
             },
             "Artist": {
               "columns": {
+                "coverUrl": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "createdAt": {
                   "codecId": "pg/timestamptz-string@1",
                   "default": {
@@ -1136,6 +1186,11 @@
                     "length": 36
                   }
                 },
+                "songCoverUrl": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "songUrl": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
@@ -1195,6 +1250,11 @@
                   "nativeType": "text",
                   "nullable": false
                 },
+                "pictureUrl": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "updatedAt": {
                   "codecId": "pg/timestamptz-string@1",
                   "nativeType": "timestamptz",
@@ -1216,7 +1276,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "4ac293f842c4cc35ddab000967254f1d938498d1a9f983b535ce4ce8539fbd4f"
+    "storageHash": "1d425e03f8d28c0f54e1eef48c3498937822f208d993bc3866a086b817296803"
   },
   "execution": {
     "executionHash": "434b9e33787b8e9397b5a43e9da9dd9f99e343d68c1ccaefc7a161f4eaa44752",

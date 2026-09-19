@@ -8,7 +8,18 @@ export class UserService {
         .select('id', 'name', 'email')
         .all();
     }
+    async findOne(id: string) {
+    const user = await db.orm.public.User
+        .select('id', 'name', 'email')
+        .where({ id })
+        .first();
 
+    if (!user) {
+        throw new NotFoundException('Usuário não encontrado');
+    }
+
+    return user;
+}
     async findPlaylists(id: string){
         const user = await db.orm.public.User
         .where({ id: id as Char<36> })
@@ -22,14 +33,15 @@ export class UserService {
         .all();
     }
 
-    async create(name: string, email: string, password: string){
+    async create(name: string, email: string, password: string, pictureUrl?: string){
         return await db.orm.public.User.create({
             name,
             email,
             password,
+            pictureUrl,
         });
     }
-    async update(id: string, name: string, email: string, password: string){
+    async update(id: string, name: string, email: string, password: string, pictureUrl: string | undefined){
         const user = await db.orm.public.User
         .where({ id: id as Char<36> })
         .first();

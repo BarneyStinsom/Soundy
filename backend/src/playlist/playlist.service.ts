@@ -39,7 +39,7 @@ export class PlaylistService {
                  .all();
     }
 
-    async create(name: string, userId: string, isPublic: boolean) {
+    async create(name: string, userId: string, isPublic: boolean, coverUrl?: string) {
 
          const user = await db.orm.public.User
             .where({ id: userId as Char<36> })
@@ -52,6 +52,7 @@ export class PlaylistService {
     return await db.orm.public.Playlist.create({
         name,
         userId,
+        coverUrl,
         isPublic,
     });
 }

@@ -26,6 +26,7 @@ create(@Body() album: CreateAlbumDto) {
     album.title,
     album.type,
     album.artistId,
+    album.coverUrl
   );
 }
 

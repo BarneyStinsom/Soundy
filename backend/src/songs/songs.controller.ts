@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Patch, Delete, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, Patch, Delete, Get, Param, Query } from '@nestjs/common';
 import { SongsService } from './songs.service.js';
 import { CreateSongDto } from './songs.dto.js';
 @Controller('songs')
@@ -9,13 +9,24 @@ export class SongsController {
   findAll() {
     return this.songsService.findAll();
   }
-
- @Post() create(@Body() createSongDto: CreateSongDto) { 
-    return this.songsService.create( createSongDto.title, 
-    createSongDto.duration, 
-    createSongDto.songUrl,
-    createSongDto.artistId, 
-    createSongDto.albumId, ); }
+  @Get('top')
+findTop(@Query('limit') limit?: string) {
+  const parsedLimit = limit ? parseInt(limit, 10) : 10;
+  return this.songsService.findTopSongs(parsedLimit);
+}
+ @Post()
+         create(
+           @Body() song: CreateSongDto
+         ) {
+           return this.songsService.create(
+             song.title, 
+             song.duration, 
+             song.songUrl,
+             song.songCoverUrl,
+             song.artistId,
+             song.albumId
+           );
+         }
 
  
   @Patch(':id')
