@@ -5,79 +5,226 @@
   <title>Soundy</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
-
-  body {
-    display: flex;
-    height: 100dvh;
-    width: 100dvw;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .conteiner {
-    height: 100dvh;
-    width: 800px;
-  
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    padding-top: 30px;
-    padding-bottom: 8rem;
-  }
-
-  .imgC {
-    background-image: url('../imagem_2026-09-19_120430397-removebg-preview__1_-removebg-preview.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 300px;
-    width: 300px;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .imgT {
-    background-image: url('../imagem_2026-09-19_130942363-removebg-preview.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100px;
-    width: 700px;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .btn {
-    height: 100px;
-    width: 300px;
-    background: linear-gradient(90deg, rgb(62, 168, 255), rgb(19, 126, 175), rgb(17, 76, 131) );
-    border-radius: 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3.1rem;
-    font-family: "Shrikhand", serif;
-    font-weight: 200;
-    color: white;
-    transition: all 1s ease;
-    }
-
-    .btn:hover {
-      transform: scale(1.1);
-      color: #a4dbe9;
-    }
-
-</style>
-<body>
-
-<div class="conteiner">
-  <div class="imgC"></div>
-  <div class="imgT"></div>
-  <a href="menu/menu.html" class="btn">CONHECER</a>
+<div class="fundo">
+  <svg id="ondas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="50%"  stop-color="#fff"/>
+        <stop offset="100%" stop-color="#fff"/>
+      </linearGradient>
+    </defs>
+  </svg>
 </div>
 
+<img class="logo" src="Logo.png" alt="Logo Soundy">
+
+<ul class="wave-menu">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+  body {
+  background: radial-gradient(ellipse at 50% 20%,
+  #fff 0%,
+  #002fff 35%,
+  #070066 70%,
+  #000d81 100%);
+
+  margin: 0;
+  overflow: hidden;
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.fundo svg { width: 100%; height: 170%; display: block; }
+
+.onda {
+  fill: none;
+  stroke: url(#grad);
+  stroke-width: 1.2;
+  animation-name: fluir;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fluir {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-400px); }
+}
+
+/* seu conteúdo precisa ficar por cima */
+.conteiner { position: relative; z-index: 1 }
+
+@media (prefers-reduced-motion: reduce) {
+  .onda { animation: none; }
+}
+
+.logo {
+  width: 400px;
+  transform: translateY(-14rem); /* bem menos agressivo que -14rem */
+  z-index: 1;
+}
+
+/* From Uiverse.io by JkHuger */ 
+.wave-menu {
+  border: 4px solid #2600ff;
+  border-radius: 50px;
+  width: 200px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: ease 0.2s;
+  position: relative;
+  background: #fff;
+}
+
+.wave-menu li {
+  list-style: none;
+  height: 30px;
+  width: 4px;
+  border-radius: 10px;
+  background: #2600ff;
+  margin: 0 6px;
+  padding: 0;
+  animation-name: wave1;
+  animation-duration: 0.3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  transition: ease 0.2s;
+}
+
+.wave-menu:hover > li {
+  background: #fff;
+}
+
+.wave-menu:hover {
+  background: #2600ff;
+}
+
+.wave-menu li:nth-child(2) {
+  animation-name: wave2;
+  animation-delay: 0.2s;
+}
+
+.wave-menu li:nth-child(3) {
+  animation-name: wave3;
+  animation-delay: 0.23s;
+  animation-duration: 0.4s;
+}
+
+.wave-menu li:nth-child(4) {
+  animation-name: wave4;
+  animation-delay: 0.1s;
+  animation-duration: 0.3s;
+}
+
+.wave-menu li:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.wave-menu li:nth-child(6) {
+  animation-name: wave2;
+  animation-duration: 0.5s;
+}
+
+.wave-menu li:nth-child(8) {
+  animation-name: wave4;
+  animation-delay: 0.4s;
+  animation-duration: 0.25s;
+}
+
+.wave-menu li:nth-child(9) {
+  animation-name: wave3;
+  animation-delay: 0.15s;
+}
+
+@keyframes wave1 {
+  from {
+    transform: scaleY(1);
+  }
+
+  to {
+    transform: scaleY(0.5);
+  }
+}
+
+@keyframes wave2 {
+  from {
+    transform: scaleY(0.3);
+  }
+
+  to {
+    transform: scaleY(0.6);
+  }
+}
+
+@keyframes wave3 {
+  from {
+    transform: scaleY(0.6);
+  }
+
+  to {
+    transform: scaleY(0.8);
+  }
+}
+
+@keyframes wave4 {
+  from {
+    transform: scaleY(0.2);
+  }
+
+  to {
+    transform: scaleY(0.5);
+  }
+}
+
+</style>
+
+<script>
+  const svg = document.getElementById('ondas');
+const NS = 'http://www.w3.org/2000/svg';
+const seg = 400;   // período da onda (tem que bater com o translateX do keyframe)
+const amp = 70;    // altura da onda
+
+for (let i = 0; i < 34; i++) {
+  const y = 260 + i * 20;
+  let d = `M -400 ${y}`;
+  for (let x = -400; x < 2000; x += seg) {
+    d += ` C ${x + seg * 0.25} ${y - amp}, ${x + seg * 0.75} ${y + amp}, ${x + seg} ${y}`;
+  }
+  const p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', d);
+  p.setAttribute('class', 'onda');
+  p.style.animationDuration = (9 + i * 0.4) + 's';
+  p.style.animationDelay = (-i * 0.6) + 's';
+  p.style.opacity = 0.12 + (i % 12) * 0.045;
+  svg.appendChild(p);
+}
+</script>
 </body>
 </html>
