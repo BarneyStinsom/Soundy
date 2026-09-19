@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundy</title>
+</head>
+
+<!--
+    Página única para listar as músicas de qualquer coleção.
+    O campo "tipo" na URL diz onde ela está:
+
+      pgMusicas.html?tipo=playlist&id=<id da playlist>
+      pgMusicas.html?tipo=album&id=<id do álbum>     (EP e single também: são álbuns com type "ep" / "single")
+-->
+
+<body>
+
+    <p><a id="backLink" href="menu/menu.html">Voltar</a></p>
+
+    <p id="message" role="status"></p>
+
+    <div id="content" hidden>
+        <h1 id="title"></h1>
+        <p id="tipoText"></p>
+        <p id="info"></p>
+
+        <p id="emptyText" hidden>Nenhuma música por aqui ainda.</p>
+        <ol id="songList"></ol>
+
+        <!-- só aparece quando tipo=playlist -->
+        <form id="addForm" hidden>
+            <h2>Adicionar música</h2>
+            <select id="songSelect" aria-label="Música"></select>
+            <button id="addBtn" type="submit">Adicionar à playlist</button>
+        </form>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/pgMusicas.js"></script>
+</body>
+
+</html>

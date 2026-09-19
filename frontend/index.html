@@ -18,7 +18,8 @@
 
 <img class="logo" src="Logo.png" alt="Logo Soundy">
 
-<ul class="wave-menu">
+<a href="Login.html">
+  <ul class="wave-menu">
   <li></li>
   <li></li>
   <li></li>
@@ -30,7 +31,7 @@
   <li></li>
   <li></li>
 </ul>
-
+</a>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
   body {
@@ -73,7 +74,7 @@
   to   { transform: translateX(-400px); }
 }
 
-/* seu conteúdo precisa ficar por cima */
+
 .conteiner { position: relative; z-index: 1 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -82,11 +83,11 @@
 
 .logo {
   width: 400px;
-  transform: translateY(-14rem); /* bem menos agressivo que -14rem */
+  transform: translateY(-14rem); 
   z-index: 1;
 }
 
-/* From Uiverse.io by JkHuger */ 
+
 .wave-menu {
   border: 4px solid #2600ff;
   border-radius: 50px;
@@ -208,8 +209,8 @@
 <script>
   const svg = document.getElementById('ondas');
 const NS = 'http://www.w3.org/2000/svg';
-const seg = 400;   // período da onda (tem que bater com o translateX do keyframe)
-const amp = 70;    // altura da onda
+const seg = 400;   
+const amp = 70;    
 
 for (let i = 0; i < 34; i++) {
   const y = 260 + i * 20;

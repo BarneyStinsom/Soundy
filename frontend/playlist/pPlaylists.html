@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suas playlists — Soundy</title>
+</head>
+
+<body>
+
+    <p><a href="../menu/menu.html">Voltar ao menu</a></p>
+
+    <h1>Suas playlists</h1>
+
+    <!-- criar / editar -->
+    <form id="playlistForm">
+        <h2 id="formTitle">Nova playlist</h2>
+
+        <p>
+            <label for="nameInput">Nome</label>
+            <input id="nameInput" type="text" maxlength="100" autocomplete="off">
+        </p>
+
+        <!-- só aparecem ao criar (a API só permite editar o nome) -->
+        <div id="createOnlyFields">
+            <p>
+                <label>
+                    <input id="publicInput" type="checkbox">
+                    Playlist pública
+                </label>
+            </p>
+            <p>
+                <label for="coverInput">Link da capa (opcional)</label>
+                <input id="coverInput" type="url" placeholder="https://...">
+            </p>
+        </div>
+
+        <button id="formSubmit" type="submit">Criar playlist</button>
+        <button id="formCancel" type="button" hidden>Cancelar edição</button>
+    </form>
+
+    <p id="message" role="status"></p>
+
+    <ul id="playlistList"></ul>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/pPlaylists.js"></script>
+</body>
+
+</html>

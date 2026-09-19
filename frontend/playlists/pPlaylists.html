@@ -1,0 +1,33 @@
+<!-- playlists/pPlaylists.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundy</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <a href="../menu/menu.html">← Voltar</a>
+
+    <h1>Suas playlists</h1>
+
+    <form id="createPlaylistForm">
+        <input type="text" id="newPlaylistName" placeholder="Nome da playlist" required>
+        <label>
+            <input type="checkbox" id="newPlaylistPublic">
+            Pública
+        </label>
+        <button type="submit">Criar</button>
+    </form>
+
+    <p id="createError"></p>
+
+    <ul id="playlistsList"></ul>
+
+    <p id="pageError"></p>
+
+    <script src="pPlaylists.js"></script>
+</body>
+</html>

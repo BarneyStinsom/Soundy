@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    body {
+        width: 100dvw;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<body>
+
+    <main class="auth-container">
+
+        <h1>Soundy</h1>
+
+        <!-- LOGIN -->
+        <section id="loginSection">
+
+            <h2>Entrar</h2>
+
+            <form id="loginForm">
+
+                <input
+                    id="loginEmail"
+                    type="email"
+                    placeholder="E-mail"
+                    required
+                >
+
+                <input
+                    id="loginPassword"
+                    type="password"
+                    placeholder="Senha"
+                    required
+                >
+
+                <button type="submit">
+                    Entrar
+                </button>
+
+            </form>
+
+            <p id="loginError"></p>
+
+            <p>
+                Não tem uma conta?
+                <button id="showRegister" type="button">
+                    Criar conta
+                </button>
+            </p>
+
+        </section>
+
+
+        <!-- CADASTRO -->
+        <section id="registerSection" style="display: none;">
+
+            <h2>Criar conta</h2>
+
+            <form id="registerForm">
+
+                <input
+                    id="registerName"
+                    type="text"
+                    placeholder="Nome"
+                    required
+                >
+
+                <input
+                    id="registerEmail"
+                    type="email"
+                    placeholder="E-mail"
+                    required
+                >
+
+                <input
+                    id="registerPassword"
+                    type="password"
+                    placeholder="Senha"
+                    required
+                >
+
+                <button type="submit">
+                    Criar conta
+                </button>
+
+            </form>
+
+            <p id="registerError"></p>
+
+            <p>
+                Já tem uma conta?
+                <button id="showLogin" type="button">
+                    Entrar
+                </button>
+            </p>
+
+        </section>
+
+    </main>
+
+    <script src="js/script.js"></script>
+    ""
+</body>
+
+</html>
