@@ -164,7 +164,3 @@ A lista completa e atualizada está sempre no Swagger (`/api`).
 4. Push e abra um Pull Request
 
 ---
-
-<div align="center">
-  <sub>Feito com 💙 e muito café enquanto aprendemos.</sub>
-</div>
