@@ -5,24 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soundy</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
+        <script src="js/script.js" defer></script>
+        <script src="js/scriptindex.js" defer></script>
 </head>
-<style>
-    body {
-        width: 100dvw;
-        height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-</style>
 <body>
+
+    <div class="fundo">
+  <svg id="ondas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="50%"  stop-color="#fff"/>
+        <stop offset="100%" stop-color="#fff"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
 
     <main class="auth-container">
 
-        <h1>Soundy</h1>
+        <img class="logo" src="../imagens/Logo.png" alt="Logo Soundy">
 
+        <div class="logginglass">
+            <svg style="position:absolute; width:0; height:0;">
+            <filter id="liquid-distort">
+             <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="5" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="25" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            </svg>
         <!-- LOGIN -->
         <section id="loginSection">
 
@@ -43,8 +53,7 @@
                     placeholder="Senha"
                     required
                 >
-
-                <button type="submit">
+                <button class="buttonlogin" type="submit">
                     Entrar
                 </button>
 
@@ -54,9 +63,9 @@
 
             <p>
                 Não tem uma conta?
-                <button id="showRegister" type="button">
+                <a class="criar" id="showRegister" type="button">
                     Criar conta
-                </button>
+                </a>
             </p>
 
         </section>
@@ -89,8 +98,7 @@
                     placeholder="Senha"
                     required
                 >
-
-                <button type="submit">
+                <button  class="buttonlogin" type="submit">
                     Criar conta
                 </button>
 
@@ -100,17 +108,15 @@
 
             <p>
                 Já tem uma conta?
-                <button id="showLogin" type="button">
+                <a class="criar" id="showLogin" type="button">
                     Entrar
-                </button>
+                </a>
             </p>
 
         </section>
+        </div>
 
     </main>
-
-    <script src="js/script.js"></script>
-    ""
 </body>
 
 </html>
