@@ -1,10 +1,10 @@
  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
   body {
   background: radial-gradient(ellipse at 50% 20%,
-  #fff 0%,
+  #020202 0%,
   #1db954 100%,
-  #191414 70%,
-  #ff0505 35%);
+  #000000 70%,
+  #000000 35%);
 
   margin: 0;
   overflow: hidden;
@@ -47,6 +47,12 @@
 }
 
 .logo {
+  width: 400px;
+  transform: translateY(-14rem); 
+  z-index: 1;
+}
+
+.logo1 {
   width: 400px;
   transform: translateY(-1rem); 
   z-index: 1;
