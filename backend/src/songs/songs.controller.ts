@@ -14,19 +14,22 @@ findTop(@Query('limit') limit?: string) {
   const parsedLimit = limit ? parseInt(limit, 10) : 10;
   return this.songsService.findTopSongs(parsedLimit);
 }
+
+  @Get(':id')
+findOne(@Param('id') id: string) {
+  return this.songsService.findOne(id);
+}
  @Post()
-         create(
-           @Body() song: CreateSongDto
-         ) {
-           return this.songsService.create(
-             song.title, 
-             song.duration, 
-             song.songUrl,
-             song.songCoverUrl,
-             song.artistId,
-             song.albumId
-           );
-         }
+        create(@Body() song: CreateSongDto) {
+       return this.songsService.create(
+    song.title, 
+    song.duration, 
+    song.songUrl,
+    song.artistId,
+    song.albumId,
+    song.songCoverUrl,
+  );
+}
 
  
   @Patch(':id')
@@ -34,7 +37,7 @@ findTop(@Query('limit') limit?: string) {
     @Param('id') id: string,
     @Body() song: CreateSongDto
   ) {
-   return this.songsService.update(song.id, song.title);
+   return this.songsService.update(id, song.title);
   }  
 
   @Delete(':id')

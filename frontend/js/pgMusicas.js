@@ -110,7 +110,12 @@ function renderSongs() {
         const li = document.createElement('li');
         li.textContent = `${song.title} — ${formatDuration(song.duration)}`;
 
-        
+        // abre o player; tipo e coleção fazem "Anterior" e "Próxima" seguirem esta lista
+        const playLink = document.createElement('a');
+        playLink.href = `musica/pMusica.html?id=${encodeURIComponent(song.id)}&tipo=${kind}&colecao=${encodeURIComponent(id)}`;
+        playLink.textContent = 'Tocar';
+        li.append(' ', playLink);
+
         if (kind === 'playlist') {
             const removeBtn = document.createElement('button');
             removeBtn.type = 'button';

@@ -19,10 +19,7 @@ export class CreateSongDto {
   @IsUUID()
   albumId: string;
 
-  @IsUUID()
-  id: string;
-
-  @IsUrl()
+  @IsString()
   @IsOptional()
   songCoverUrl: string;
 }

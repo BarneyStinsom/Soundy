@@ -25,7 +25,7 @@ function renderAlbums(albums) {
         const li = document.createElement('li');
         li.textContent = `${album.title} (${album.type})`;
         li.addEventListener('click', () => {
-            window.location.href = `../pgMusicas.html?type=album&id=${album.id}`;
+            window.location.href = `../pgMusicas.html?tipo=album&id=${album.id}`;
         });
         albumsList.appendChild(li);
     });

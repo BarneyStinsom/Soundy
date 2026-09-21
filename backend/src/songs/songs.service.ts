@@ -12,14 +12,25 @@ export class SongsService {
     )
     .all();
 }
+  async findOne(id: string) {
+  const song = await db.orm.public.Song
+    .where({ id: id as Char<36> })
+    .select('id', 'title', 'duration', 'songUrl', 'songCoverUrl')
+    .include('artist', (artist) => artist.select('id', 'name'))
+    .include('album', (album) => album.select('id', 'title', 'type', 'coverUrl'))
+    .first();
+
+  if (!song) throw new NotFoundException('Música não encontrada');
+  return song;
+}
   async create(title: string, duration: number, songUrl: string,
      artistId: string, albumId: string, songCoverUrl?: string) {
   
     const artist = await db.orm.public.Artist
-      .where({ id: artistId as Char<36> })
+      .where({ id: artistId })
       .first();
     const album = await db.orm.public.Album
-      .where({ id: albumId as Char<36> })
+      .where({ id: albumId })
       .first();
     if (!artist || !album) {
       throw new NotFoundException('Artista ou álbum não encontrado');
@@ -41,14 +52,14 @@ export class SongsService {
 
 async update(id: string, title: string) {
   const song = await db.orm.public.Song
-      .where({ id: id as Char<36> })
+      .where({ id })
       .first();
   
     if (!song) {
       throw new NotFoundException('Música não encontrada');
     }
   return await db.orm.public.Song
-    .where({ id: id as Char<36> })
+    .where({ id })
     .update({
       title,
     });

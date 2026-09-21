@@ -3,9 +3,9 @@
 
 const API_URL = 'http://localhost:3000';
 
-// O Login.html fica na mesma pasta deste arquivo, então o caminho
+// O Login.html fica uma pasta acima deste arquivo (js/), então o caminho
 // funciona de qualquer pasta que a página esteja.
-const LOGIN_URL = new URL('Login.html', document.currentScript.src).href;
+const LOGIN_URL = new URL('../Login.html', document.currentScript.src).href;
 
 const userId = localStorage.getItem('userId');
 if (!userId) {

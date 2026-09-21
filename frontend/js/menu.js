@@ -56,7 +56,7 @@ function renderTopHits(topHits) {
         const li = document.createElement('li');
         li.textContent = `${song.title} — ${song.playCount} reproduções`;
         li.addEventListener('click', () => {
-            window.location.href = `musica.html?id=${song.songId}`;
+            window.location.href = `../musica/pMusica.html?id=${song.songId}`;
         });
         topHitsList.appendChild(li);
     });
@@ -130,7 +130,7 @@ searchInput.addEventListener('input', () => {
             const li = document.createElement('li');
             li.textContent = `🎵 ${song.title} — ${song.artist?.name ?? ''}`;
             li.addEventListener('click', () => {
-                window.location.href = `musica.html?id=${song.id}`;
+                window.location.href = `../musica/pMusica.html?id=${song.id}`;
             });
             searchResults.appendChild(li);
         });

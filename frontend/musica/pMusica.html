@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundy</title>
+</head>
+
+<!--
+    Player de uma música. Endereços:
+
+      musica/pMusica.html?id=<id da música>
+      musica/pMusica.html?id=<id da música>&tipo=playlist&colecao=<id da playlist>
+      musica/pMusica.html?id=<id da música>&tipo=album&colecao=<id do álbum>      (EP e single também)
+
+    "Anterior" e "Próxima" seguem a coleção informada em tipo/colecao.
+    Sem tipo/colecao, seguem o álbum da própria música.
+-->
+
+<body>
+
+    <p><a id="backLink" href="../menu/menu.html">Voltar</a></p>
+
+    <p id="message" role="status"></p>
+
+    <div id="content" hidden>
+
+        <img id="cover" alt="Capa" hidden>
+
+        <h1 id="title"></h1>
+        <p id="artist"></p>
+        <p id="album"></p>
+
+        <input id="seek" type="range" min="0" max="0" step="1" value="0" aria-label="Progresso da música">
+        <p><span id="currentTime">0:00</span> / <span id="totalTime">0:00</span></p>
+
+        <button id="prevBtn" type="button">Anterior</button>
+        <button id="playPauseBtn" type="button">Tocar</button>
+        <button id="nextBtn" type="button">Próxima</button>
+
+        <!-- sem "controls": quem controla são os botões acima -->
+        <audio id="player" preload="metadata"></audio>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="pMusica.js"></script>
+</body>
+
+</html>
