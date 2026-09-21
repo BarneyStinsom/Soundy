@@ -59,7 +59,7 @@
 }
 
 .wave-menu {
-  border: 4px solid #1db954;
+  border: 4px solid #b91d92;
   border-radius: 50px;
   width: 200px;
   height: 45px;
@@ -79,7 +79,7 @@
   height: 30px;
   width: 4px;
   border-radius: 10px;
-  background: #1db954;
+  background: #b91d92;
   margin: 0 6px;
   padding: 0;
   animation-name: wave1;
@@ -94,7 +94,7 @@
 }
 
 .wave-menu:hover {
-  background: #1db954;
+  background: #b91d92;
 }
 
 .wave-menu li:nth-child(2) {

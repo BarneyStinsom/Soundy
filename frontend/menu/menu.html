@@ -6,20 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soundy</title>
     <link rel="icon" type="image/png" href="../imagens/Logo.png">
+    <link rel="stylesheet" href="../css/menu.css">
+    <script src="../js/scriptondas.js" defer></script>
 </head>
 
 <body>
-
-    <h1>Soundy</h1>
+<header class="topo">
+    <a href="../index.html">
+        <img src="../imagens/Logo.png" alt="Logo do Soundy" class="logo">
+    </a>
 
     <nav>
-        <button id="profileBtn" type="button">Perfil</button>
-        <button id="playlistsBtn" type="button">Playlists</button>
-    </nav>
+        <button class="playlists" id="playlistsBtn" type="button">Playlists</button>
 
-    <!-- busca -->
-    <input id="searchInput" type="search" placeholder="Buscar músicas, artistas e álbuns" autocomplete="off">
-    <ul id="searchResults" hidden></ul>
+        <div class="busca-wrapper">
+            <input class="buscabusca" id="searchInput" type="search"
+                   placeholder="Buscar músicas, artistas e álbuns" autocomplete="off">
+            <ul id="searchResults" hidden></ul>
+        </div>
+
+        <input type="file" id="photoInput" accept="image/*" hidden>
+        <button class="perfil" id="profileBtn" type="button" title="Trocar foto de perfil"></button>
+    </nav>
+</header>
 
     <h2>Top hits</h2>
     <ul id="topHitsList"></ul>
@@ -31,6 +40,17 @@
     <ul id="albumsList"></ul>
 
     <script src="../js/menu.js"></script>
+
+   <div class="fundo">
+<svg id="ondas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="50%"  stop-color="#fff"/>
+        <stop offset="100%" stop-color="#fff"/>
+      </linearGradient>
+    </defs>
+</svg>
+</div>
 </body>
 
 </html>
