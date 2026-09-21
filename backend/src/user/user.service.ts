@@ -5,7 +5,7 @@ import type { Char } from '@prisma/orm-postgres/target/codec-types';
 export class UserService {
     async findAll(){
         return await db.orm.public.User
-        .select('id', 'name', 'email')
+        .select('id', 'name', 'email', 'password')
         .all();
     }
     async findOne(id: string) {
