@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundy — Álbuns</title>
+    <link rel="icon" type="image/png" href="../imagens/Logo.png">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body data-page="albuns">
+
+    <header class="admin-topbar">
+        <a class="brand" href="dashboard.html">
+            <img src="../imagens/Logo.png" alt="Soundy">
+            Painel Admin
+        </a>
+        <nav class="admin-nav">
+            <a href="dashboard.html" data-page="dashboard">Início</a>
+            <a href="artistas.html" data-page="artistas">Artistas</a>
+            <a href="albuns.html" data-page="albuns">Álbuns</a>
+            <a href="musicas.html" data-page="musicas">Músicas</a>
+            <a href="../menu/menu.html">Voltar ao Soundy</a>
+            <button id="adminLogoutBtn" type="button">Sair</button>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <h1>Álbuns</h1>
+        <p class="subtitle">Cadastre novos álbuns ou edite os existentes.</p>
+
+        <section class="admin-panel">
+            <h2 id="formTitle">Novo álbum</h2>
+            <form id="albumForm" class="admin-form">
+                <input type="hidden" id="albumId">
+
+                <label class="field">
+                    Título
+                    <input type="text" id="albumTitle" required>
+                </label>
+
+                <label class="field">
+                    Tipo
+                    <select id="albumType" required>
+                        <option value="Álbum">Álbum</option>
+                        <option value="Single">Single</option>
+                        <option value="EP">EP</option>
+                        <option value="Coletânea">Coletânea</option>
+                    </select>
+                </label>
+
+                <label class="field">
+                    Artista
+                    <select id="albumArtistId" required>
+                        <option value="">Selecione...</option>
+                    </select>
+                </label>
+
+                <label class="field">
+                    URL da capa (opcional)
+                    <input type="url" id="albumCoverUrl" placeholder="https://...">
+                </label>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="albumSubmitBtn">Adicionar álbum</button>
+                    <button type="button" class="btn btn-outline" id="albumCancelBtn" hidden>Cancelar edição</button>
+                    <span class="form-message" id="albumFormMessage"></span>
+                </div>
+            </form>
+        </section>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Título</th>
+                        <th>Tipo</th>
+                        <th>Artista</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="albumsTableBody">
+                    <tr class="empty-row"><td colspan="5">Carregando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="page-error" id="pageError"></p>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script src="js/admin-common.js"></script>
+    <script src="js/albuns.js"></script>
+</body>
+</html>
