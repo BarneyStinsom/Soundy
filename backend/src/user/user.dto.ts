@@ -14,7 +14,6 @@ export class CreateUserDto {
   password: string;
 
   @IsBoolean()
-  @IsNotEmpty()
   isAdmin : boolean;
 
   @IsOptional()
