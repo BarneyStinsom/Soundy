@@ -1252,6 +1252,10 @@
                 },
                 "isAdmin": {
                   "codecId": "pg/bool@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
                   "nativeType": "bool",
                   "nullable": false
                 },
@@ -1291,7 +1295,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "43fcc705e05fe528d38086dc3b25ef8e96744ce802455ccae8153ccc02d64f90"
+    "storageHash": "5ac412e0d020abab63cb75eb18a21c44930f89d6faa86cfb914c6442abc27d85"
   },
   "execution": {
     "executionHash": "434b9e33787b8e9397b5a43e9da9dd9f99e343d68c1ccaefc7a161f4eaa44752",
