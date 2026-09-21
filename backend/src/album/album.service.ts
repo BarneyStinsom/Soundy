@@ -44,7 +44,7 @@ export class AlbumsService {
 
 
 
-  async update(id: string, title: string, type: string) {
+  async update(id: string, title: string, type: string, artistId?: string, coverUrl?: string) {
     const album = await db.orm.public.Album
   .where({ id: id as Char<36> })
   .first();
@@ -52,11 +52,23 @@ export class AlbumsService {
     if (!album) {
        throw new NotFoundException('Álbum não encontrado');
 }
+
+    if (artistId) {
+      const artist = await db.orm.public.Artist
+        .where({ id: artistId })
+        .first();
+      if (!artist) {
+        throw new NotFoundException('Artista não encontrado');
+      }
+    }
+
     return await db.orm.public.Album
       .where({ id: id as Char<36> })
       .update({
         title,
         type,
+        artistId: artistId ?? album.artistId,
+        coverUrl: coverUrl ?? album.coverUrl,
       });
   }
 

@@ -43,7 +43,7 @@ export class UserService {
             pictureUrl
         });
     }
-    async update(id: string, name: string, email: string, password: string, pictureUrl: string | undefined){
+    async update(id: string, name: string, email: string, password: string, isAdmin: boolean | undefined, pictureUrl: string | undefined){
         const user = await db.orm.public.User
         .where({ id: id as Char<36> })
         .first();
@@ -56,6 +56,8 @@ export class UserService {
             name,
             email,
             password,
+            isAdmin: isAdmin ?? user.isAdmin,
+            pictureUrl,
         });
     }
     

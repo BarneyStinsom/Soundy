@@ -34,7 +34,7 @@ create(@Body() album: CreateAlbumDto) {
   update(
     @Param('id') id: string, @Body() album: CreateAlbumDto
   ) {
-    return this.albumsService.update(id, album.title, album.type);
+    return this.albumsService.update(id, album.title, album.type, album.artistId, album.coverUrl);
   }
 
   @Delete(':id')
