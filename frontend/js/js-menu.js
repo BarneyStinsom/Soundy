@@ -8,6 +8,7 @@ if (!userId) {
 
 const searchInput = document.querySelector('#searchInput');
 const searchResults = document.querySelector('#searchResults');
+const playlistsBtn = document.querySelector('#playlistsBtn');
 const adminBtn = document.querySelector('#adminBtn');
 const topHitsList = document.querySelector('#topHitsList');
 const artistsList = document.querySelector('#artistsList');
@@ -18,6 +19,11 @@ let allSongs = [];
 let allArtists = [];
 let allAlbums = [];
 
+// ---------- BOTÕES DE NAVEGAÇÃO ----------
+
+playlistsBtn.addEventListener('click', () => {
+    window.location.href = '../playlist/pPlaylists.html';
+});
 
 if (localStorage.getItem('isAdmin') === 'true') {
     adminBtn.hidden = false;

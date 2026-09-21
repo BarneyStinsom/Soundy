@@ -1,0 +1,149 @@
+body {
+  background: radial-gradient(ellipse at 50% 20%,
+    #000000 0%,
+    #5E052C 100%,
+    #000000 70%,
+    #000000 35%);
+  background-attachment: fixed; /* o fundo não rola junto com o conteúdo */
+  min-height: 100vh; /* cobre a tela toda mesmo se o conteúdo for curto */
+  color: #fff; /* como o fundo agora é escuro, o texto precisa ficar branco */
+}
+
+.fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.fundo svg {
+  width: 100%;
+  height: 170%;
+  display: block;
+}
+
+.onda {
+  fill: none;
+  stroke: url(#grad);
+  stroke-width: 1.2;
+  animation-name: fluir;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fluir {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-400px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .onda { animation: none; }
+}
+
+
+.topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* título à esquerda, nav à direita */
+    padding: 10px 25px;
+}
+
+.topo nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.perfil {
+    background-color: #555;
+    background-image: url('../imagens/fotoperfilusuario/fotoperfilbase.jfif');
+    background-size: cover;
+    background-position: center;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0; /* evita o círculo ficar amassado */
+}
+
+.playlists {
+    background-color: transparent;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    color: #fff;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    display: flex;
+    gap: 6px;
+    margin-left: 50px; /* separa o botão do perfil */
+    margin-right: auto; /* empurra tudo que vem depois dele pra direita */
+}
+
+.admin {
+    background-color: transparent;
+    border: 1px solid #ff5f96;
+    border-radius: 10px;
+    color: #ff5f96;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+}
+
+.logo {
+    height: 60px;
+    width: auto;
+}
+
+.buscabusca {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    letter-spacing: 0.5px;
+    font-family: 'Space Grotesk', sans-serif;
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 16px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.048) 0%,
+        rgba(255, 255, 255, 0.027) 50%,
+        rgba(255, 255, 255, 0.055) 100%
+    );
+    backdrop-filter: saturate(170%);
+    -webkit-backdrop-filter: saturate(170%);
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.busca-wrapper {
+    position: relative; /* referência para o dropdown */
+}
+
+#searchResults {
+    position: absolute;
+    top: calc(100% + 6px); /* logo abaixo do input */
+    left: 0;
+    width: 100%;
+    background: #1a0410; /* fundo sólido, pra não ficar transparente sobre o gradiente */
+    border: 1px solid #000;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10; /* fica por cima do resto do conteúdo */
+    list-style: none;
+    padding: 6px 0;
+}
+
+#searchResults li {
+    padding: 8px 12px;
+}
