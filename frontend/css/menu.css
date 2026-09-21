@@ -51,6 +51,7 @@ body {
 .topo nav {
     display: flex;
     align-items: center;
+    justify-content: flex-end; /* agrupa admin, busca e foto no lado direito */
     gap: 12px;
     flex: 1;
 }
@@ -79,8 +80,19 @@ body {
     font-size: 16px;
     display: flex;
     gap: 6px;
-    margin-left: 50px; /* separa o botão do perfil */
-    margin-right: auto; /* empurra tudo que vem depois dele pra direita */
+    margin-left: 50px; /* separa o botão do logo */
+    margin-right: auto; /* empurra admin, busca e foto pro lado direito */
+}
+
+.admin {
+    background-color: transparent;
+    border: 1px solid #ff5f96;
+    border-radius: 10px;
+    color: #ff5f96;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
 }
 
 .logo {
