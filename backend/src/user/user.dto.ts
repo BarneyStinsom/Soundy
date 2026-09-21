@@ -13,8 +13,8 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   isAdmin?: boolean;
 
   @IsOptional()

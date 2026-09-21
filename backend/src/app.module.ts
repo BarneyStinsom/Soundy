@@ -11,6 +11,7 @@ import { UserModule } from './user/user.module.js';
 import { PlaylistsongsModule } from './playlistsongs/playlistsongs.module.js';
 import { AlbumModule } from './album/album.module.js';
 import { PlayHistoryModule } from './playhistory/playhistory.module.js';
+import { UploadsModule } from './uploads/uploads.module.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -20,7 +21,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
       rootPath: join(__dirname, '..', 'public'),
       serveRoot: '/',
     }),
-    ArtistsModule, SongsModule, PlaylistModule, UserModule, PlaylistsongsModule, AlbumModule, PlayHistoryModule,
+    ArtistsModule, SongsModule, PlaylistModule, UserModule, PlaylistsongsModule, AlbumModule, PlayHistoryModule, UploadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

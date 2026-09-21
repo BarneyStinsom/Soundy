@@ -7,7 +7,11 @@ const songTitleInput = document.querySelector('#songTitle');
 const songDurationInput = document.querySelector('#songDuration');
 const songArtistSelect = document.querySelector('#songArtistId');
 const songAlbumSelect = document.querySelector('#songAlbumId');
+const songAudioFileInput = document.querySelector('#songAudioFile');
+const songAudioHint = document.querySelector('#songAudioHint');
 const songUrlInput = document.querySelector('#songUrl');
+const songCoverFileInput = document.querySelector('#songCoverFile');
+const songCoverHint = document.querySelector('#songCoverHint');
 const songCoverUrlInput = document.querySelector('#songCoverUrl');
 const songFormMessage = document.querySelector('#songFormMessage');
 const songFormTitle = document.querySelector('#formTitle');
@@ -23,6 +27,10 @@ let albums = [];
 function resetForm() {
     songForm.reset();
     songIdInput.value = '';
+    songUrlInput.value = '';
+    songCoverUrlInput.value = '';
+    songAudioHint.textContent = '';
+    songCoverHint.textContent = '';
     songFormTitle.textContent = 'Nova música';
     songSubmitBtn.textContent = 'Adicionar música';
     songCancelBtn.hidden = true;
@@ -30,6 +38,22 @@ function resetForm() {
     songFormMessage.className = 'form-message';
     populateAlbumSelect('');
 }
+
+// Lê a duração do mp3/wav direto no navegador assim que o arquivo é escolhido,
+// pra ninguém precisar digitar isso na mão.
+songAudioFileInput.addEventListener('change', () => {
+    const file = songAudioFileInput.files[0];
+    if (!file) return;
+    const tempAudio = new Audio();
+    tempAudio.preload = 'metadata';
+    tempAudio.onloadedmetadata = () => {
+        if (isFinite(tempAudio.duration) && tempAudio.duration > 0) {
+            songDurationInput.value = Math.round(tempAudio.duration);
+        }
+        URL.revokeObjectURL(tempAudio.src);
+    };
+    tempAudio.src = URL.createObjectURL(file);
+});
 
 function populateArtistSelect() {
     songArtistSelect.innerHTML = '<option value="">Selecione...</option>';
@@ -79,6 +103,14 @@ async function startEdit(song) {
         songDurationInput.value = full.duration;
         songUrlInput.value = full.songUrl || '';
         songCoverUrlInput.value = full.songCoverUrl || '';
+        songAudioFileInput.value = '';
+        songCoverFileInput.value = '';
+        songAudioHint.textContent = full.songUrl
+            ? 'Já tem um áudio. Escolha um arquivo só se quiser trocar.'
+            : '';
+        songCoverHint.textContent = full.songCoverUrl
+            ? 'Já tem uma capa. Escolha um arquivo só se quiser trocar.'
+            : '';
         songArtistSelect.value = full.artist?.id || '';
         populateAlbumSelect(full.artist?.id, full.album?.id);
         songFormTitle.textContent = `Editando: ${full.title}`;
@@ -170,16 +202,42 @@ songForm.addEventListener('submit', async (event) => {
         return;
     }
 
+    const editingId = songIdInput.value;
+    const chosenAudio = songAudioFileInput.files[0];
+    const chosenCover = songCoverFileInput.files[0];
+
+    if (!editingId && !chosenAudio) {
+        songFormMessage.textContent = 'Selecione o arquivo de áudio.';
+        songFormMessage.className = 'form-message error';
+        return;
+    }
+
+    let songUrl = songUrlInput.value.trim();
+    let songCoverUrl = songCoverUrlInput.value.trim() || undefined;
+
+    try {
+        if (chosenAudio) {
+            songFormMessage.textContent = 'Enviando áudio...';
+            songUrl = await uploadFile('audio', chosenAudio);
+        }
+        if (chosenCover) {
+            songFormMessage.textContent = 'Enviando capa...';
+            songCoverUrl = await uploadFile('image', chosenCover);
+        }
+    } catch (error) {
+        songFormMessage.textContent = error.message || 'Não foi possível enviar o arquivo.';
+        songFormMessage.className = 'form-message error';
+        return;
+    }
+
     const payload = {
         title: songTitleInput.value.trim(),
         duration: parseInt(songDurationInput.value, 10),
-        songUrl: songUrlInput.value.trim(),
+        songUrl,
         artistId: songArtistSelect.value,
         albumId: songAlbumSelect.value,
-        songCoverUrl: songCoverUrlInput.value.trim() || undefined,
+        songCoverUrl,
     };
-
-    const editingId = songIdInput.value;
 
     try {
         if (editingId) {

@@ -39,9 +39,11 @@
                 </label>
 
                 <label class="field">
-                    URL da capa (opcional)
-                    <input type="text" id="artistCoverUrl" placeholder="https://...">
+                    Capa (imagem, opcional)
+                    <input type="file" id="artistCoverFile" accept="image/*">
+                    <span id="artistCoverHint" style="opacity:.7; font-size:.8rem;"></span>
                 </label>
+                <input type="hidden" id="artistCoverUrl">
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary" id="artistSubmitBtn">Adicionar artista</button>

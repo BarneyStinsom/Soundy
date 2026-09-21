@@ -58,14 +58,18 @@
                 </label>
 
                 <label class="field">
-                    URL do áudio
-                    <input type="text" id="songUrl" placeholder="https://... ou caminho no servidor" required>
+                    Arquivo de áudio (mp3, wav, ogg)
+                    <input type="file" id="songAudioFile" accept="audio/*">
+                    <span id="songAudioHint" style="opacity:.7; font-size:.8rem;"></span>
                 </label>
+                <input type="hidden" id="songUrl">
 
                 <label class="field">
-                    URL da capa (opcional)
-                    <input type="text" id="songCoverUrl" placeholder="https://...">
+                    Capa (imagem, opcional)
+                    <input type="file" id="songCoverFile" accept="image/*">
+                    <span id="songCoverHint" style="opacity:.7; font-size:.8rem;"></span>
                 </label>
+                <input type="hidden" id="songCoverUrl">
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary" id="songSubmitBtn">Adicionar música</button>

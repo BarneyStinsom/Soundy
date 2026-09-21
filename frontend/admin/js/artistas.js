@@ -4,7 +4,9 @@
 const artistForm = document.querySelector('#artistForm');
 const artistIdInput = document.querySelector('#artistId');
 const artistNameInput = document.querySelector('#artistName');
+const artistCoverFileInput = document.querySelector('#artistCoverFile');
 const artistCoverUrlInput = document.querySelector('#artistCoverUrl');
+const artistCoverHint = document.querySelector('#artistCoverHint');
 const artistFormMessage = document.querySelector('#artistFormMessage');
 const artistFormTitle = document.querySelector('#formTitle');
 const artistSubmitBtn = document.querySelector('#artistSubmitBtn');
@@ -17,6 +19,8 @@ let artists = [];
 function resetForm() {
     artistForm.reset();
     artistIdInput.value = '';
+    artistCoverUrlInput.value = '';
+    artistCoverHint.textContent = '';
     artistFormTitle.textContent = 'Novo artista';
     artistSubmitBtn.textContent = 'Adicionar artista';
     artistCancelBtn.hidden = true;
@@ -28,6 +32,10 @@ function startEdit(artist) {
     artistIdInput.value = artist.id;
     artistNameInput.value = artist.name;
     artistCoverUrlInput.value = artist.coverUrl || '';
+    artistCoverFileInput.value = '';
+    artistCoverHint.textContent = artist.coverUrl
+        ? 'Já tem uma capa. Escolha um arquivo só se quiser trocar.'
+        : '';
     artistFormTitle.textContent = `Editando: ${artist.name}`;
     artistSubmitBtn.textContent = 'Salvar alterações';
     artistCancelBtn.hidden = false;
@@ -101,12 +109,25 @@ artistForm.addEventListener('submit', async (event) => {
     artistFormMessage.textContent = '';
     artistFormMessage.className = 'form-message';
 
+    const editingId = artistIdInput.value;
+    let coverUrl = artistCoverUrlInput.value.trim() || undefined;
+
+    try {
+        const chosenFile = artistCoverFileInput.files[0];
+        if (chosenFile) {
+            artistFormMessage.textContent = 'Enviando imagem...';
+            coverUrl = await uploadFile('image', chosenFile);
+        }
+    } catch (error) {
+        artistFormMessage.textContent = error.message || 'Não foi possível enviar a imagem.';
+        artistFormMessage.className = 'form-message error';
+        return;
+    }
+
     const payload = {
         name: artistNameInput.value.trim(),
-        coverUrl: artistCoverUrlInput.value.trim() || undefined,
+        coverUrl,
     };
-
-    const editingId = artistIdInput.value;
 
     try {
         if (editingId) {

@@ -6,7 +6,9 @@ const albumIdInput = document.querySelector('#albumId');
 const albumTitleInput = document.querySelector('#albumTitle');
 const albumTypeInput = document.querySelector('#albumType');
 const albumArtistSelect = document.querySelector('#albumArtistId');
+const albumCoverFileInput = document.querySelector('#albumCoverFile');
 const albumCoverUrlInput = document.querySelector('#albumCoverUrl');
+const albumCoverHint = document.querySelector('#albumCoverHint');
 const albumFormMessage = document.querySelector('#albumFormMessage');
 const albumFormTitle = document.querySelector('#formTitle');
 const albumSubmitBtn = document.querySelector('#albumSubmitBtn');
@@ -20,6 +22,8 @@ let artists = [];
 function resetForm() {
     albumForm.reset();
     albumIdInput.value = '';
+    albumCoverUrlInput.value = '';
+    albumCoverHint.textContent = '';
     albumFormTitle.textContent = 'Novo álbum';
     albumSubmitBtn.textContent = 'Adicionar álbum';
     albumCancelBtn.hidden = true;
@@ -33,6 +37,10 @@ function startEdit(album) {
     albumTypeInput.value = album.type;
     albumArtistSelect.value = album.artistId || album.artist?.id || '';
     albumCoverUrlInput.value = album.coverUrl || '';
+    albumCoverFileInput.value = '';
+    albumCoverHint.textContent = album.coverUrl
+        ? 'Já tem uma capa. Escolha um arquivo só se quiser trocar.'
+        : '';
     albumFormTitle.textContent = `Editando: ${album.title}`;
     albumSubmitBtn.textContent = 'Salvar alterações';
     albumCancelBtn.hidden = false;
@@ -133,14 +141,27 @@ albumForm.addEventListener('submit', async (event) => {
         return;
     }
 
+    const editingId = albumIdInput.value;
+    let coverUrl = albumCoverUrlInput.value.trim() || undefined;
+
+    try {
+        const chosenFile = albumCoverFileInput.files[0];
+        if (chosenFile) {
+            albumFormMessage.textContent = 'Enviando imagem...';
+            coverUrl = await uploadFile('image', chosenFile);
+        }
+    } catch (error) {
+        albumFormMessage.textContent = error.message || 'Não foi possível enviar a imagem.';
+        albumFormMessage.className = 'form-message error';
+        return;
+    }
+
     const payload = {
         title: albumTitleInput.value.trim(),
         type: albumTypeInput.value,
         artistId: albumArtistSelect.value,
-        coverUrl: albumCoverUrlInput.value.trim() || undefined,
+        coverUrl,
     };
-
-    const editingId = albumIdInput.value;
 
     try {
         if (editingId) {
