@@ -20,15 +20,6 @@ let allSongs = [];
 let allArtists = [];
 let allAlbums = [];
 
-// ---------- BOTÕES DE NAVEGAÇÃO ----------
-
-profileBtn.addEventListener('click', () => {
-    window.location.href = `perfil.html?userId=${userId}`;
-});
-
-playlistsBtn.addEventListener('click', () => {
-    window.location.href = '../playlist/pPlaylists.html';
-});
 
 if (localStorage.getItem('isAdmin') === 'true') {
     adminBtn.hidden = false;
