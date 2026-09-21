@@ -5,7 +5,7 @@ export class CreateArtistDto {
     @IsNotEmpty()
     name: string;
 
-    @IsUrl()
+    @IsString()
     @IsOptional()
     coverUrl?: string;
 

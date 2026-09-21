@@ -13,7 +13,7 @@ export class ArtistsService {
 
   async findOne(id: string) {
     return await db.orm.public.Artist
-      .where({ id: id as Char<36> })
+      .where({ id: id  })
       .first();
   }
   async create(name: string, coverUrl?: string) {
@@ -24,14 +24,14 @@ export class ArtistsService {
 }
 async update(id: string, name: string) {
   const artist = await db.orm.public.Artist
-      .where({ id: id as Char<36> })
+      .where({ id: id })
       .first();
   
     if (!artist) {
       throw new NotFoundException('Artista não encontrado');
     }
   return await db.orm.public.Artist
-    .where({ id: id as Char<36> })
+    .where({ id: id })
     .update({
       name,
     });

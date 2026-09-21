@@ -15,10 +15,10 @@ export class PlaylistService {
     async findSongs(id: string) {
 
                 const playlist = await db.orm.public.Playlist
-      .where({ id: id as Char<36> })
+      .where({ id })
       .first(); 
                 const song = await db.orm.public.PlaylistSong
-                .where({ playlistId: id as Char<36> })
+                .where({ playlistId: id })
                 .first();
   
     if (!playlist) {
@@ -29,7 +29,7 @@ export class PlaylistService {
     }
             return await db.orm.public.PlaylistSong
                 .select('id', 'position')
-                .where({ playlistId: id as Char<36> })
+                .where({ playlistId: id  })
                 .include('playlist', (playlist) =>
                     playlist.select('name')
                 )
@@ -42,7 +42,7 @@ export class PlaylistService {
     async create(name: string, userId: string, isPublic: boolean, coverUrl?: string) {
 
          const user = await db.orm.public.User
-            .where({ id: userId as Char<36> })
+            .where({ id: userId  })
             .first();
         
           if (!user) {
