@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { db } from '../prisma/db.js';
 import type { Char } from '@prisma/orm-postgres/target/codec-types';
+import { BlobOptions } from 'buffer';
 @Injectable()
 export class UserService {
     async findAll(){
@@ -33,12 +34,13 @@ export class UserService {
         .all();
     }
 
-    async create(name: string, email: string, password: string, pictureUrl?: string){
+    async create(name: string, email: string, password: string, isAdmin: boolean, pictureUrl?: string){
         return await db.orm.public.User.create({
             name,
             email,
             password,
-            pictureUrl,
+            isAdmin,
+            pictureUrl
         });
     }
     async update(id: string, name: string, email: string, password: string, pictureUrl: string | undefined){

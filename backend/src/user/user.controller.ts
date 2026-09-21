@@ -32,6 +32,7 @@ export class UserController {
             user.name, 
             user.email, 
             user.password,
+            user.isAdmin,
             user.pictureUrl,
           );
         }
