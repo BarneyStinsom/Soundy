@@ -1,5 +1,11 @@
 const API_URL = 'https://soundy-utye.onrender.com';
 
+// se já tem userId salvo, o usuário já está logado: manda direto pro menu
+const userId = localStorage.getItem('userId');
+if (userId) {
+    window.location.href = 'menu/menu.html';
+}
+
 const loginSection = document.querySelector('#loginSection');
 const registerSection = document.querySelector('#registerSection');
 const showRegister = document.querySelector('#showRegister');
