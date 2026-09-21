@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://soundy-utye.onrender.com';
 
 const loginSection = document.querySelector('#loginSection');
 const registerSection = document.querySelector('#registerSection');

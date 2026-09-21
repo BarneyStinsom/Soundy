@@ -1,7 +1,7 @@
 // api.js — conexão com o backend, compartilhada pelas páginas.
 // Inclua antes do JS da página:  <script src="../api.js"></script>
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://soundy-utye.onrender.com';
 
 // O Login.html fica uma pasta acima deste arquivo (js/), então o caminho
 // funciona de qualquer pasta que a página esteja.
