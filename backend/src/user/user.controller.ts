@@ -32,7 +32,7 @@ export class UserController {
             user.name, 
             user.email, 
             user.password,
-            user.isAdmin,
+            user.isAdmin ?? false,
             user.pictureUrl,
           );
         }
@@ -47,6 +47,7 @@ export class UserController {
             user.name, 
             user.email, 
             user.password,
+            user.isAdmin,
             user.pictureUrl);
         }
 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundy — Artistas</title>
+    <link rel="icon" type="image/png" href="../imagens/Logo.png">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body data-page="artistas">
+
+    <header class="admin-topbar">
+        <a class="brand" href="dashboard.html">
+            <img src="../imagens/Logo.png" alt="Soundy">
+            Painel Admin
+        </a>
+        <nav class="admin-nav">
+            <a href="dashboard.html" data-page="dashboard">Início</a>
+            <a href="artistas.html" data-page="artistas">Artistas</a>
+            <a href="albuns.html" data-page="albuns">Álbuns</a>
+            <a href="musicas.html" data-page="musicas">Músicas</a>
+            <a href="../menu/menu.html">Voltar ao Soundy</a>
+            <button id="adminLogoutBtn" type="button">Sair</button>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <h1>Artistas</h1>
+        <p class="subtitle">Cadastre novos artistas ou edite os existentes.</p>
+
+        <section class="admin-panel">
+            <h2 id="formTitle">Novo artista</h2>
+            <form id="artistForm" class="admin-form">
+                <input type="hidden" id="artistId">
+
+                <label class="field">
+                    Nome
+                    <input type="text" id="artistName" required>
+                </label>
+
+                <label class="field">
+                    Capa (imagem, opcional)
+                    <input type="file" id="artistCoverFile" accept="image/*">
+                    <span id="artistCoverHint" style="opacity:.7; font-size:.8rem;"></span>
+                </label>
+                <input type="hidden" id="artistCoverUrl">
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="artistSubmitBtn">Adicionar artista</button>
+                    <button type="button" class="btn btn-outline" id="artistCancelBtn" hidden>Cancelar edição</button>
+                    <span class="form-message" id="artistFormMessage"></span>
+                </div>
+            </form>
+        </section>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nome</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="artistsTableBody">
+                    <tr class="empty-row"><td colspan="3">Carregando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="page-error" id="pageError"></p>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script src="js/admin-common.js"></script>
+    <script src="js/artistas.js"></script>
+</body>
+</html>

@@ -88,5 +88,6 @@ loginForm.addEventListener('submit', async (event) => {
 
     const user = await response.json();
     localStorage.setItem('userId', user.id);
+    localStorage.setItem('isAdmin', user.isAdmin === true ? 'true' : 'false');
     window.location.href = 'menu/menu.html';
 });

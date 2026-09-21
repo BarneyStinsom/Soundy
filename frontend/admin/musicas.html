@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundy — Músicas</title>
+    <link rel="icon" type="image/png" href="../imagens/Logo.png">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body data-page="musicas">
+
+    <header class="admin-topbar">
+        <a class="brand" href="dashboard.html">
+            <img src="../imagens/Logo.png" alt="Soundy">
+            Painel Admin
+        </a>
+        <nav class="admin-nav">
+            <a href="dashboard.html" data-page="dashboard">Início</a>
+            <a href="artistas.html" data-page="artistas">Artistas</a>
+            <a href="albuns.html" data-page="albuns">Álbuns</a>
+            <a href="musicas.html" data-page="musicas">Músicas</a>
+            <a href="../menu/menu.html">Voltar ao Soundy</a>
+            <button id="adminLogoutBtn" type="button">Sair</button>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <h1>Músicas</h1>
+        <p class="subtitle">Cadastre novas músicas ou edite as existentes.</p>
+
+        <section class="admin-panel">
+            <h2 id="formTitle">Nova música</h2>
+            <form id="songForm" class="admin-form">
+                <input type="hidden" id="songId">
+
+                <label class="field">
+                    Título
+                    <input type="text" id="songTitle" required>
+                </label>
+
+                <label class="field">
+                    Duração (segundos)
+                    <input type="number" id="songDuration" min="30" step="1" required>
+                </label>
+
+                <label class="field">
+                    Artista
+                    <select id="songArtistId" required>
+                        <option value="">Selecione...</option>
+                    </select>
+                </label>
+
+                <label class="field">
+                    Álbum
+                    <select id="songAlbumId" required>
+                        <option value="">Selecione um artista primeiro</option>
+                    </select>
+                </label>
+
+                <label class="field">
+                    Arquivo de áudio (mp3, wav, ogg)
+                    <input type="file" id="songAudioFile" accept="audio/*">
+                    <span id="songAudioHint" style="opacity:.7; font-size:.8rem;"></span>
+                </label>
+                <input type="hidden" id="songUrl">
+
+                <label class="field">
+                    Capa (imagem, opcional)
+                    <input type="file" id="songCoverFile" accept="image/*">
+                    <span id="songCoverHint" style="opacity:.7; font-size:.8rem;"></span>
+                </label>
+                <input type="hidden" id="songCoverUrl">
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="songSubmitBtn">Adicionar música</button>
+                    <button type="button" class="btn btn-outline" id="songCancelBtn" hidden>Cancelar edição</button>
+                    <span class="form-message" id="songFormMessage"></span>
+                </div>
+            </form>
+        </section>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Duração</th>
+                        <th>Artista</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="songsTableBody">
+                    <tr class="empty-row"><td colspan="4">Carregando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="page-error" id="pageError"></p>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script src="js/admin-common.js"></script>
+    <script src="js/musicas.js"></script>
+</body>
+</html>

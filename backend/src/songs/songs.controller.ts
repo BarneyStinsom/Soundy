@@ -37,7 +37,7 @@ findOne(@Param('id') id: string) {
     @Param('id') id: string,
     @Body() song: CreateSongDto
   ) {
-   return this.songsService.update(id, song.title);
+   return this.songsService.update(id, song.title, song.duration, song.songUrl, song.artistId, song.albumId, song.songCoverUrl);
   }  
 
   @Delete(':id')

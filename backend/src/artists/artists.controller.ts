@@ -25,7 +25,7 @@ update(
   @Param('id') id: string,
   @Body() artist: CreateArtistDto,
 ) {
-  return this.artistsService.update(id, artist.name);
+  return this.artistsService.update(id, artist.name, artist.coverUrl);
 }
 @Delete(':id')
 remove(@Param('id') id: string) {

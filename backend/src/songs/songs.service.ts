@@ -50,7 +50,8 @@ export class SongsService {
   });
 }
 
-async update(id: string, title: string) {
+async update(id: string, title: string, duration?: number, songUrl?: string,
+   artistId?: string, albumId?: string, songCoverUrl?: string) {
   const song = await db.orm.public.Song
       .where({ id })
       .first();
@@ -58,10 +59,36 @@ async update(id: string, title: string) {
     if (!song) {
       throw new NotFoundException('Música não encontrada');
     }
+
+  const finalArtistId = artistId ?? song.artistId;
+  const finalAlbumId = albumId ?? song.albumId;
+
+  if (artistId || albumId) {
+    const artist = await db.orm.public.Artist
+      .where({ id: finalArtistId })
+      .first();
+    const album = await db.orm.public.Album
+      .where({ id: finalAlbumId })
+      .first();
+    if (!artist || !album) {
+      throw new NotFoundException('Artista ou álbum não encontrado');
+    }
+    if (album.artistId !== finalArtistId) {
+      throw new BadRequestException(
+        'O álbum não pertence ao artista informado',
+      );
+    }
+  }
+
   return await db.orm.public.Song
     .where({ id })
     .update({
       title,
+      duration: duration ?? song.duration,
+      songUrl: songUrl ?? song.songUrl,
+      artistId: finalArtistId,
+      albumId: finalAlbumId,
+      songCoverUrl: songCoverUrl ?? song.songCoverUrl,
     });
 }
 async delete(id: string) {

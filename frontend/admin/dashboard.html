@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundy — Painel Admin</title>
+    <link rel="icon" type="image/png" href="../imagens/Logo.png">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body data-page="dashboard">
+
+    <header class="admin-topbar">
+        <a class="brand" href="dashboard.html">
+            <img src="../imagens/Logo.png" alt="Soundy">
+            Painel Admin
+        </a>
+        <nav class="admin-nav">
+            <a href="dashboard.html" data-page="dashboard">Início</a>
+            <a href="artistas.html" data-page="artistas">Artistas</a>
+            <a href="albuns.html" data-page="albuns">Álbuns</a>
+            <a href="musicas.html" data-page="musicas">Músicas</a>
+            <a href="../menu/menu.html">Voltar ao Soundy</a>
+            <button id="adminLogoutBtn" type="button">Sair</button>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <h1>Bem-vindo ao painel</h1>
+        <p class="subtitle">Gerencie o catálogo do Soundy: artistas, álbuns e músicas.</p>
+
+        <div class="admin-card-grid">
+            <a class="admin-card" href="artistas.html">
+                <div class="icon">🎤</div>
+                <h2>Artistas</h2>
+                <p>Adicionar, editar e remover artistas.</p>
+            </a>
+            <a class="admin-card" href="albuns.html">
+                <div class="icon">💿</div>
+                <h2>Álbuns</h2>
+                <p>Adicionar, editar e remover álbuns.</p>
+            </a>
+            <a class="admin-card" href="musicas.html">
+                <div class="icon">🎵</div>
+                <h2>Músicas</h2>
+                <p>Adicionar, editar e remover músicas.</p>
+            </a>
+        </div>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script src="js/admin-common.js"></script>
+</body>
+</html>

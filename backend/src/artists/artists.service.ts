@@ -22,7 +22,7 @@ export class ArtistsService {
     coverUrl,
   });
 }
-async update(id: string, name: string) {
+async update(id: string, name: string, coverUrl?: string) {
   const artist = await db.orm.public.Artist
       .where({ id: id as Char<36> })
       .first();
@@ -34,6 +34,7 @@ async update(id: string, name: string) {
     .where({ id: id as Char<36> })
     .update({
       name,
+      coverUrl: coverUrl ?? artist.coverUrl,
     });
 }
 async delete(id: string) {

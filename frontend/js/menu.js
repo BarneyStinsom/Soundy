@@ -10,6 +10,7 @@ const searchInput = document.querySelector('#searchInput');
 const searchResults = document.querySelector('#searchResults');
 const profileBtn = document.querySelector('#profileBtn');
 const playlistsBtn = document.querySelector('#playlistsBtn');
+const adminBtn = document.querySelector('#adminBtn');
 const topHitsList = document.querySelector('#topHitsList');
 const artistsList = document.querySelector('#artistsList');
 const albumsList = document.querySelector('#albumsList');
@@ -28,6 +29,13 @@ profileBtn.addEventListener('click', () => {
 playlistsBtn.addEventListener('click', () => {
     window.location.href = '../playlist/pPlaylists.html';
 });
+
+if (localStorage.getItem('isAdmin') === 'true') {
+    adminBtn.hidden = false;
+    adminBtn.addEventListener('click', () => {
+        window.location.href = '../admin/dashboard.html';
+    });
+}
 
 // ---------- CARREGAR MÚSICAS (usado só pra busca) ----------
 
