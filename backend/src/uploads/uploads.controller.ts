@@ -6,36 +6,46 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname, join } from 'path';
-import { fileURLToPath } from 'url';
-import { randomUUID } from 'crypto';
-import { existsSync, mkdirSync } from 'fs';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
-// Salva dentro de public/uploads, que já é servido como estático pelo ServeStaticModule
-// (ver app.module.ts), então o arquivo fica acessível em /uploads/<nome>.
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const uploadsDir = join(__dirname, '..', '..', 'public', 'uploads');
-if (!existsSync(uploadsDir)) {
-  mkdirSync(uploadsDir, { recursive: true });
-}
+// Credenciais vêm de variáveis de ambiente — configure no .env local
+// e nas env vars do Render (nunca coloque isso direto no código).
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const ALLOWED_AUDIO_MIME = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/ogg'];
 const ALLOWED_IMAGE_MIME = ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
 
-function uniqueFilename(originalname: string) {
-  return `${randomUUID()}${extname(originalname).toLowerCase()}`;
-}
+// Cada tipo tem sua própria storage porque o Cloudinary trata áudio
+// como resource_type "video" e imagem como "image".
+const audioStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'soundy/audio',
+    resource_type: 'video',
+    allowed_formats: ['mp3', 'wav', 'ogg'],
+  } as any,
+});
+
+const imageStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'soundy/images',
+    resource_type: 'image',
+    allowed_formats: ['png', 'jpg', 'jpeg', 'webp', 'gif'],
+  } as any,
+});
 
 @Controller('uploads')
 export class UploadsController {
   @Post('audio')
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: diskStorage({
-        destination: uploadsDir,
-        filename: (_req, file, cb) => cb(null, uniqueFilename(file.originalname)),
-      }),
+      storage: audioStorage,
       limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
       fileFilter: (_req, file, cb) => {
         if (!ALLOWED_AUDIO_MIME.includes(file.mimetype)) {
@@ -52,16 +62,14 @@ export class UploadsController {
     if (!file) {
       throw new BadRequestException('Nenhum arquivo enviado.');
     }
-    return { url: `/uploads/${file.filename}` };
+    // com CloudinaryStorage, o multer preenche file.path com a URL pública já hospedada
+    return { url: file.path };
   }
 
   @Post('image')
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: diskStorage({
-        destination: uploadsDir,
-        filename: (_req, file, cb) => cb(null, uniqueFilename(file.originalname)),
-      }),
+      storage: imageStorage,
       limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
       fileFilter: (_req, file, cb) => {
         if (!ALLOWED_IMAGE_MIME.includes(file.mimetype)) {
@@ -78,6 +86,6 @@ export class UploadsController {
     if (!file) {
       throw new BadRequestException('Nenhum arquivo enviado.');
     }
-    return { url: `/uploads/${file.filename}` };
+    return { url: file.path };
   }
 }
