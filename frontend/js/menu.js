@@ -56,13 +56,22 @@ function renderTopHits(topHits) {
     topHitsList.innerHTML = '';
 
     if (topHits.length === 0) {
-        topHitsList.innerHTML = '<li>Nenhuma música tocada ainda</li>';
+        topHitsList.innerHTML = '<li class="hit-item">Nenhuma música tocada ainda</li>';
         return;
     }
 
-    topHits.forEach((song) => {
+    topHits.forEach((song, i) => {
         const li = document.createElement('li');
-        li.textContent = `${song.title} — ${song.playCount} reproduções`;
+        li.className = 'hit-item';
+        li.innerHTML = `
+            <span class="hit-rank">${i + 1}</span>
+            <img class="hit-avatar" src="${song.coverUrl ? new URL(song.coverUrl, API_URL).href : '../imagens/fotoperfilusuario/fotoperfilbase.jfif'}" alt="${song.title}">
+            <div class="hit-info">
+                <div class="hit-name">${song.title}</div>
+                <div class="hit-artist">${song.artist?.name ?? ''}</div>
+            </div>
+            <span class="hit-duration">${song.playCount} reprodução${song.playCount === 1 ? '' : 'ões'}</span>
+        `;
         li.addEventListener('click', () => {
             window.location.href = `../musica/pMusica.html?id=${song.songId}`;
         });

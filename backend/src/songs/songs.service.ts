@@ -119,13 +119,16 @@ async findTopSongs(limitCount = 10) {
   const topSongs = [];
   for (const row of counts) {
     const song = await db.orm.public.Song
-      .select('id', 'title')
-      .where({ id: row.songId  })
+      .select('id', 'title', 'songCoverUrl')
+      .where({ id: row.songId })
+      .include('artist', (artist) => artist.select('name'))
       .first();
 
     topSongs.push({
       songId: row.songId,
       title: song?.title ?? 'Desconhecida',
+      songCoverUrl: song?.songCoverUrl ?? null,
+      artistName: song?.artist?.name ?? '',
       playCount: row.playCount,
     });
   }
