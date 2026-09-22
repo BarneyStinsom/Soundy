@@ -1,3 +1,6 @@
+console.log('CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME);
+console.log('API_KEY:', process.env.CLOUDINARY_API_KEY ? 'ok' : 'FALTANDO');
+console.log('API_SECRET:', process.env.CLOUDINARY_API_SECRET ? 'ok' : 'FALTANDO');
 import {
   Controller,
   Post,
