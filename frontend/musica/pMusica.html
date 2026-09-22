@@ -1,51 +1,423 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Soundy</title>
-    <link rel="icon" type="image/png" href="../imagens/Logo.png">
+
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/pmusica.css">
 </head>
-
-<!--
-    Player de uma música. Endereços:
-
-      musica/pMusica.html?id=<id da música>
-      musica/pMusica.html?id=<id da música>&tipo=playlist&colecao=<id da playlist>
-      musica/pMusica.html?id=<id da música>&tipo=album&colecao=<id do álbum>      (EP e single também)
-
-    "Anterior" e "Próxima" seguem a coleção informada em tipo/colecao.
-    Sem tipo/colecao, seguem o álbum da própria música.
--->
 
 <body>
 
-    <p><a id="backLink" href="../menu/menu.html">Voltar</a></p>
+    <!-- =========================
+         NAVBAR
+         ========================= -->
 
-    <p id="message" role="status"></p>
+    <header class="admin-topbar">
 
-    <div id="content" hidden>
+        <a href="../index.html">
+            <img src="../imagens/Logo.png" class="logo">
+        </a>
 
-        <img id="cover" alt="Capa" hidden>
+        <nav class="admin-nav">
 
-        <h1 id="title"></h1>
-        <p id="artist"></p>
-        <p id="album"></p>
+            <button class="playlists" id="playlistsBtn" type="button">
+                Playlists
+            </button>
 
-        <input id="seek" type="range" min="0" max="0" step="1" value="0" aria-label="Progresso da música">
-        <p><span id="currentTime">0:00</span> / <span id="totalTime">0:00</span></p>
+            <button class="artistas" id="artistasBtn" type="button">
+                Artistas
+            </button>
 
-        <button id="prevBtn" type="button">Anterior</button>
-        <button id="playPauseBtn" type="button">Tocar</button>
-        <button id="nextBtn" type="button">Próxima</button>
+            <button class="admin" id="adminBtn" type="button" hidden>
+                Painel Admin
+            </button>
 
-        <!-- sem "controls": quem controla são os botões acima -->
-        <audio id="player" preload="metadata"></audio>
+            <div class="busca-wrapper">
+
+                <input
+                    class="buscabusca"
+                    id="searchInput"
+                    type="search"
+                    placeholder="Buscar músicas, artistas e álbuns"
+                    autocomplete="off"
+                >
+
+                <ul id="searchResults" hidden></ul>
+
+            </div>
+
+        </nav>
+
+        <button
+            class="perfil"
+            id="profileBtn"
+            type="button"
+            title="Trocar foto de perfil">
+        </button>
+
+        <input
+            type="file"
+            id="photoInput"
+            accept="image/*"
+            hidden
+        >
+
+    </header>
+
+
+    <!-- =========================
+         PÁGINA DA MÚSICA
+         ========================= -->
+
+    <main class="musica-page">
+
+        <a id="backLink" class="voltar-musica" href="../menu/menu.html">
+            ←
+        </a>
+
+        <p id="message" class="mensagem-musica" role="status"></p>
+
+
+        <section id="content" class="musica-conteudo" hidden>
+
+            <!-- CAPA -->
+
+            <div class="capa-container">
+
+                <img
+                    id="cover"
+                    class="capa-musica"
+                    src=""
+                    alt="Capa da música"
+                    hidden
+                >
+
+            </div>
+
+
+            <!-- INFORMAÇÕES -->
+
+            <div class="musica-detalhes">
+
+                <h1 id="title"></h1>
+
+                <p id="artist"></p>
+
+                <p id="album"></p>
+
+            </div>
+
+
+            <!-- BARRA CENTRAL -->
+
+            <div class="progresso-central">
+
+                <span id="currentTime">0:00</span>
+
+                <input
+                    id="seek"
+                    type="range"
+                    min="0"
+                    max="0"
+                    step="1"
+                    value="0"
+                    aria-label="Progresso da música"
+                >
+
+                <span id="totalTime">0:00</span>
+
+            </div>
+
+
+            <!-- CONTROLES -->
+
+            <div class="controles-musica">
+
+                <button
+                    id="prevBtn"
+                    class="controle-musica controle-anterior"
+                    type="button"
+                    title="Música anterior">
+                    ⏮
+                </button>
+
+                <button
+                    id="playPauseBtn"
+                    class="controle-musica controle-play"
+                    type="button"
+                    title="Tocar / pausar">
+                    ▶
+                </button>
+
+                <button
+                    id="nextBtn"
+                    class="controle-musica controle-proxima"
+                    type="button"
+                    title="Próxima música">
+                    ⏭
+                </button>
+
+            </div>
+
+
+            <!-- ÁUDIO -->
+
+            <audio
+                id="player"
+                preload="metadata">
+            </audio>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         PLAYER INFERIOR
+         ========================= -->
+
+    <div class="player-musica">
+
+        <button
+            id="bottomPlayPauseBtn"
+            class="player-botao"
+            type="button">
+            ▶
+        </button>
+
+
+        <div class="player-info">
+
+            <strong id="playerNome">
+                Nenhuma música tocando
+            </strong>
+
+            <span id="playerArtista">
+                Soundy
+            </span>
+
+        </div>
+
+
+        <input
+            type="range"
+            id="barraProgresso"
+            class="player-progresso"
+            value="0"
+            min="0"
+            step="1"
+        >
+
+
+        <span
+            id="tempoAtual"
+            class="player-tempo">
+            0:00
+        </span>
+
+
+        <span class="volume-icone">
+            🔊
+        </span>
+
+
+        <input
+            type="range"
+            id="barraVolume"
+            class="player-volume"
+            min="0"
+            max="1"
+            step="0.01"
+            value="1"
+        >
+
     </div>
+
+
+    <!-- =========================
+         SCRIPTS
+         ========================= -->
 
     <script src="../js/api.js"></script>
     <script src="pMusica.js"></script>
-</body>
 
+
+    <!-- Sincronização do player inferior -->
+
+    <script>
+
+        const audio = document.getElementById("player");
+
+        const bottomPlayPause =
+            document.getElementById("bottomPlayPauseBtn");
+
+        const bottomProgress =
+            document.getElementById("barraProgresso");
+
+        const bottomTime =
+            document.getElementById("tempoAtual");
+
+        const bottomVolume =
+            document.getElementById("barraVolume");
+
+        const playerNome =
+            document.getElementById("playerNome");
+
+        const playerArtista =
+            document.getElementById("playerArtista");
+
+
+        function formatarTempo(segundos) {
+
+            if (!Number.isFinite(segundos)) {
+                return "0:00";
+            }
+
+            const minutos = Math.floor(segundos / 60);
+
+            const segundosRestantes =
+                Math.floor(segundos % 60)
+                    .toString()
+                    .padStart(2, "0");
+
+            return `${minutos}:${segundosRestantes}`;
+        }
+
+
+        /* PLAY / PAUSE DO PLAYER INFERIOR */
+
+        bottomPlayPause.addEventListener("click", () => {
+
+            if (audio.paused) {
+
+                audio.play().catch(() => {});
+
+            } else {
+
+                audio.pause();
+
+            }
+
+        });
+
+
+        /* SINCRONIZA BOTÃO */
+
+        audio.addEventListener("play", () => {
+
+            bottomPlayPause.textContent = "❚❚";
+
+        });
+
+
+        audio.addEventListener("pause", () => {
+
+            bottomPlayPause.textContent = "▶";
+
+        });
+
+
+        /* PROGRESSO */
+
+        audio.addEventListener("loadedmetadata", () => {
+
+            if (Number.isFinite(audio.duration)) {
+
+                bottomProgress.max =
+                    Math.floor(audio.duration);
+
+            }
+
+        });
+
+
+        audio.addEventListener("timeupdate", () => {
+
+            if (!audio.duration) return;
+
+            bottomProgress.value =
+                Math.floor(audio.currentTime);
+
+            bottomTime.textContent =
+                formatarTempo(audio.currentTime);
+
+        });
+
+
+        bottomProgress.addEventListener("input", () => {
+
+            audio.currentTime =
+                Number(bottomProgress.value);
+
+        });
+
+
+        /* VOLUME */
+
+        bottomVolume.addEventListener("input", () => {
+
+            audio.volume =
+                Number(bottomVolume.value);
+
+        });
+
+
+        /* ATUALIZA NOME E ARTISTA */
+
+        const titleElement =
+            document.getElementById("title");
+
+        const artistElement =
+            document.getElementById("artist");
+
+
+        function atualizarInfoPlayer() {
+
+            if (titleElement) {
+
+                playerNome.textContent =
+                    titleElement.textContent ||
+                    "Nenhuma música tocando";
+
+            }
+
+            if (artistElement) {
+
+                playerArtista.textContent =
+                    artistElement.textContent ||
+                    "Soundy";
+
+            }
+
+        }
+
+
+        const observer = new MutationObserver(
+            atualizarInfoPlayer
+        );
+
+
+        observer.observe(titleElement, {
+            childList: true,
+            characterData: true,
+            subtree: true
+        });
+
+
+        observer.observe(artistElement, {
+            childList: true,
+            characterData: true,
+            subtree: true
+        });
+
+
+        atualizarInfoPlayer();
+
+    </script>
+
+</body>
 </html>

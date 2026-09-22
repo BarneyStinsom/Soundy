@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Soundy - Músicas eletrônicas</title>
+
+    <link rel="icon" type="image/png" href="../imagens/Logo.png">
+
+    <link rel="stylesheet" href="../css/menu.css">
+
+    <script src="../js/scriptondas.js" defer></script>
+    <script src="../js/menu.js" defer></script>
+
+    <link rel="stylesheet" href="../css/eletronico.css">
+</head>
+
+<body>
+    <header class="admin-topbar">
+
+        <a href="../index.html">
+            <img
+                src="../imagens/Logo.png"
+                alt="Logo do Soundy"
+                class="logo">
+        </a>
+
+        <nav class="admin-nav">
+
+            <button
+                class="playlists"
+                id="playlistsBtn"
+                type="button">
+                Playlists
+            </button>
+
+            <button
+                class="artistas"
+                id="artistasBtn"
+                type="button">
+                Artistas
+            </button>
+
+            <button
+                class="admin"
+                id="adminBtn"
+                type="button"
+                hidden>
+                Painel Admin
+            </button>
+
+            <div class="busca-wrapper">
+
+                <input
+                    class="buscabusca"
+                    id="searchInput"
+                    type="search"
+                    placeholder="Buscar músicas, artistas e álbuns"
+                    autocomplete="off">
+
+                <ul
+                    id="searchResults"
+                    hidden>
+                </ul>
+
+            </div>
+
+        </nav>
+
+        <button
+            class="perfil"
+            id="profileBtn"
+            type="button"
+            title="Trocar foto de perfil">
+        </button>
+
+        <input
+            type="file"
+            id="photoInput"
+            accept="image/*"
+            hidden>
+
+    </header>
+
+    <main class="playlist-page">
+
+        <h1 class="playlist-titulo">
+            Músicas eletrônicas
+        </h1>
+
+
+        <section class="playlist-conteudo">
+
+            <div class="playlist-info">
+
+                <img
+                    src="../imagens/eletronic.jfif"
+                    alt="Capa da playlist Músicas eletrônicas"
+                    class="playlist-capa-grande">
+
+                <h2>
+                    Músicas eletrônicas
+                </h2>
+
+                <p>
+                    tuts tuts tuts
+                </p>
+
+            </div>
+
+            <div class="musicas">
+
+<div
+    class="musica"
+    onclick="tocarMusica(
+        '../../musicas/2026-08-23 17-18-38.mp4',
+        'Minha música eletrônica',
+        'Artista exemplo'
+    )">
+
+    <img
+        src="../imagens/eletronic.jfif"
+        alt=""
+        class="musica-capa">
+
+    <div class="musica-info">
+        <strong>Minha música eletrônica</strong>
+        <span>Artista exemplo</span>
+    </div>
+
+    <span class="musica-duracao">
+        3:11
+    </span>
+
+                </div>
+
+
+                <!-- MÚSICA 2 -->
+
+                <div class="musica">
+
+                    <img
+                        src="../imagens/eletronic.jfif"
+                        alt=""
+                        class="musica-capa">
+
+                    <div class="musica-info">
+
+                        <strong>
+                            Nome musica exemplo
+                        </strong>
+
+                        <span>
+                            Artista exemplo
+                        </span>
+
+                    </div>
+
+                    <span class="musica-duracao">
+                        3:11
+                    </span>
+
+                </div>
+
+
+                <!-- MÚSICA 3 -->
+
+                <div class="musica">
+
+                    <img
+                        src="../imagens/eletronic.jfif"
+                        alt=""
+                        class="musica-capa">
+
+                    <div class="musica-info">
+
+                        <strong>
+                            Nome musica exemplo
+                        </strong>
+
+                        <span>
+                            Artista exemplo
+                        </span>
+
+                    </div>
+
+                    <span class="musica-duracao">
+                        3:11
+                    </span>
+
+                </div>
+
+
+                <!-- MÚSICA 4 -->
+
+                <div class="musica">
+
+                    <img
+                        src="../imagens/eletronic.jfif"
+                        alt=""
+                        class="musica-capa">
+
+                    <div class="musica-info">
+
+                        <strong>
+                            Nome musica exemplo
+                        </strong>
+
+                        <span>
+                            Artista exemplo
+                        </span>
+
+                    </div>
+
+                    <span class="musica-duracao">
+                        3:11
+                    </span>
+
+                </div>
+
+
+                <!-- MÚSICA 5 -->
+
+                <div class="musica">
+
+                    <img
+                        src="../imagens/eletronic.jfif"
+                        alt=""
+                        class="musica-capa">
+
+                    <div class="musica-info">
+
+                        <strong>
+                            Nome musica exemplo
+                        </strong>
+
+                        <span>
+                            Artista exemplo
+                        </span>
+
+                    </div>
+
+                    <span class="musica-duracao">
+                        3:11
+                    </span>
+
+                </div>
+
+
+                <!-- MÚSICA 6 -->
+
+                <div class="musica">
+
+                    <img
+                        src="../imagens/eletronic.jfif"
+                        alt=""
+                        class="musica-capa">
+
+                    <div class="musica-info">
+
+                        <strong>
+                            Nome musica exemplo
+                        </strong>
+
+                        <span>
+                            Artista exemplo
+                        </span>
+
+                    </div>
+
+                    <span class="musica-duracao">
+                        3:11
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+   <div class="player-musica">
+
+    <button id="playPauseBtn" class="player-botao">
+        ▶
+    </button>
+
+    <div class="player-info">
+
+        <strong id="playerNome">
+            Nenhuma música tocando
+        </strong>
+
+        <span id="playerArtista">
+            Soundy
+        </span>
+
+    </div>
+
+    <input
+        type="range"
+        id="barraProgresso"
+        class="player-progresso"
+        value="0"
+        min="0"
+        step="1">
+
+    <span id="tempoAtual" class="player-tempo">
+        0:00
+    </span>
+
+    <span class="volume-icone">
+        🔊
+    </span>
+
+    <input
+        type="range"
+        id="barraVolume"
+        class="player-volume"
+        min="0"
+        max="1"
+        step="0.01"
+        value="1">
+
+</div>
+
+<audio id="audioPlayer"></audio>
+
+    <div class="fundo">
+
+        <svg
+            id="ondas"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid slice">
+
+            <defs>
+
+                <linearGradient
+                    id="grad"
+                    x1="0"
+                    y1="0"
+                    x2="1"
+                    y2="0">
+
+                    <stop
+                        offset="50%"
+                        stop-color="#fff">
+
+                    <stop
+                        offset="100%"
+                        stop-color="#fff">
+
+                </linearGradient>
+
+            </defs>
+
+        </svg>
+
+    </div>
+
+
+    <!-- =========================
+         CONTROLE DA MÚSICA
+         ========================= -->
+
+   <script>
+const audioPlayer = document.getElementById("audioPlayer");
+
+const playPauseBtn =
+    document.getElementById("playPauseBtn");
+
+const barraProgresso =
+    document.getElementById("barraProgresso");
+
+const tempoAtual =
+    document.getElementById("tempoAtual");
+
+const barraVolume =
+    document.getElementById("barraVolume");
+
+const playerNome =
+    document.getElementById("playerNome");
+
+const playerArtista =
+    document.getElementById("playerArtista");
+
+
+
+function tocarMusica(caminho, nome, artista) {
+
+    audioPlayer.src = caminho;
+
+    playerNome.textContent = nome;
+
+    playerArtista.textContent = artista;
+
+    audioPlayer.play();
+
+    playPauseBtn.textContent = "❚❚";
+}
+
+
+
+playPauseBtn.addEventListener("click", function() {
+
+    if (audioPlayer.paused) {
+
+        audioPlayer.play();
+
+        playPauseBtn.textContent = "❚❚";
+
+    } else {
+
+        audioPlayer.pause();
+
+        playPauseBtn.textContent = "▶";
+
+    }
+
+});
+
+
+
+audioPlayer.addEventListener("loadedmetadata", function() {
+
+    barraProgresso.max = audioPlayer.duration;
+
+});
+
+
+
+audioPlayer.addEventListener("timeupdate", function() {
+
+    barraProgresso.value =
+        audioPlayer.currentTime;
+
+    let minutos =
+        Math.floor(audioPlayer.currentTime / 60);
+
+    let segundos =
+        Math.floor(audioPlayer.currentTime % 60);
+
+    if (segundos < 10) {
+        segundos = "0" + segundos;
+    }
+
+    tempoAtual.textContent =
+        minutos + ":" + segundos;
+
+});
+
+
+
+barraProgresso.addEventListener("input", function() {
+
+    audioPlayer.currentTime =
+        barraProgresso.value;
+
+});
+
+
+
+barraVolume.addEventListener("input", function() {
+
+    audioPlayer.volume =
+        barraVolume.value;
+
+});
+
+
+
+audioPlayer.addEventListener("play", function() {
+
+    playPauseBtn.textContent = "❚❚";
+
+});
+
+
+
+audioPlayer.addEventListener("pause", function() {
+
+    playPauseBtn.textContent = "▶";
+
+});
+
+
+
+audioPlayer.addEventListener("ended", function() {
+
+    playPauseBtn.textContent = "▶";
+
+});
+
+</script>
+</body>
+
+</html>

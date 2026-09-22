@@ -4,49 +4,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suas playlists — Soundy</title>
+
+    <title>Soundy - Playlists</title>
+
     <link rel="icon" type="image/png" href="../imagens/Logo.png">
+    <link rel="stylesheet" href="../css/menu.css">
+
+    <script src="../js/scriptondas.js" defer></script>
+    <script src="../js/menu.js" defer></script>
+    <link rel="stylesheet" href="../css/playlist.css">
+
 </head>
 
 <body>
+    <header class="admin-topbar">
 
-    <p><a href="../menu/menu.html">Voltar ao menu</a></p>
+        <a href="../index.html">
+            <img src="../imagens/Logo.png"
+                 alt="Logo do Soundy"
+                 class="logo">
+        </a>
 
-    <h1>Suas playlists</h1>
+        <nav class="admin-nav">
 
-    <!-- criar / editar -->
-    <form id="playlistForm">
-        <h2 id="formTitle">Nova playlist</h2>
+            <button class="playlists"
+                    id="playlistsBtn"
+                    type="button">
+                Playlists
+            </button>
 
-        <p>
-            <label for="nameInput">Nome</label>
-            <input id="nameInput" type="text" maxlength="100" autocomplete="off">
+            <button class="artistas"
+                    id="artistasBtn"
+                    type="button">
+                Artistas
+            </button>
+
+            <button class="admin"
+                    id="adminBtn"
+                    type="button"
+                    hidden>
+                Painel Admin
+            </button>
+
+            <div class="busca-wrapper">
+
+                <input
+                    class="buscabusca"
+                    id="searchInput"
+                    type="search"
+                    placeholder="Buscar músicas, artistas e álbuns"
+                    autocomplete="off">
+
+                <ul id="searchResults" hidden></ul>
+
+            </div>
+
+        </nav>
+
+        <button
+            class="perfil"
+            id="profileBtn"
+            type="button"
+            title="Trocar foto de perfil">
+        </button>
+
+        <input
+            type="file"
+            id="photoInput"
+            accept="image/*"
+            hidden>
+
+    </header>
+
+    <main class="playlists-page">
+
+        <h1>Playlists</h1>
+
+        <p class="subtitulo">
+            Suas coleções favoritas
         </p>
 
-        <!-- só aparecem ao criar (a API só permite editar o nome) -->
-        <div id="createOnlyFields">
-            <p>
-                <label>
-                    <input id="publicInput" type="checkbox">
-                    Playlist pública
-                </label>
-            </p>
-            <p>
-                <label for="coverInput">Link da capa (opcional)</label>
-                <input id="coverInput" type="url" placeholder="https://...">
-            </p>
-        </div>
+<button class="criar-playlist" type="button" onclick="criarPlaylist()">
+    + Criar playlist
+</button>
 
-        <button id="formSubmit" type="submit">Criar playlist</button>
-        <button id="formCancel" type="button" hidden>Cancelar edição</button>
-    </form>
+        <div class="playlists-grid">
 
-    <p id="message" role="status"></p>
+            <div class="playlist-card"
+                 onclick="abrirPlaylist('eletronico.html')">
 
-    <ul id="playlistList"></ul>
+                <img
+                    src="../imagens/eletronic.jfif"
+                    alt="Capa da playlist Mix"
+                    class="playlist-capa">
 
-    <script src="../js/api.js"></script>
-    <script src="../js/pPlaylists.js"></script>
+                <h2>Músicas eletrônicas</h2>
+
+                <p>tuts tuts tuts</p>
+
+            </div>
+
+    </main>
+    <div class="fundo">
+
+        <svg
+            id="ondas"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid slice">
+
+            <defs>
+
+                <linearGradient
+                    id="grad"
+                    x1="0"
+                    y1="0"
+                    x2="1"
+                    y2="0">
+
+                    <stop
+                        offset="50%"
+                        stop-color="#fff">
+
+                    <stop
+                        offset="100%"
+                        stop-color="#fff">
+
+                </linearGradient>
+
+            </defs>
+
+        </svg>
+
+    </div>
+
+
+<script>
+    function abrirPlaylist(pagina) {
+        window.location.href = pagina;
+    }
+
+    function abrirPlaylist(pagina) {
+        window.location.href = pagina;
+    }
+
+    function criarPlaylist() {
+        window.location.href = "criar-playlist.html";
+    }
+
+</script>
+
 </body>
-
 </html>

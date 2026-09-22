@@ -1,0 +1,90 @@
+.playlists-page {
+            position: relative;
+            z-index: 2;
+            padding: 40px 7%;
+            color: white;
+        }
+
+        .playlists-page h1 {
+            margin: 0;
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .playlists-page .subtitulo {
+            margin-top: 8px;
+            margin-bottom: 35px;
+            color: #bdb8c9;
+            font-size: 17px;
+        }
+
+        .playlists-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .playlist-card {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .playlist-capa {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 16px;
+            display: block;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+        }
+
+        .playlist-card h2 {
+            margin: 14px 2px 4px;
+            font-size: 19px;
+            color: white;
+        }
+
+        .playlist-card p {
+            margin: 0 2px;
+            color: #aaa5b5;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .playlists-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+            .playlists-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .playlists-page {
+                padding: 30px 6%;
+            }
+        }
+
+        .criar-playlist {
+        margin: 0 0 30px 0;
+        padding: 12px 22px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        border: 1px solid #ff5f96;
+}
+
+.criar-playlist:hover {
+    background: #ff5f96;
+}
+

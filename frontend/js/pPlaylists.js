@@ -164,3 +164,33 @@ async function deletePlaylist(playlist) {
 if (userId) {
     loadPlaylists();
 }
+
+const playlistCards = document.querySelectorAll(".playlist-card");
+
+playlistCards.forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        const playlistId = card.dataset.id;
+
+        window.location.href =
+            `playlist-detalhe.html?id=${playlistId}`;
+
+    });
+
+
+    // Também funciona apertando Enter
+    card.addEventListener("keydown", event => {
+
+        if (event.key === "Enter") {
+
+            const playlistId = card.dataset.id;
+
+            window.location.href =
+                `playlist-detalhe.html?id=${playlistId}`;
+
+        }
+
+    });
+
+});
