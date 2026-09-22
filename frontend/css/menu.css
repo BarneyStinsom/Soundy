@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   background: radial-gradient(ellipse at 50% 20%,
     #000000 0%,
@@ -40,15 +45,7 @@ body {
   .onda { animation: none; }
 }
 
-
-.topo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* título à esquerda, nav à direita */
-    padding: 10px 25px;
-}
-
-.topo nav {
+.admin-topbar nav {
     display: flex;
     align-items: center;
     justify-content: flex-end; /* agrupa admin, busca e foto no lado direito */
@@ -67,21 +64,18 @@ body {
     border-radius: 50%;
     cursor: pointer;
     flex-shrink: 0; /* evita o círculo ficar amassado */
+    margin-right: 1%;
 }
 
 .playlists {
     background-color: transparent;
-    border: 1px solid #000000;
+    border: 1px solid #ff5f96;
     border-radius: 10px;
-    color: #fff;
+    color: #ff5f96;
     padding: 8px 12px;
     cursor: pointer;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 16px;
-    display: flex;
-    gap: 6px;
-    margin-left: 50px; /* separa o botão do logo */
-    margin-right: auto; /* empurra admin, busca e foto pro lado direito */
 }
 
 .admin {
@@ -98,6 +92,7 @@ body {
 .logo {
     height: 60px;
     width: auto;
+    margin-left: 1%;
 }
 
 .buscabusca {
@@ -147,4 +142,169 @@ body {
 
 #searchResults li {
     padding: 8px 12px;
+}
+
+.admin-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.admin-topbar .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.admin-topbar .brand img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.admin-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin-nav a,
+.admin-nav button {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: transparent;
+    color: #fff;
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.admin-nav a:hover,
+.admin-nav button:hover {
+    border-color:  #5E052C;
+    background:  #5E052C;
+}
+
+.admin-nav a.active {
+    background: #1db954;
+    border-color: #1db954;
+    color: #000;
+}
+
+.admin-main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+}
+
+.admin-main h1 {
+    margin-top: 0;
+    font-size: 1.7rem;
+}
+
+.admin-main > p.subtitle {
+    opacity: 0.75;
+    margin-top: -8px;
+}
+
+.admin-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.admin-card {
+    display: block;
+    padding: 22px;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.admin-card:hover {
+    transform: translateY(-2px);
+    border-color: #1db954;
+}
+
+.admin-card .icon {
+    font-size: 1.8rem;
+}
+
+.admin-card h2 {
+    margin: 10px 0 4px;
+    font-size: 1.15rem;
+}
+
+.admin-card p {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+.admin-panel {
+    margin-top: 28px;
+    padding: 22px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.admin-panel h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+}
+
+.admin-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.admin-form .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.admin-form input,
+.admin-form select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+    outline: none;
+    border-color: #1db954;
+}
+
+.admin-form .form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
 }

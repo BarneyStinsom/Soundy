@@ -11,13 +11,15 @@
 </head>
 
 <body>
-<header class="topo">
+<header class="admin-topbar">
     <a href="../index.html">
         <img src="../imagens/Logo.png" alt="Logo do Soundy" class="logo">
     </a>
 
-    <nav>
+    <nav class="admin-nav">
         <button class="playlists" id="playlistsBtn" type="button">Playlists</button>
+        <button class="artistas" id="artistasBtn" type="button">Artistas</button>
+        
         <button class="admin" id="adminBtn" type="button" hidden>Painel Admin</button>
 
         <div class="busca-wrapper">
@@ -25,10 +27,9 @@
                    placeholder="Buscar músicas, artistas e álbuns" autocomplete="off">
             <ul id="searchResults" hidden></ul>
         </div>
-
-        <button class="perfil" id="profileBtn" type="button" title="Trocar foto de perfil"></button>
-        <input type="file" id="photoInput" accept="image/*" hidden>
     </nav>
+            <button class="perfil" id="profileBtn" type="button" title="Trocar foto de perfil"></button>
+        <input type="file" id="photoInput" accept="image/*" hidden>
 </header>
 
     <h2>Top hits</h2>
