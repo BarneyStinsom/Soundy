@@ -26,30 +26,50 @@ loadProfilePhoto();
 
 async function loadTopHits() {
   try {
-    const response = await fetch(`${API_URL}/musicas/top`); // ajuste a rota certa da sua API
+    const response = await fetch(`${API_URL}/songs/top?limit=10`);
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
     const musicas = await response.json();
+
     renderTopHits(musicas);
+
   } catch (error) {
     console.error('Erro ao carregar top hits:', error);
   }
-}
+} 
 
 function renderTopHits(musicas) {
   const ul = document.getElementById('topHitsList');
+
   ul.innerHTML = '';
 
   musicas.forEach((m, i) => {
     const li = document.createElement('li');
+
     li.className = 'hit-item';
+
     li.innerHTML = `
       <span class="hit-rank">${i + 1}</span>
-      <img class="hit-avatar" src="${m.capaUrl ? new URL(m.capaUrl, API_URL).href : '../imagens/fotoperfilusuario/fotoperfilbase.jfif'}" alt="${m.nome}">
+
+      <img
+        class="hit-avatar"
+        src="${m.songCoverUrl ? m.songCoverUrl : '../imagens/fotoperfilusuario/fotoperfilbase.jfif'}"
+        alt="${m.title}"
+      >
+
       <div class="hit-info">
-        <div class="hit-name">${m.nome}</div>
-        <div class="hit-artist">${m.artista || ''}</div>
+        <div class="hit-name">${m.title}</div>
+        <div class="hit-artist">${m.artistName || ''}</div>
       </div>
-      <span class="hit-duration">${m.plays} reprodução${m.plays === 1 ? '' : 'ões'}</span>
+
+      <span class="hit-duration">
+        ${m.playCount} ${m.playCount === 1 ? 'reprodução' : 'reproduções'}
+      </span>
     `;
+
     ul.appendChild(li);
   });
 }
