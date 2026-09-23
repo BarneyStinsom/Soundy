@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { db } from '../prisma/db.js';
 import type { Char } from '@prisma/orm-postgres/target/codec-types';
-import { BlobOptions } from 'buffer';
+
 @Injectable()
 export class UserService {
     async findAll(){
@@ -35,6 +35,13 @@ export class UserService {
     }
 
     async create(name: string, email: string, password: string, isAdmin: boolean, pictureUrl?: string){
+         const existing = await db.orm.public.User
+        .where({ email })
+        .first();
+
+        if (existing) {
+            throw new ConflictException('Já existe uma conta com esse email.');
+        }
         return await db.orm.public.User.create({
             name,
             email,

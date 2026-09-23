@@ -243,5 +243,21 @@
 .criar {
   color:blue;
   cursor: pointer;
+  transition: all 0.8s ease;
 }
 
+.criar:hover {
+  text-decoration: underline;
+  color: rgb(13, 13, 59);
+}
+
+footer {
+  position: fixed;
+  bottom: 16px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 1; /* pra ficar acima do .fundo (as ondas) */
+  color: rgba(137, 139, 139, 0.575);
+  display: block;
+}
