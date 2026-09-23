@@ -53,9 +53,9 @@ export class UserController {
         @Patch(':id/picture')
         updaPic(
          @Param('id') id: string,
-          @Body() user: CreateUserDto
+          @Body() body: { pictureUrl: string }
 ) {
-        return this.userService.UpdaPic(id, user.pictureUrl!);
+        return this.userService.UpdaPic(id, body.pictureUrl);
 }
         @Delete(':id')
         delete(@Param('id') id: string) {
