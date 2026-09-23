@@ -3,292 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Soundy</title>
 
     <link rel="stylesheet" href="../css/menu.css">
     <link rel="stylesheet" href="../css/pmusica.css">
 
-    <!-- Navbar -->
     <script src="../js/navbar.js" defer></script>
-
-    <!-- Ondas -->
     <script src="../js/scriptondas.js" defer></script>
 </head>
-
 <body>
+
     <div id="navbar"></div>
+
+    <!-- Conteúdo principal: capa + info da música -->
     <main class="musica-page">
-        <a id="backLink" class="voltar-musica" href="../menu/menu.html">
-            ← Voltar
-        </a>
+        <a id="backLink" class="voltar-musica" href="../menu/menu.html">← Voltar</a>
         <p id="message" class="mensagem-musica" role="status"></p>
+
         <section id="content" class="musica-conteudo" hidden>
-
             <div class="capa-container">
-
-                <img
-                    id="cover"
-                    class="capa-musica"
-                    src=""
-                    alt="Capa da música"
-                    hidden
-                >
-
+                <img id="cover" class="capa-musica" src="" alt="Capa da música" hidden>
             </div>
-
             <div class="musica-detalhes">
-
                 <h1 id="title"></h1>
-
                 <p id="artist"></p>
-
                 <p id="album"></p>
-
             </div>
-
-            <audio
-                id="player"
-                preload="metadata">
-            </audio>
-
+            <audio id="player" preload="metadata"></audio>
         </section>
-
     </main>
 
+    <!-- Player fixo na parte inferior -->
     <div class="player-musica">
-
-        <button
-            id="bottomPlayPauseBtn"
-            class="player-botao"
-            type="button">
-            ▶
-        </button>
-
-
         <div class="player-info">
-
-            <strong id="playerNome">
-                Nenhuma música tocando
-            </strong>
-
-            <span id="playerArtista">
-                Soundy
-            </span>
-
+            <strong id="playerNome">Nenhuma música tocando</strong>
+            <span id="playerArtista">Soundy</span>
+            <span id="playerAlbum">Álbum desconhecido</span>
         </div>
 
+        <div class="player-progresso-container">
+            <span id="tempoAtual" class="player-tempo">0:00</span>
+            <input type="range" id="barraProgresso" class="player-progresso" value="0" min="0" step="1">
+            <span id="tempoTotal" class="player-tempo">0:00</span>
+        </div>
 
-        <input
-            type="range"
-            id="barraProgresso"
-            class="player-progresso"
-            value="0"
-            min="0"
-            step="1"
-        >
+        <div class="player-controles">
+            <button id="bottomPlayPauseBtn" class="player-botao" type="button">▶</button>
+        </div>
 
-
-        <span
-            id="tempoAtual"
-            class="player-tempo">
-            0:00
-        </span>
-
-
-        <span class="volume-icone">
-            🔊
-        </span>
-
-
-        <input
-            type="range"
-            id="barraVolume"
-            class="player-volume"
-            min="0"
-            max="1"
-            step="0.01"
-            value="1"
-        >
-
+        <div class="player-volume-container">
+            <span class="volume-icone">🔊</span>
+            <input type="range" id="barraVolume" class="player-volume" min="0" max="1" step="0.01" value="1">
+        </div>
     </div>
-<div class="fundo">
-    <svg
-        id="ondas"
-        viewBox="0 0 1600 900"
-        preserveAspectRatio="xMidYMid slice"
-    >
-        <defs>
-            <linearGradient
-                id="grad"
-                x1="0"
-                y1="0"
-                x2="1"
-                y2="0"
-            >
-                <stop offset="50%" stop-color="#fff"></stop>
-                <stop offset="100%" stop-color="#fff"></stop>
-            </linearGradient>
-        </defs>
-    </svg>
-</div>
+
+    <!-- Fundo animado -->
+    <div class="fundo">
+        <svg id="ondas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="50%" stop-color="#fff"></stop>
+                    <stop offset="100%" stop-color="#fff"></stop>
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+
     <script src="../js/api.js"></script>
     <script src="pMusica.js"></script>
-
-    <script>
-        const audio = document.getElementById("player");
-
-        const bottomPlayPause =
-            document.getElementById("bottomPlayPauseBtn");
-
-        const bottomProgress =
-            document.getElementById("barraProgresso");
-
-        const bottomTime =
-            document.getElementById("tempoAtual");
-
-        const bottomVolume =
-            document.getElementById("barraVolume");
-
-        const playerNome =
-            document.getElementById("playerNome");
-
-        const playerArtista =
-            document.getElementById("playerArtista");
-
-
-        function formatarTempo(segundos) {
-
-            if (!Number.isFinite(segundos)) {
-                return "0:00";
-            }
-
-            const minutos = Math.floor(segundos / 60);
-
-            const segundosRestantes =
-                Math.floor(segundos % 60)
-                    .toString()
-                    .padStart(2, "0");
-
-            return `${minutos}:${segundosRestantes}`;
-        }
-
-        bottomPlayPause.addEventListener("click", () => {
-
-            if (audio.paused) {
-
-                audio.play().catch(() => {});
-
-            } else {
-
-                audio.pause();
-
-            }
-
-        });
-
-
-        audio.addEventListener("play", () => {
-
-            bottomPlayPause.textContent = "❚❚";
-
-        });
-
-
-        audio.addEventListener("pause", () => {
-
-            bottomPlayPause.textContent = "▶";
-
-        });
-
-        audio.addEventListener("loadedmetadata", () => {
-
-            if (Number.isFinite(audio.duration)) {
-
-                bottomProgress.max =
-                    Math.floor(audio.duration);
-
-            }
-
-        });
-
-        audio.addEventListener("timeupdate", () => {
-
-            if (!audio.duration) return;
-
-            bottomProgress.value =
-                Math.floor(audio.currentTime);
-
-            bottomTime.textContent =
-                formatarTempo(audio.currentTime);
-
-        });
-
-        bottomProgress.addEventListener("input", () => {
-
-            audio.currentTime =
-                Number(bottomProgress.value);
-
-        });
-
-        bottomVolume.addEventListener("input", () => {
-
-            audio.volume =
-                Number(bottomVolume.value);
-
-        });
-
-
-        const titleElement =
-            document.getElementById("title");
-
-        const artistElement =
-            document.getElementById("artist");
-
-
-        function atualizarInfoPlayer() {
-
-            if (titleElement) {
-
-                playerNome.textContent =
-                    titleElement.textContent ||
-                    "Nenhuma música tocando";
-
-            }
-
-            if (artistElement) {
-
-                playerArtista.textContent =
-                    artistElement.textContent ||
-                    "Soundy";
-
-            }
-
-        }
-
-
-        const observer = new MutationObserver(
-            atualizarInfoPlayer
-        );
-
-
-        observer.observe(titleElement, {
-            childList: true,
-            characterData: true,
-            subtree: true
-        });
-
-
-        observer.observe(artistElement, {
-            childList: true,
-            characterData: true,
-            subtree: true
-        });
-
-
-        atualizarInfoPlayer();
-
-    </script>
 
 </body>
 </html>

@@ -5,24 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soundy</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/pArtista.css">
     <link rel="icon" type="image/png" href="../imagens/Logo.png">
 </head>
 <body>
 
-    <a href="../menu/menu.html">← Voltar</a>
+   <div class="fundo">
+    <svg
+        id="ondas"
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="xMidYMid slice"
+    >
+        <defs>
+            <linearGradient
+                id="grad"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="0"
+            >
+                <stop offset="50%" stop-color="#fff"></stop>
+                <stop offset="100%" stop-color="#fff"></stop>
+            </linearGradient>
+        </defs>
+    </svg>
+</div>
+
+    <nav class="admin-nav" style="margin: 24px 0 0 32px; position: relative; z-index: 1;">
+        <a href="../menu/menu.html">← Voltar</a>
+    </nav>
 
     <header>
-        <h1 id="artistName">Carregando...</h1>
+        <h1 id="artistName" class="top-hits-title">Carregando...</h1>
     </header>
 
     <section>
-        <h2>Álbuns</h2>
-        <ul id="albumsList"></ul>
+        <ul id="albumsList" class="top-hits-list"></ul>
     </section>
 
-    <p id="pageError"></p>
+    <p id="pageError" style="position: relative; z-index: 1; text-align: center;"></p>
 
+    <script src="../js/scriptondas.js"></script>
     <script src="../js/pArtista.js"></script>
 </body>
 </html>

@@ -17,16 +17,30 @@ function renderAlbums(albums) {
     albumsList.innerHTML = '';
 
     if (albums.length === 0) {
-        albumsList.innerHTML = '<li>Nenhum álbum encontrado</li>';
+        albumsList.innerHTML = '<li class="hit-item">Nenhum álbum encontrado</li>';
         return;
     }
 
-    albums.forEach((album) => {
+    albums.forEach((album, index) => {
         const li = document.createElement('li');
-        li.textContent = `${album.title} (${album.type})`;
+        li.className = 'hit-item';
+
+        const capa = album.coverUrl || album.cover || album.image || '../imagens/Logo.png';
+
+        li.innerHTML = `
+            <span class="hit-rank">${index + 1}</span>
+            <img class="hit-avatar" src="${capa}" alt="${album.title}">
+            <div class="hit-info">
+                <div class="hit-name">${album.title}</div>
+                <div class="hit-artist">${artistName.textContent}</div>
+            </div>
+            <span class="hit-duration">${album.type || 'Álbum'}</span>
+        `;
+
         li.addEventListener('click', () => {
             window.location.href = `../pgMusicas.html?tipo=album&id=${album.id}`;
         });
+
         albumsList.appendChild(li);
     });
 }
@@ -58,10 +72,8 @@ async function init() {
     }
 
     try {
-        await Promise.all([
-            loadArtist(),
-            loadAlbums(),
-        ]);
+        await loadArtist();
+        await loadAlbums();
     } catch (error) {
         console.error('Erro ao carregar artista:', error);
         pageError.textContent = 'Não foi possível carregar esta página.';

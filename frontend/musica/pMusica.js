@@ -113,18 +113,18 @@ async function loadSong(id, { autoplay }) {
     albumEl.textContent = song.album ? `${song.album.title} (${song.album.type})` : '';
     showCover(song.songCoverUrl || song.album?.coverUrl);
 
-   if (seek) {
-    seek.max = song.duration;
-    seek.value = 0;
-}
+    if (seek) {
+        seek.max = song.duration;
+        seek.value = 0;
+    }
 
-if (currentTimeEl) {
-    currentTimeEl.textContent = formatTime(0);
-}
+    if (currentTimeEl) {
+        currentTimeEl.textContent = formatTime(0);
+    }
 
-if (totalTimeEl) {
-    totalTimeEl.textContent = formatTime(song.duration);
-}
+    if (totalTimeEl) {
+        totalTimeEl.textContent = formatTime(song.duration);
+    }
 
     // mantém o endereço com a música atual (se atualizar a página, continua nela)
     const url = new URL(window.location.href);
@@ -196,6 +196,7 @@ function updateButtons() {
         nextBtn.disabled = index < 0 || index >= queue.length - 1;
     }
 }
+
 function tryPlay() {
     return player.play().catch((error) => {
         if (error.name === 'AbortError') return; // trocaram de música no meio
@@ -249,8 +250,7 @@ if (seek) {
         scrubbing = true;
 
         if (currentTimeEl) {
-            currentTimeEl.textContent =
-                formatTime(Number(seek.value));
+            currentTimeEl.textContent = formatTime(Number(seek.value));
         }
     });
 
@@ -268,8 +268,7 @@ player.addEventListener('loadedmetadata', () => {
     }
 
     if (totalTimeEl) {
-        totalTimeEl.textContent =
-            formatTime(player.duration);
+        totalTimeEl.textContent = formatTime(player.duration);
     }
 });
 
@@ -326,15 +325,15 @@ player.addEventListener('timeupdate', () => {
     const delta = now - lastTime;
     lastTime = now;
 
-   if (!scrubbing) {
-    if (seek) {
-        seek.value = Math.floor(now);
-    }
+    if (!scrubbing) {
+        if (seek) {
+            seek.value = Math.floor(now);
+        }
 
-    if (currentTimeEl) {
-        currentTimeEl.textContent = formatTime(now);
+        if (currentTimeEl) {
+            currentTimeEl.textContent = formatTime(now);
+        }
     }
-}
 
     if (!current || player.paused || player.seeking) return;
 
@@ -385,3 +384,69 @@ async function init() {
 if (userId) {
     init();
 }
+
+// ---------- PLAYER FIXO (barra inferior) ----------
+
+const audio = document.getElementById('player');
+const bottomPlayPause = document.getElementById('bottomPlayPauseBtn');
+const bottomProgress = document.getElementById('barraProgresso');
+const bottomTime = document.getElementById('tempoAtual');
+const bottomVolume = document.getElementById('barraVolume');
+const playerNome = document.getElementById('playerNome');
+const playerArtista = document.getElementById('playerArtista');
+const playerAlbum = document.getElementById('playerAlbum'); // <- faltava essa linha
+
+function formatarTempo(segundos) {
+    if (!Number.isFinite(segundos)) return '0:00';
+    const minutos = Math.floor(segundos / 60);
+    const segundosRestantes = Math.floor(segundos % 60).toString().padStart(2, '0');
+    return `${minutos}:${segundosRestantes}`;
+}
+
+// Play / pause
+bottomPlayPause.addEventListener('click', () => {
+    if (audio.paused) {
+        audio.play().catch(() => {});
+    } else {
+        audio.pause();
+    }
+});
+audio.addEventListener('play', () => bottomPlayPause.textContent = '❚❚');
+audio.addEventListener('pause', () => bottomPlayPause.textContent = '▶');
+
+// Progresso
+audio.addEventListener('loadedmetadata', () => {
+    if (Number.isFinite(audio.duration)) {
+        bottomProgress.max = Math.floor(audio.duration);
+    }
+});
+audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    bottomProgress.value = Math.floor(audio.currentTime);
+    bottomTime.textContent = formatarTempo(audio.currentTime);
+});
+bottomProgress.addEventListener('input', () => {
+    audio.currentTime = Number(bottomProgress.value);
+});
+
+// Volume
+bottomVolume.addEventListener('input', () => {
+    audio.volume = Number(bottomVolume.value);
+});
+
+// Sincroniza nome / artista / álbum do #content com o player fixo
+const titleElement = document.getElementById('title');
+const artistElement = document.getElementById('artist');
+const albumElement = document.getElementById('album');
+
+function atualizarInfoPlayer() {
+    if (titleElement) playerNome.textContent = titleElement.textContent || 'Nenhuma música tocando';
+    if (artistElement) playerArtista.textContent = artistElement.textContent || 'Soundy';
+    if (albumElement) playerAlbum.textContent = albumElement.textContent || 'Álbum desconhecido';
+}
+
+const observer = new MutationObserver(atualizarInfoPlayer);
+observer.observe(titleElement, { childList: true, characterData: true, subtree: true });
+observer.observe(artistElement, { childList: true, characterData: true, subtree: true });
+observer.observe(albumElement, { childList: true, characterData: true, subtree: true });
+atualizarInfoPlayer();
