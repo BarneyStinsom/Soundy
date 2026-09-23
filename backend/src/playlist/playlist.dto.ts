@@ -11,7 +11,7 @@ export class CreatePlaylistDto {
   @IsBoolean()
   isPublic: boolean;
 
-  @IsUrl()
+  @IsString()
   @IsOptional()
   coverUrl?: string;
 }

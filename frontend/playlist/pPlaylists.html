@@ -14,6 +14,65 @@
     <script src="../js/navbar.js" defer></script>
     <link rel="stylesheet" href="../css/playlist.css">
 
+    <style>
+        /* ----- modal de criar playlist ----- */
+        #createDialog {
+            margin: auto;
+            inset: 0;
+            border: none;
+            border-radius: 16px;
+            padding: 0;
+            width: min(92vw, 420px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+            color: #222;
+        }
+
+        #createDialog::backdrop {
+            background: rgba(0, 0, 0, .55);
+        }
+
+        #createForm {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 24px;
+        }
+
+        #createForm h2 { margin: 0; }
+
+        #createForm label {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 600;
+        }
+
+        #createForm input[type="text"],
+        #createForm input[type="url"] {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font: inherit;
+            font-weight: 400;
+        }
+
+        #createForm .check {
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            font-weight: 400;
+        }
+
+        #createForm .acoes {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        #formMessage { margin: 0; color: #c0392b; min-height: 1em; font-size: .9rem; }
+    </style>
+
 </head>
 
 <body>
@@ -27,27 +86,44 @@
             Suas coleções favoritas
         </p>
 
-<button class="criar-playlist" type="button" onclick="criarPlaylist()">
+<button class="criar-playlist" id="openCreateBtn" type="button">
     + Criar playlist
 </button>
 
-        <div class="playlists-grid">
+        <!-- os cards são criados pelo pPlaylists.js a partir das playlists da API -->
+        <div class="playlists-grid" id="playlistGrid"></div>
 
-            <div class="playlist-card"
-                 onclick="abrirPlaylist('eletronico.html')">
-
-                <img
-                    src="../imagens/eletronic.jfif"
-                    alt="Capa da playlist Mix"
-                    class="playlist-capa">
-
-                <h2>Músicas eletrônicas</h2>
-
-                <p>tuts tuts tuts</p>
-
-            </div>
+        <p id="message" role="status"></p>
 
     </main>
+    <dialog id="createDialog" aria-labelledby="createTitle">
+        <form id="createForm">
+            <h2 id="createTitle">Nova playlist</h2>
+
+            <label>
+                Nome
+                <input id="nameInput" type="text" maxlength="100" required autocomplete="off">
+            </label>
+
+            <label>
+                Capa (opcional)
+                <input id="coverInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            </label>
+
+            <label class="check">
+                <input id="publicInput" type="checkbox">
+                Playlist pública
+            </label>
+
+            <p id="formMessage" role="alert"></p>
+
+            <div class="acoes">
+                <button id="cancelBtn" type="button">Cancelar</button>
+                <button id="submitBtn" type="submit">Criar playlist</button>
+            </div>
+        </form>
+    </dialog>
+
     <div class="fundo">
 
         <svg
@@ -81,20 +157,8 @@
     </div>
 
 
-<script>
-    function abrirPlaylist(pagina) {
-        window.location.href = pagina;
-    }
-
-    function abrirPlaylist(pagina) {
-        window.location.href = pagina;
-    }
-
-    function criarPlaylist() {
-        window.location.href = "criar-playlist.html";
-    }
-
-</script>
+<script src="../js/api.js"></script>
+<script src="pPlaylists.js"></script>
 
 </body>
 </html>

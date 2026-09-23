@@ -18,6 +18,6 @@ export class CreateUserDto {
   isAdmin?: boolean;
 
   @IsOptional()
-  @IsUrl()
+  @IsString()
   pictureUrl?: string;
 }

@@ -26,8 +26,8 @@
 
     const DESTINOS = {
         playlistsBtn: 'playlist/pPlaylists.html',
-        artistasBtn: 'menu/artistas.html',
-        albumnsBtn: 'menu/albuns.html',
+        artistasBtn: null,
+        albumnsBtn: null,
         adminBtn: 'admin/dashboard.html',
         profileBtn: `menu/perfil.html?userId=${userId}`,
     };

@@ -11,7 +11,7 @@ export class UserService {
     }
     async findOne(id: string) {
     const user = await db.orm.public.User
-        .select('id', 'name', 'email')
+        .select('id', 'name', 'email', 'pictureUrl')
         .where({ id })
         .first();
 
@@ -30,7 +30,7 @@ export class UserService {
         }
         return await db.orm.public.Playlist
         .where({ userId: id as Char<36> })
-        .select('id', 'name')
+        .select('id', 'name', 'coverUrl')
         .all();
     }
 

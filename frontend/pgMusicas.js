@@ -5,7 +5,7 @@
 // Depende de api.js (API_URL, userId, api, formatDuration)
 
 const params = new URLSearchParams(window.location.search);
-const tipo = (params.get('tipo') || '').toLowerCase();
+const tipo = (params.get('tipo') || params.get('type') || '').toLowerCase(); // aceita ?tipo= ou ?type=
 const id = params.get('id');
 
 // Álbum, EP e single são todos "álbuns" no banco (o que muda é o campo type: ALBUM, EP, SINGLE...).

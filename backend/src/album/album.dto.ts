@@ -12,7 +12,7 @@ export class CreateAlbumDto {
   @IsUUID()
   artistId: string;
 
-  @IsUrl()
+  @IsString()
   @IsOptional()
   coverUrl?: string;
 }

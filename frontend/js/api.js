@@ -20,7 +20,7 @@ function messageFrom(data) {
 // Faz a requisição e devolve o JSON (ou null se a resposta vier vazia).
 // Em caso de erro, lança um Error com a propriedade `status`.
 async function api(path, options = {}) {
-    const headers = options.body ? { 'Content-Type': 'application/json' } : {};
+    const headers = options.body instanceof FormData  ? {} : { 'Content-Type': 'application/json' } ;
 
     let response;
     try {
