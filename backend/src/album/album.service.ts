@@ -7,7 +7,7 @@ export class AlbumsService {
 
   async findAll() {
     return await db.orm.public.Album
-      .select('id', 'title', 'type', 'artistId')
+      .select('id', 'title', 'type', 'artistId', 'coverUrl')
       .include('artist', (artist) =>
         artist.select('name')
       )
@@ -17,7 +17,7 @@ export class AlbumsService {
   async findOne(id: string) {
   return await db.orm.public.Album
     .where({ id })
-    .select('id', 'title', 'type')
+    .select('id', 'title', 'type', 'coverUrl')
     .include('artist', (artist) =>
       artist.select('name')
     )
@@ -83,7 +83,10 @@ export class AlbumsService {
     return await db.orm.public.Album
       .where({ id: id as Char<36> })
       .delete();
-  }
+  }       
+
+
+
   async findSongs(id: string) { 
     const album = await db.orm.public.Album
       .where({ id })
@@ -100,6 +103,5 @@ export class AlbumsService {
 
     return await db.orm.public.Song 
      .where({ albumId: id as Char<36> }) 
-     .select('id', 'title', 'duration') .all(); }
+     .select('id', 'title', 'duration', 'songCoverUrl') .all(); }
 }
-

@@ -34,7 +34,7 @@ export class PlaylistService {
                     playlist.select('name')
                 )
                 .include('song', (song) =>
-                 song.select('id', 'title', 'duration')
+                 song.select('id', 'title', 'duration', 'songCoverUrl')
                  )
                  .all();
     }

@@ -6,7 +6,7 @@ import { db } from '../prisma/db.js';
 export class SongsService {
  async findAll() {
   return await db.orm.public.Song
-    .select('id', 'title', 'duration')
+    .select('id', 'title', 'duration', 'songCoverUrl')
     .include('artist', (artist) =>
       artist.select('name')
     )
