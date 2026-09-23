@@ -1,45 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soundy</title>
     <link rel="icon" type="image/png" href="imagens/Logo.png">
+
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/pmusica.css"> <!-- estilos do player inferior -->
+    <link rel="stylesheet" href="css/pgmusicas.css">
+    <script src="js/scriptondas.js" defer></script>
+    <script src="js/navbar.js" defer></script>
 </head>
 
-<!--
-    Página única para listar as músicas de qualquer coleção.
-    O campo "tipo" (ou "type") na URL diz onde ela está:
-
-      pgMusicas.html?tipo=playlist&id=<id da playlist>
-      pgMusicas.html?tipo=album&id=<id do álbum>     (EP e single também: são álbuns com type "ep" / "single")
--->
-
 <body>
+    <div id="navbar"></div>
 
-    <p><a id="backLink" href="menu/menu.html">Voltar</a></p>
+    <main class="playlist-page">
+        <a id="backLink" class="voltar" href="menu/menu.html">← Voltar</a>
+        <p id="message" role="status"></p>
 
-    <p id="message" role="status"></p>
+        <div id="content" hidden>
+            <h1 id="title" class="playlist-titulo"></h1>
 
-    <div id="content" hidden>
-        <h1 id="title"></h1>
-        <p id="tipoText"></p>
-        <p id="info"></p>
+            <section class="playlist-conteudo">
+                <div class="playlist-info">
+                    <img id="cover" class="playlist-capa-grande" src="imagens/Logo.png" alt="">
+                    <h2 id="tipoText"></h2>
+                    <p id="info"></p>
+                </div>
 
-        <p id="emptyText" hidden>Nenhuma música por aqui ainda.</p>
-        <ol id="songList"></ol>
+                <div>
+                    <p id="emptyText" hidden>Nenhuma música por aqui ainda.</p>
+                    <div id="songList" class="musicas"></div>
+                </div>
+            </section>
+        </div>
+    </main>
 
-        <!-- só aparece quando tipo=playlist -->
-        <form id="addForm" hidden>
-            <h2>Adicionar música</h2>
-            <select id="songSelect" aria-label="Música"></select>
-            <button id="addBtn" type="submit">Adicionar à playlist</button>
-        </form>
+    <!-- só aparece quando é playlist: canto inferior esquerdo -->
+    <button id="openAddBtn" class="btn-add-musicas" type="button" hidden>+ Adicionar músicas</button>
+
+    <dialog id="addDialog" aria-labelledby="addTitle">
+        <div class="add-conteudo">
+            <div class="add-topo">
+                <h3 id="addTitle">Adicionar músicas</h3>
+                <button id="closeAddBtn" class="btn-fechar" type="button" title="Fechar">✕</button>
+            </div>
+            <input id="searchInput" type="search" placeholder="Buscar por música ou artista..." autocomplete="off">
+            <p id="addMessage" role="status"></p>
+            <div id="searchResults" class="musicas"></div>
+        </div>
+    </dialog>
+
+    <!-- player inferior (mesmo do pMusica) -->
+    <div class="player-musica">
+        <button id="playPauseBtn" class="player-botao" type="button">▶</button>
+        <div class="player-info">
+            <strong id="playerNome">Nenhuma música tocando</strong>
+            <span id="playerArtista">Soundy</span>
+        </div>
+        <input type="range" id="barraProgresso" class="player-progresso" value="0" min="0" step="1">
+        <span id="tempoAtual" class="player-tempo">0:00</span>
+        <span class="volume-icone">🔊</span>
+        <input type="range" id="barraVolume" class="player-volume" min="0" max="1" step="0.01" value="1">
+    </div>
+    <audio id="audioPlayer" preload="metadata"></audio>
+
+    <div class="fundo">
+        <svg id="ondas" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="50%" stop-color="#fff"></stop>
+                    <stop offset="100%" stop-color="#fff"></stop>
+                </linearGradient>
+            </defs>
+        </svg>
     </div>
 
     <script src="js/api.js"></script>
     <script src="js/pgMusicas.js"></script>
 </body>
-
 </html>

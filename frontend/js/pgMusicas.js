@@ -1,47 +1,134 @@
+// pgMusicas.js — lista as músicas de uma playlist OU de um álbum/EP/single e toca no player inferior.
+// URL: pgMusicas.html?tipo=playlist&id=...  (ou tipo=album). Sem "tipo", descobre pelo id.
+// Playlist própria: botão "+ Adicionar músicas" (canto inferior esquerdo) e botão ✕ em cada música.
+// Depende de api.js (API_URL, userId, api, formatDuration)
 
 const params = new URLSearchParams(window.location.search);
-const tipo = (params.get('tipo') || '').toLowerCase();
+const tipo = (params.get('tipo') || params.get('type') || '').toLowerCase();
 const id = params.get('id');
 
-
+// Álbum, EP e single são todos "álbuns" no banco (o que muda é o campo type).
 function kindFromTipo(value) {
     if (value === 'playlist') return 'playlist';
     if (['album', 'albuns', 'albums', 'ep', 'eps', 'single', 'singles'].includes(value)) return 'album';
     return null;
 }
 
-let kind = kindFromTipo(tipo); 
+let kind = kindFromTipo(tipo); // 'playlist' | 'album' | null (null = descobrir pelo id)
 
-const backLink = document.querySelector('#backLink');
-const message = document.querySelector('#message');
-const content = document.querySelector('#content');
-const titleEl = document.querySelector('#title');
-const tipoText = document.querySelector('#tipoText');
-const info = document.querySelector('#info');
-const emptyText = document.querySelector('#emptyText');
-const songList = document.querySelector('#songList');
-const addForm = document.querySelector('#addForm');
-const songSelect = document.querySelector('#songSelect');
-const addBtn = document.querySelector('#addBtn');
+const DEFAULT_COVER = 'imagens/Logo.png';
+const LISTEN_SECONDS = 30; // tempo ouvido para contar como reprodução
 
-let currentSongs = []; 
-let allSongs = [];     
+const $ = (selector) => document.querySelector(selector);
+const backLink = $('#backLink');
+const message = $('#message');
+const content = $('#content');
+const titleEl = $('#title');
+const coverEl = $('#cover');
+const tipoText = $('#tipoText');
+const info = $('#info');
+const emptyText = $('#emptyText');
+const songList = $('#songList');
+const openAddBtn = $('#openAddBtn');
+const addDialog = $('#addDialog');
+const closeAddBtn = $('#closeAddBtn');
+const searchInput = $('#searchInput');
+const searchResults = $('#searchResults');
+const addMessage = $('#addMessage');
 
+const audio = $('#audioPlayer');
+const playPauseBtn = $('#playPauseBtn');
+const barraProgresso = $('#barraProgresso');
+const tempoAtual = $('#tempoAtual');
+const barraVolume = $('#barraVolume');
+const playerNome = $('#playerNome');
+const playerArtista = $('#playerArtista');
+
+let currentSongs = [];   // [{ rowId, position, id, title, duration, artist, cover }]
+let allSongs = [];       // todas as músicas do sistema (pra buscar e adicionar)
+let songById = new Map();
+let collectionCover = DEFAULT_COVER;
+
+function notify(text) {
+    message.textContent = text;
+    addMessage.textContent = text;
+}
+
+// áudios podem vir como "/audio/x.mp3" (do backend) ou como link completo
+function assetUrl(url) {
+    return new URL(url, API_URL).href;
+}
+
+// Capas podem ser: link completo (Cloudinary), caminho local da pasta imagens
+// ("imagens/pop.jfif", "../imagens/pop.jfif") ou caminho do backend ("/uploads/x.jpg").
+function imageUrl(url) {
+    if (/^(https?:|data:|blob:)/i.test(url)) return url;
+
+    const local = url.replace(/\\/g, '/').match(/imagens\/.+$/i); // pgMusicas.html fica na mesma pasta de "imagens"
+    if (local) return local[0];
+
+    return assetUrl(url);
+}
+
+// se uma capa não carregar, avisa no console qual endereço falhou e troca pela padrão
+function fallbackCover(img) {
+    img.onerror = () => {
+        console.warn('Capa não carregou:', img.src);
+        message.textContent = `Uma capa não carregou: ${img.src}`;
+        img.onerror = null;
+        img.src = DEFAULT_COVER;
+    };
+}
+
+function normalize(text) {
+    // "Ação" e "acao" passam a ser iguais na busca
+    return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function formatTime(seconds) {
+    return formatDuration(Math.floor(seconds || 0));
+}
+
+// ---------- PEÇAS DAS LINHAS ----------
+
+function createRow(song, artist) {
+    const row = document.createElement('div');
+    row.className = 'musica';
+
+    const img = document.createElement('img');
+    img.className = 'musica-capa';
+    img.alt = '';
+    fallbackCover(img);
+    img.src = song.cover ? imageUrl(song.cover) : collectionCover;
+
+    const box = document.createElement('div');
+    box.className = 'musica-info';
+    const strong = document.createElement('strong');
+    strong.textContent = song.title;
+    box.appendChild(strong);
+    if (artist) {
+        const span = document.createElement('span');
+        span.textContent = artist;
+        box.appendChild(span);
+    }
+
+    const duration = document.createElement('span');
+    duration.className = 'musica-duracao';
+    duration.textContent = formatDuration(song.duration ?? 0);
+
+    row.append(img, box, duration);
+    return row;
+}
+
+// ---------- CARREGAR CONFORME O TIPO ----------
+// Cada loader devolve { title, subtitle, cover, songs } no mesmo formato.
 
 async function loadPlaylist() {
     const mine = await api(`/users/${userId}/playlists`);
     const playlist = mine.find((p) => p.id === id);
     if (!playlist) throw new Error('Playlist não encontrada.');
 
-    return {
-        title: playlist.name,
-        tipoLabel: 'playlist',
-        songs: await loadPlaylistSongs(),
-    };
-}
-
-
-async function loadPlaylistSongs() {
+    // A API responde 404 quando a playlist existe mas está vazia — aqui vira lista vazia.
     let items = [];
     try {
         items = await api(`/playlists/${id}/songs`);
@@ -49,54 +136,72 @@ async function loadPlaylistSongs() {
         if (error.status !== 404) throw error;
     }
 
-    return items
-        .sort((a, b) => a.position - b.position)
-        .map((item) => ({
-            rowId: item.id, 
-            position: item.position,
-            id: item.song?.id,
-            title: item.song?.title ?? 'Música removida',
-            duration: item.song?.duration ?? 0,
-        }));
+    return {
+        title: playlist.name,
+        subtitle: playlist.description || 'playlist',
+        cover: playlist.coverUrl,
+        songs: items
+            .sort((a, b) => a.position - b.position)
+            .map((item) => ({
+                rowId: item.id, // id da linha em playlistsongs (usado pra remover)
+                position: item.position,
+                id: item.song?.id,
+                title: item.song?.title ?? 'Música removida',
+                duration: item.song?.duration ?? 0,
+                artist: songById.get(item.song?.id)?.artist?.name,
+                cover: item.song?.songCoverUrl,
+            })),
+    };
 }
 
 async function loadAlbum() {
     const album = await api(`/albums/${id}`);
-    if (!album) throw new Error('Álbum não encontrado.'); 
+    if (!album) throw new Error('Álbum não encontrado.');
 
     let songs = [];
     try {
         songs = await api(`/albums/${id}/songs`);
     } catch (error) {
-        if (error.status !== 404) throw error; 
+        if (error.status !== 404) throw error; // 404 = álbum sem músicas
     }
 
+    // Confira no console (F12) o que a API mandou: se coverUrl / songCoverUrl vierem null, o problema é o cadastro.
+    console.log('[album] /albums/:id →', album);
+    console.log('[album] /albums/:id/songs →', songs);
+
     const artistName = album.artist?.name;
+    const hasAnyCover = album.coverUrl || songs.some((song) => song.songCoverUrl);
     return {
-        title: artistName ? `${album.title} — ${artistName}` : album.title,
-        tipoLabel: album.type, 
+        notice: hasAnyCover ? '' : `A API não trouxe capa para este álbum. Resposta de /albums/${id}: ${JSON.stringify(album)}`,
+        title: album.title,
+        subtitle: artistName ? `${album.type} — ${artistName}` : album.type,
+        // capa do álbum; se ele não tiver, usa a capa da primeira música que tiver
+        cover: album.coverUrl || songs.find((song) => song.songCoverUrl)?.songCoverUrl,
         songs: songs.map((song, index) => ({
             position: index + 1,
             id: song.id,
             title: song.title,
             duration: song.duration,
+            artist: artistName,
+            cover: song.songCoverUrl,
         })),
     };
 }
 
-
+// ---------- MOSTRAR NA TELA ----------
 
 function render(data) {
     currentSongs = data.songs;
+    collectionCover = data.cover ? imageUrl(data.cover) : DEFAULT_COVER;
 
     document.title = `${data.title} — Soundy`;
     titleEl.textContent = data.title;
-    tipoText.textContent = `Tipo: ${data.tipoLabel}`;
+    tipoText.textContent = data.title;
+    info.textContent = data.subtitle;
 
-    const total = currentSongs.reduce((sum, song) => sum + song.duration, 0);
-    info.textContent = currentSongs.length === 0
-        ? 'Nenhuma música'
-        : `${currentSongs.length} ${currentSongs.length === 1 ? 'música' : 'músicas'} — ${formatDuration(total)} no total`;
+    coverEl.alt = `Capa de ${data.title}`;
+    fallbackCover(coverEl);
+    coverEl.src = collectionCover;
 
     emptyText.hidden = currentSongs.length > 0;
     renderSongs();
@@ -107,83 +212,232 @@ function renderSongs() {
     songList.replaceChildren();
 
     currentSongs.forEach((song) => {
-        const li = document.createElement('li');
-        li.textContent = `${song.title} — ${formatDuration(song.duration)}`;
+        const row = createRow(song, song.artist);
+        row.dataset.id = song.id;
+        row.addEventListener('click', () => playSong(song.id));
 
-        // abre o player; tipo e coleção fazem "Anterior" e "Próxima" seguirem esta lista
-        const playLink = document.createElement('a');
-        playLink.href = `musica/pMusica.html?id=${encodeURIComponent(song.id)}&tipo=${kind}&colecao=${encodeURIComponent(id)}`;
-        playLink.textContent = 'Tocar';
-        li.append(' ', playLink);
-
+        // só a playlist permite tirar músicas
         if (kind === 'playlist') {
             const removeBtn = document.createElement('button');
             removeBtn.type = 'button';
-            removeBtn.textContent = 'Remover';
-            removeBtn.addEventListener('click', () => removeSong(song));
-            li.append(' ', removeBtn);
+            removeBtn.className = 'btn-remover';
+            removeBtn.textContent = '✕';
+            removeBtn.title = 'Remover da playlist';
+            removeBtn.addEventListener('click', (event) => {
+                event.stopPropagation(); // sem isso o clique também tocaria a música
+                removeSong(song);
+            });
+            row.appendChild(removeBtn);
         }
 
-        songList.appendChild(li);
+        songList.appendChild(row);
+    });
+
+    markPlaying();
+}
+
+function markPlaying() {
+    songList.querySelectorAll('.musica').forEach((row) => {
+        row.classList.toggle('tocando', row.dataset.id === playingId);
     });
 }
 
+// ---------- PLAYER ----------
 
-function fillSongSelect() {
-    const inPlaylist = new Set(currentSongs.map((song) => song.id));
-    const available = allSongs.filter((song) => !inPlaylist.has(song.id));
+let playingId = null;
+let loadToken = 0; // evita que uma resposta antiga sobrescreva uma música mais nova
 
-    songSelect.replaceChildren();
-    available.forEach((song) => {
-        const option = document.createElement('option');
-        option.value = song.id;
-        option.textContent = song.artist?.name ? `${song.title} — ${song.artist.name}` : song.title;
-        songSelect.appendChild(option);
-    });
+// As listas não trazem o arquivo de áudio, então busca a música inteira (GET /songs/:id) ao clicar.
+async function playSong(songId) {
+    if (!songId) return;
+    const token = ++loadToken;
 
-    addBtn.disabled = available.length === 0;
-    if (available.length === 0) {
-        const option = document.createElement('option');
-        option.textContent = 'Todas as músicas já estão na playlist';
-        songSelect.appendChild(option);
+    try {
+        const song = await api(`/songs/${encodeURIComponent(songId)}`);
+        if (token !== loadToken) return;
+        if (!song?.songUrl) {
+            notify('Esta música ainda não tem arquivo de áudio.');
+            return;
+        }
+
+        playingId = songId;
+        resetCounter();
+        playerNome.textContent = song.title;
+        playerArtista.textContent = song.artist?.name || 'Soundy';
+        barraProgresso.value = 0;
+        tempoAtual.textContent = formatTime(0);
+        notify('');
+        markPlaying();
+
+        audio.src = assetUrl(song.songUrl);
+        await audio.play();
+    } catch (error) {
+        if (error.name === 'AbortError') return; // trocaram de música no meio
+        notify(error.name === 'NotAllowedError'
+            ? 'O navegador bloqueou o play automático. Clique em ▶.'
+            : (error.message || 'Não foi possível tocar esta música.'));
     }
 }
 
-async function reloadPlaylist(notice = '') {
-    const data = await loadPlaylist();
-    render(data);
-    fillSongSelect();
-    message.textContent = notice;
+function playNext() {
+    const index = currentSongs.findIndex((song) => song.id === playingId);
+    if (index >= 0 && index < currentSongs.length - 1) playSong(currentSongs[index + 1].id);
 }
 
-addForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!songSelect.value) return;
+playPauseBtn.addEventListener('click', () => {
+    if (!audio.getAttribute('src')) {
+        if (currentSongs.length > 0) playSong(currentSongs[0].id); // nada tocando: começa pela primeira
+        return;
+    }
+    if (audio.paused) audio.play().catch(() => {});
+    else audio.pause();
+});
 
-    const position = currentSongs.reduce((max, song) => Math.max(max, song.position), 0) + 1;
-    addBtn.disabled = true;
+audio.addEventListener('play', () => { playPauseBtn.textContent = '❚❚'; lastTime = audio.currentTime; });
+audio.addEventListener('pause', () => { playPauseBtn.textContent = '▶'; });
+
+audio.addEventListener('loadedmetadata', () => {
+    if (Number.isFinite(audio.duration)) barraProgresso.max = Math.floor(audio.duration);
+});
+
+barraProgresso.addEventListener('input', () => { audio.currentTime = Number(barraProgresso.value); });
+barraVolume.addEventListener('input', () => { audio.volume = Number(barraVolume.value); });
+
+audio.addEventListener('error', () => {
+    if (audio.getAttribute('src')) notify('Não foi possível carregar o áudio desta música.');
+});
+
+// ---------- CONTAGEM DE REPRODUÇÕES (igual à pMusica) ----------
+// Só conta depois de 30 s OUVIDOS de verdade (pausa e pulos na barra não somam), uma vez por reprodução.
+
+let listened = 0;
+let lastTime = 0;
+let counted = false;
+
+function resetCounter() {
+    listened = 0;
+    lastTime = 0;
+    counted = false;
+}
+
+function secondsNeeded() {
+    return Math.min(LISTEN_SECONDS, audio.duration || LISTEN_SECONDS);
+}
+
+async function registerPlay(songId) {
+    counted = true; // marca antes, pra não registrar duas vezes
+    try {
+        await api('/playhistory', {
+            method: 'POST',
+            body: JSON.stringify({ userId, songId, playedAt: new Date().toISOString() }),
+        });
+    } catch (error) {
+        console.error('Erro ao registrar reprodução:', error);
+    }
+}
+
+audio.addEventListener('seeked', () => { lastTime = audio.currentTime; });
+
+audio.addEventListener('timeupdate', () => {
+    const now = audio.currentTime;
+    const delta = now - lastTime;
+    lastTime = now;
+
+    barraProgresso.value = Math.floor(now);
+    tempoAtual.textContent = formatTime(now);
+
+    if (!playingId || audio.paused || audio.seeking) return;
+    if (delta > 0 && delta < 1.5) listened += delta; // avanços maiores são pulos
+    if (!counted && listened >= secondsNeeded()) registerPlay(playingId);
+});
+
+// terminou: garante o registro (música curta) e segue pra próxima da lista
+audio.addEventListener('ended', () => {
+    if (playingId && !counted && listened >= secondsNeeded() - 1) registerPlay(playingId);
+    resetCounter();
+    playNext();
+});
+
+// ---------- PLAYLIST: BUSCAR, ADICIONAR E REMOVER ----------
+
+function renderSearch() {
+    searchResults.replaceChildren();
+
+    const query = normalize(searchInput.value.trim());
+    const inPlaylist = new Set(currentSongs.map((song) => song.id));
+
+    // sem texto, mostra algumas sugestões; com texto, filtra por título ou artista
+    const matches = allSongs
+        .filter((song) => !inPlaylist.has(song.id))
+        .filter((song) => !query || normalize(`${song.title} ${song.artist?.name ?? ''}`).includes(query))
+        .slice(0, query ? 30 : 8);
+
+    if (matches.length === 0) {
+        const empty = document.createElement('p');
+        empty.textContent = query ? 'Nenhuma música encontrada.' : 'Todas as músicas já estão na playlist.';
+        searchResults.appendChild(empty);
+        return;
+    }
+
+    matches.forEach((song) => {
+        const row = createRow({ title: song.title, duration: song.duration, cover: song.songCoverUrl }, song.artist?.name);
+
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'btn-adicionar';
+        addBtn.textContent = '+ Adicionar';
+        addBtn.addEventListener('click', () => addSong(song, addBtn));
+        row.appendChild(addBtn);
+
+        searchResults.appendChild(row);
+    });
+}
+
+searchInput.addEventListener('input', renderSearch);
+
+openAddBtn.addEventListener('click', () => {
+    addMessage.textContent = '';
+    renderSearch();
+    addDialog.showModal(); // o <dialog> cuida do Esc e do fundo escuro
+    searchInput.focus();
+});
+closeAddBtn.addEventListener('click', () => addDialog.close());
+addDialog.addEventListener('click', (event) => {
+    if (event.target === addDialog) addDialog.close(); // clique fora da janela
+});
+
+async function reloadPlaylist(notice = '') {
+    render(await loadPlaylist());
+    renderSearch(); // a música adicionada some dos resultados
+    notify(notice);
+}
+
+async function addSong(song, button) {
+    const position = currentSongs.reduce((max, s) => Math.max(max, s.position), 0) + 1;
+    button.disabled = true;
 
     try {
         await api('/playlistsongs', {
             method: 'POST',
-            body: JSON.stringify({ playlistId: id, songId: songSelect.value, position }),
+            body: JSON.stringify({ playlistId: id, songId: song.id, position }),
         });
-        await reloadPlaylist('Música adicionada.');
+        await reloadPlaylist(`"${song.title}" adicionada.`);
     } catch (error) {
-        message.textContent = error.message;
-        addBtn.disabled = false;
+        notify(error.message);
+        button.disabled = false;
     }
-});
+}
 
 async function removeSong(song) {
     try {
         await api(`/playlistsongs/${song.rowId}`, { method: 'DELETE' });
-        await reloadPlaylist('Música removida da playlist.');
+        await reloadPlaylist(`"${song.title}" removida da playlist.`);
     } catch (error) {
-        message.textContent = error.message;
+        notify(error.message);
     }
 }
 
+// ---------- DESCOBRIR O TIPO PELO ID ----------
 
 async function detectKind() {
     const album = await api(`/albums/${id}`);
@@ -195,6 +449,7 @@ async function detectKind() {
     return null;
 }
 
+// ---------- INICIALIZAÇÃO ----------
 
 async function init() {
     if (!id) {
@@ -211,15 +466,18 @@ async function init() {
             if (!kind) throw new Error('Não encontrei nenhum álbum ou playlist com esse id.');
         }
 
+        // o botão "Voltar" leva pra lista de onde a pessoa veio
         backLink.href = kind === 'playlist' ? 'playlist/pPlaylists.html' : 'menu/menu.html';
 
         if (kind === 'playlist') {
-            allSongs = await api('/songs');
+            allSongs = (await api('/songs')) || [];
+            songById = new Map(allSongs.map((song) => [song.id, song]));
             await reloadPlaylist();
-            addForm.hidden = false;
+            openAddBtn.hidden = false;
         } else {
-            render(await loadAlbum());
-            message.textContent = '';
+            const data = await loadAlbum();
+            render(data);
+            message.textContent = data.notice || '';
         }
     } catch (error) {
         message.textContent = error.message;
