@@ -1,6 +1,5 @@
-/* ----- pgMusicas: layout de coleção (álbum / playlist) ----- */
+ @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
 
-/* sem isso, o "hidden" some quando a classe define display (escopo restrito: a navbar tem o próprio hidden) */
 .playlist-page [hidden],
 .btn-add-musicas[hidden] { display: none !important; }
 
