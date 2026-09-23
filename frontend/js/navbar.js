@@ -31,12 +31,6 @@
         playlistsBtn:
             'playlist/pPlaylists.html',
 
-        artistasBtn:
-            'menu/artistas.html',
-
-        albumnsBtn:
-            'menu/albuns.html',
-
         adminBtn:
             'admin/dashboard.html',
 
@@ -61,7 +55,7 @@
 
 <header class="admin-topbar">
 
-    <a href="${ROOT}index.html">
+    <a href="${ROOT}/menu/menu.html">
 
         <img
             src="${ROOT}imagens/Logo.png"
@@ -84,27 +78,6 @@
                 Playlists
             </button>
 
-
-            <button
-                class="artistas"
-                id="artistasBtn"
-                type="button"
-            >
-                Artistas
-            </button>
-
-
-            <button
-                class="albumns"
-                id="albumnsBtn"
-                type="button"
-            >
-                Álbuns
-            </button>
-
-        </div>
-
-
         <button
             class="admin"
             id="adminBtn"
@@ -115,22 +88,21 @@
         </button>
 
 
-        <div class="busca-wrapper">
+         </div>
 
-            <input
-                class="buscabusca"
-                id="searchInput"
-                type="search"
-                placeholder="Buscar músicas, artistas e álbuns"
-                autocomplete="off"
-            >
+    <div class="busca-wrapper">
 
-            <ul
-                id="searchResults"
-                hidden
-            ></ul>
+        <input
+            class="buscabusca"
+            id="searchInput"
+            type="search"
+            placeholder="Buscar músicas, artistas e álbuns"
+            autocomplete="off"
+        >
 
-        </div>
+        <ul id="searchResults" hidden></ul>
+
+    </div>
 
     </nav>
 
