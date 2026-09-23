@@ -25,6 +25,7 @@
         }
 
         .playlist-card {
+            position: relative;
             cursor: pointer;
             transition: transform 0.2s ease;
         }
@@ -198,4 +199,34 @@
     min-height: 1em;
     font-size: .9rem;
     color: #ff8a8a; /* o vermelho antigo ficava apagado no fundo escuro */
+}
+
+/* ----- botão de excluir playlist (canto da capa) ----- */
+.playlist-excluir {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.playlist-card:hover .playlist-excluir,
+.playlist-card:focus-within .playlist-excluir,
+.playlist-excluir:focus-visible {
+    opacity: 1;
+}
+
+.playlist-excluir:hover { background: #c0392b; }
+
+/* celular não tem hover: deixa o botão sempre visível */
+@media (hover: none) {
+    .playlist-excluir { opacity: 1; }
 }

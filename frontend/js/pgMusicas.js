@@ -32,8 +32,8 @@ const songList = $('#songList');
 const openAddBtn = $('#openAddBtn');
 const addDialog = $('#addDialog');
 const closeAddBtn = $('#closeAddBtn');
-const searchInput = $('#searchInput');
-const searchResults = $('#searchResults');
+const searchInput = $('#addSearchInput');
+const searchResults = $('#addSearchResults');
 const addMessage = $('#addMessage');
 
 const audio = $('#audioPlayer');
@@ -41,6 +41,7 @@ const playPauseBtn = $('#playPauseBtn');
 const barraProgresso = $('#barraProgresso');
 const tempoAtual = $('#tempoAtual');
 const barraVolume = $('#barraVolume');
+const playerCapa = $('#playerCapa');
 const playerNome = $('#playerNome');
 const playerArtista = $('#playerArtista');
 
@@ -91,7 +92,8 @@ function formatTime(seconds) {
 
 // ---------- PEÇAS DAS LINHAS ----------
 
-function createRow(song, artist) {
+// links (opcional): { titleHref } faz o nome abrir uma página; { onCover } faz a foto ser clicável
+function createRow(song, artist, links = {}) {
     const row = document.createElement('div');
     row.className = 'musica';
 
@@ -101,10 +103,29 @@ function createRow(song, artist) {
     fallbackCover(img);
     img.src = song.cover ? imageUrl(song.cover) : collectionCover;
 
+    if (links.onCover) {
+        const open = (event) => { event.stopPropagation(); links.onCover(); };
+        img.classList.add('link');
+        img.title = 'Abrir álbum';
+        img.tabIndex = 0;
+        img.setAttribute('role', 'link');
+        img.addEventListener('click', open);
+        img.addEventListener('keydown', (event) => { if (event.key === 'Enter') open(event); });
+    }
+
     const box = document.createElement('div');
     box.className = 'musica-info';
     const strong = document.createElement('strong');
-    strong.textContent = song.title;
+    if (links.titleHref) {
+        const link = document.createElement('a');
+        link.href = links.titleHref;
+        link.title = 'Abrir música';
+        link.textContent = song.title;
+        link.addEventListener('click', (event) => event.stopPropagation()); // não dispara o play da linha
+        strong.appendChild(link);
+    } else {
+        strong.textContent = song.title;
+    }
     box.appendChild(strong);
     if (artist) {
         const span = document.createElement('span');
@@ -212,7 +233,11 @@ function renderSongs() {
     songList.replaceChildren();
 
     currentSongs.forEach((song) => {
-        const row = createRow(song, song.artist);
+        const row = createRow(song, song.artist, {
+            titleHref: song.id ? songPageUrl(song.id) : null,
+            // na página de um álbum a foto já é do próprio álbum, então só a playlist precisa do atalho
+            onCover: song.id && kind === 'playlist' ? () => openAlbumOf(song) : null,
+        });
         row.dataset.id = song.id;
         row.addEventListener('click', () => playSong(song.id));
 
@@ -234,6 +259,26 @@ function renderSongs() {
     });
 
     markPlaying();
+}
+
+// página da música, com a coleção atual para "Anterior" e "Próxima" seguirem esta lista
+function songPageUrl(songId) {
+    return `musica/pMusica.html?id=${encodeURIComponent(songId)}&tipo=${kind}&colecao=${encodeURIComponent(id)}`;
+}
+
+// A lista da playlist não traz o álbum de cada música, então busca a música inteira (GET /songs/:id).
+async function openAlbumOf(song) {
+    try {
+        const full = await api(`/songs/${encodeURIComponent(song.id)}`);
+        const albumId = full?.album?.id;
+        if (!albumId) {
+            notify('Não encontrei o álbum desta música.');
+            return;
+        }
+        window.location.href = `pgMusicas.html?tipo=album&id=${encodeURIComponent(albumId)}`;
+    } catch (error) {
+        notify(error.message);
+    }
 }
 
 function markPlaying() {
@@ -264,6 +309,9 @@ async function playSong(songId) {
         resetCounter();
         playerNome.textContent = song.title;
         playerArtista.textContent = song.artist?.name || 'Soundy';
+        const cover = song.songCoverUrl || song.album?.coverUrl;
+        fallbackCover(playerCapa);
+        playerCapa.src = cover ? imageUrl(cover) : collectionCover;
         barraProgresso.value = 0;
         tempoAtual.textContent = formatTime(0);
         notify('');
