@@ -11,70 +11,13 @@
     <link rel="stylesheet" href="../css/menu.css">
 
     <script src="../js/scriptondas.js" defer></script>
-    <script src="../js/menu.js" defer></script>
+    <script src="../js/navbar.js" defer></script>
     <link rel="stylesheet" href="../css/playlist.css">
 
 </head>
 
 <body>
-    <header class="admin-topbar">
-
-        <a href="../index.html">
-            <img src="../imagens/Logo.png"
-                 alt="Logo do Soundy"
-                 class="logo">
-        </a>
-
-        <nav class="admin-nav">
-
-            <button class="playlists"
-                    id="playlistsBtn"
-                    type="button">
-                Playlists
-            </button>
-
-            <button class="artistas"
-                    id="artistasBtn"
-                    type="button">
-                Artistas
-            </button>
-
-            <button class="admin"
-                    id="adminBtn"
-                    type="button"
-                    hidden>
-                Painel Admin
-            </button>
-
-            <div class="busca-wrapper">
-
-                <input
-                    class="buscabusca"
-                    id="searchInput"
-                    type="search"
-                    placeholder="Buscar músicas, artistas e álbuns"
-                    autocomplete="off">
-
-                <ul id="searchResults" hidden></ul>
-
-            </div>
-
-        </nav>
-
-        <button
-            class="perfil"
-            id="profileBtn"
-            type="button"
-            title="Trocar foto de perfil">
-        </button>
-
-        <input
-            type="file"
-            id="photoInput"
-            accept="image/*"
-            hidden>
-
-    </header>
+    <div id="navbar"></div>
 
     <main class="playlists-page">
 

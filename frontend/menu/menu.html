@@ -8,32 +8,12 @@
     <link rel="icon" type="image/png" href="../imagens/Logo.png">
     <link rel="stylesheet" href="../css/menu.css">
 <script src="../js/scriptondas.js" defer></script>
+<script src="../js/navbar.js" defer></script>
 <script src="../js/menu.js" defer></script>
 </head>
 
 <body>
-<header class="admin-topbar">
-    <a href="../index.html">
-        <img src="../imagens/Logo.png" alt="Logo do Soundy" class="logo">
-    </a>
-
-    <nav class="admin-nav">
-        <div class="titulos">
-        <button class="playlists" id="playlistsBtn" type="button">Playlists</button>
-        <button class="artistas" id="artistasBtn" type="button">Artistas</button>
-        <button class="albumns" id="albumnsBtn" type="button">Álbuns</button>
-        </div>
-        <button class="admin" id="adminBtn" type="button" hidden>Painel Admin</button>
-
-        <div class="busca-wrapper">
-            <input class="buscabusca" id="searchInput" type="search"
-                   placeholder="Buscar músicas, artistas e álbuns" autocomplete="off">
-            <ul id="searchResults" hidden></ul>
-        </div>
-    </nav>
-            <button class="perfil" id="profileBtn" type="button" title="Trocar foto de perfil"></button>
-        <input type="file" id="photoInput" accept="image/*" hidden>
-</header>
+<div id="navbar"></div>
 
 <h2 class="top-hits-title">Em alta no mundo!</h2>
 <ul id="topHitsList" class="top-hits-list"></ul>
