@@ -113,10 +113,18 @@ async function loadSong(id, { autoplay }) {
     albumEl.textContent = song.album ? `${song.album.title} (${song.album.type})` : '';
     showCover(song.songCoverUrl || song.album?.coverUrl);
 
+   if (seek) {
     seek.max = song.duration;
     seek.value = 0;
+}
+
+if (currentTimeEl) {
     currentTimeEl.textContent = formatTime(0);
+}
+
+if (totalTimeEl) {
     totalTimeEl.textContent = formatTime(song.duration);
+}
 
     // mantém o endereço com a música atual (se atualizar a página, continua nela)
     const url = new URL(window.location.href);
@@ -163,19 +171,31 @@ async function goTo(id) {
 // ---------- BOTÕES ----------
 
 function updatePlayPause() {
-    playPauseBtn.textContent = player.paused ? 'Tocar' : 'Pausar';
+    if (playPauseBtn) {
+        playPauseBtn.textContent = player.paused ? 'Tocar' : 'Pausar';
+    }
 }
 
 function updateButtons() {
     const index = current ? queue.indexOf(current.id) : -1;
     const hasAudio = Boolean(current && current.songUrl);
 
-    playPauseBtn.disabled = !hasAudio;
-    seek.disabled = !hasAudio;
-    prevBtn.disabled = !hasAudio && index <= 0;
-    nextBtn.disabled = index < 0 || index >= queue.length - 1;
-}
+    if (playPauseBtn) {
+        playPauseBtn.disabled = !hasAudio;
+    }
 
+    if (seek) {
+        seek.disabled = !hasAudio;
+    }
+
+    if (prevBtn) {
+        prevBtn.disabled = !hasAudio && index <= 0;
+    }
+
+    if (nextBtn) {
+        nextBtn.disabled = index < 0 || index >= queue.length - 1;
+    }
+}
 function tryPlay() {
     return player.play().catch((error) => {
         if (error.name === 'AbortError') return; // trocaram de música no meio
@@ -188,45 +208,68 @@ function tryPlay() {
     });
 }
 
-playPauseBtn.addEventListener('click', () => {
-    if (!current || !current.songUrl) return;
-    if (player.paused) tryPlay();
-    else player.pause();
-});
+if (playPauseBtn) {
+    playPauseBtn.addEventListener('click', () => {
+        if (!current || !current.songUrl) return;
 
-// como no Spotify: depois de 3 s volta pro começo da música; antes disso, vai pra anterior
-prevBtn.addEventListener('click', () => {
-    const index = current ? queue.indexOf(current.id) : -1;
+        if (player.paused) {
+            tryPlay();
+        } else {
+            player.pause();
+        }
+    });
+}
 
-    if (index > 0 && player.currentTime <= RESTART_AFTER) {
-        goTo(queue[index - 1]);
-    } else {
-        player.currentTime = 0;
-    }
-});
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        const index = current ? queue.indexOf(current.id) : -1;
 
-nextBtn.addEventListener('click', () => {
-    const index = current ? queue.indexOf(current.id) : -1;
-    if (index >= 0 && index < queue.length - 1) goTo(queue[index + 1]);
-});
+        if (index > 0 && player.currentTime <= RESTART_AFTER) {
+            goTo(queue[index - 1]);
+        } else {
+            player.currentTime = 0;
+        }
+    });
+}
+
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        const index = current ? queue.indexOf(current.id) : -1;
+
+        if (index >= 0 && index < queue.length - 1) {
+            goTo(queue[index + 1]);
+        }
+    });
+}
 
 // ---------- BARRA DE PROGRESSO ----------
 
-seek.addEventListener('input', () => {
-    scrubbing = true; // enquanto arrasta, a barra não é atualizada pelo player
-    currentTimeEl.textContent = formatTime(Number(seek.value));
-});
+if (seek) {
+    seek.addEventListener('input', () => {
+        scrubbing = true;
 
-seek.addEventListener('change', () => {
-    player.currentTime = Number(seek.value);
-    scrubbing = false;
-});
+        if (currentTimeEl) {
+            currentTimeEl.textContent =
+                formatTime(Number(seek.value));
+        }
+    });
+
+    seek.addEventListener('change', () => {
+        player.currentTime = Number(seek.value);
+        scrubbing = false;
+    });
+}
 
 player.addEventListener('loadedmetadata', () => {
-    // a duração real do arquivo vale mais que a que está gravada no banco
-    if (Number.isFinite(player.duration)) {
+    if (!Number.isFinite(player.duration)) return;
+
+    if (seek) {
         seek.max = Math.floor(player.duration);
-        totalTimeEl.textContent = formatTime(player.duration);
+    }
+
+    if (totalTimeEl) {
+        totalTimeEl.textContent =
+            formatTime(player.duration);
     }
 });
 
@@ -283,10 +326,15 @@ player.addEventListener('timeupdate', () => {
     const delta = now - lastTime;
     lastTime = now;
 
-    if (!scrubbing) {
+   if (!scrubbing) {
+    if (seek) {
         seek.value = Math.floor(now);
+    }
+
+    if (currentTimeEl) {
         currentTimeEl.textContent = formatTime(now);
     }
+}
 
     if (!current || player.paused || player.seeking) return;
 
