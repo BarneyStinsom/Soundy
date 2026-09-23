@@ -8,34 +8,22 @@
 
     <link rel="stylesheet" href="../css/menu.css">
     <link rel="stylesheet" href="../css/pmusica.css">
+
+    <!-- Navbar -->
     <script src="../js/navbar.js" defer></script>
+
+    <!-- Ondas -->
+    <script src="../js/scriptondas.js" defer></script>
 </head>
 
 <body>
-
-    <!-- =========================
-         NAVBAR
-         ========================= -->
-
     <div id="navbar"></div>
-
-
-    <!-- =========================
-         PÁGINA DA MÚSICA
-         ========================= -->
-
     <main class="musica-page">
-
         <a id="backLink" class="voltar-musica" href="../menu/menu.html">
             ←
         </a>
-
         <p id="message" class="mensagem-musica" role="status"></p>
-
-
         <section id="content" class="musica-conteudo" hidden>
-
-            <!-- CAPA -->
 
             <div class="capa-container">
 
@@ -49,9 +37,6 @@
 
             </div>
 
-
-            <!-- INFORMAÇÕES -->
-
             <div class="musica-detalhes">
 
                 <h1 id="title"></h1>
@@ -62,9 +47,6 @@
 
             </div>
 
-
-            
-
             <audio
                 id="player"
                 preload="metadata">
@@ -73,11 +55,6 @@
         </section>
 
     </main>
-
-
-    <!-- =========================
-         PLAYER INFERIOR
-         ========================= -->
 
     <div class="player-musica">
 
@@ -135,20 +112,30 @@
         >
 
     </div>
-
-
-    <!-- =========================
-         SCRIPTS
-         ========================= -->
-
+<div class="fundo">
+    <svg
+        id="ondas"
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="xMidYMid slice"
+    >
+        <defs>
+            <linearGradient
+                id="grad"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="0"
+            >
+                <stop offset="50%" stop-color="#fff"></stop>
+                <stop offset="100%" stop-color="#fff"></stop>
+            </linearGradient>
+        </defs>
+    </svg>
+</div>
     <script src="../js/api.js"></script>
     <script src="pMusica.js"></script>
 
-
-    <!-- Sincronização do player inferior -->
-
     <script>
-
         const audio = document.getElementById("player");
 
         const bottomPlayPause =
@@ -186,9 +173,6 @@
             return `${minutos}:${segundosRestantes}`;
         }
 
-
-        /* PLAY / PAUSE DO PLAYER INFERIOR */
-
         bottomPlayPause.addEventListener("click", () => {
 
             if (audio.paused) {
@@ -204,8 +188,6 @@
         });
 
 
-        /* SINCRONIZA BOTÃO */
-
         audio.addEventListener("play", () => {
 
             bottomPlayPause.textContent = "❚❚";
@@ -219,9 +201,6 @@
 
         });
 
-
-        /* PROGRESSO */
-
         audio.addEventListener("loadedmetadata", () => {
 
             if (Number.isFinite(audio.duration)) {
@@ -232,7 +211,6 @@
             }
 
         });
-
 
         audio.addEventListener("timeupdate", () => {
 
@@ -246,16 +224,12 @@
 
         });
 
-
         bottomProgress.addEventListener("input", () => {
 
             audio.currentTime =
                 Number(bottomProgress.value);
 
         });
-
-
-        /* VOLUME */
 
         bottomVolume.addEventListener("input", () => {
 
@@ -264,8 +238,6 @@
 
         });
 
-
-        /* ATUALIZA NOME E ARTISTA */
 
         const titleElement =
             document.getElementById("title");
