@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Soundy - Artistas</title>
+
+    <link rel="icon" type="image/png" href="../imagens/Logo.png">
+    <link rel="stylesheet" href="../css/menu.css">
+
+    <script src="../js/scriptondas.js" defer></script>
+    <script src="../js/navbar.js" defer></script>
+    <link rel="stylesheet" href="../css/playlist.css">
+
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <main class="playlists-page">
+
+        <h1>Artistas</h1>
+
+        <p class="subtitulo">
+            Seus artistas favoritos - PARCEIROS
+        </p>
+
+        <div class="playlists-grid">
+
+            <div class="playlist-card"
+                 onclick="abrirPlaylist('eletronico.html')">
+
+                <img
+                    src="../imagens/eletronic.jfif"
+                    alt="Capa da playlist Mix"
+                    class="playlist-capa">
+
+                <h2>Músicas eletrônicas</h2>
+
+                <p>tuts tuts tuts</p>
+
+            </div>
+
+    </main>
+    <div class="fundo">
+
+        <svg
+            id="ondas"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid slice">
+
+            <defs>
+
+                <linearGradient
+                    id="grad"
+                    x1="0"
+                    y1="0"
+                    x2="1"
+                    y2="0">
+
+                    <stop
+                        offset="50%"
+                        stop-color="#fff">
+
+                    <stop
+                        offset="100%"
+                        stop-color="#fff">
+
+                </linearGradient>
+
+            </defs>
+
+        </svg>
+
+    </div>
+
+
+<script>
+    function abrirPlaylist(pagina) {
+        window.location.href = pagina;
+    }
+
+    function abrirPlaylist(pagina) {
+        window.location.href = pagina;
+    }
+
+    function criarPlaylist() {
+        window.location.href = "criar-playlist.html";
+    }
+
+</script>
+
+</body>
+</html>

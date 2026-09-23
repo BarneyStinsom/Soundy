@@ -26,8 +26,8 @@
 
     const DESTINOS = {
         playlistsBtn: 'playlist/pPlaylists.html',
-        artistasBtn: null,
-        albumnsBtn: null,
+        artistasBtn: 'menu/artistas.html',
+        albumnsBtn: 'menu/albuns.html',
         adminBtn: 'admin/dashboard.html',
         profileBtn: `menu/perfil.html?userId=${userId}`,
     };
@@ -36,7 +36,7 @@
 
     const NAVBAR_HTML = `
 <header class="admin-topbar">
-    <a href="${ROOT}index.html">
+    <a href="${ROOT}index.html">i
         <img src="${ROOT}imagens/Logo.png" alt="Logo do Soundy" class="logo">
     </a>
 
