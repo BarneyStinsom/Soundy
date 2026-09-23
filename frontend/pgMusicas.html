@@ -47,15 +47,16 @@
                 <h3 id="addTitle">Adicionar músicas</h3>
                 <button id="closeAddBtn" class="btn-fechar" type="button" title="Fechar">✕</button>
             </div>
-            <input id="searchInput" type="search" placeholder="Buscar por música ou artista..." autocomplete="off">
+            <input id="addSearchInput" type="search" placeholder="Buscar por música ou artista..." autocomplete="off">
             <p id="addMessage" role="status"></p>
-            <div id="searchResults" class="musicas"></div>
+            <div id="addSearchResults" class="musicas"></div>
         </div>
     </dialog>
 
     <!-- player inferior (mesmo do pMusica) -->
     <div class="player-musica">
         <button id="playPauseBtn" class="player-botao" type="button">▶</button>
+        <img id="playerCapa" class="player-capa" src="imagens/Logo.png" alt="">
         <div class="player-info">
             <strong id="playerNome">Nenhuma música tocando</strong>
             <span id="playerArtista">Soundy</span>

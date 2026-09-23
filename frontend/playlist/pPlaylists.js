@@ -40,6 +40,21 @@ function createCard(playlist) {
 
     card.append(cover, name);
 
+    const deleteBtn = document.createElement('button');
+    deleteBtn.type = 'button';
+    deleteBtn.className = 'playlist-excluir';
+    deleteBtn.textContent = '🗑';
+    deleteBtn.title = 'Excluir playlist';
+    deleteBtn.setAttribute('aria-label', `Excluir a playlist ${playlist.name}`);
+    deleteBtn.addEventListener('click', (event) => {
+        event.stopPropagation(); // sem isso o clique também abriria a playlist
+        deletePlaylist(playlist);
+    });
+    deleteBtn.addEventListener('keydown', (event) => {
+        event.stopPropagation(); // Enter no botão não deve abrir a playlist
+    });
+    card.appendChild(deleteBtn);
+
     if (playlist.description) {
         const description = document.createElement('p');
         description.textContent = playlist.description;
@@ -67,6 +82,21 @@ async function loadPlaylists(notice = '') {
     } catch (error) {
         grid.replaceChildren();
         message.textContent = error.message;
+    }
+}
+
+// ---------- EXCLUIR ----------
+
+async function deletePlaylist(playlist) {
+    if (!confirm(`Excluir a playlist "${playlist.name}"? Essa ação não pode ser desfeita.`)) {
+        return;
+    }
+
+    try {
+        await api(`/playlists/${playlist.id}`, { method: 'DELETE' });
+        await loadPlaylists('Playlist excluída.');
+    } catch (error) {
+        message.textContent = error.message || 'Não foi possível excluir a playlist.';
     }
 }
 

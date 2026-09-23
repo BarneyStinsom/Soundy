@@ -1,7 +1,8 @@
 /* ----- pgMusicas: layout de coleção (álbum / playlist) ----- */
 
-/* sem isso, o "hidden" some quando a classe define display */
-[hidden] { display: none !important; }
+/* sem isso, o "hidden" some quando a classe define display (escopo restrito: a navbar tem o próprio hidden) */
+.playlist-page [hidden],
+.btn-add-musicas[hidden] { display: none !important; }
 
 .playlist-page {
     position: relative;
@@ -164,9 +165,9 @@
 
 #addMessage { min-height: 1em; font-size: 13px; color: #ffd0dd; }
 
-#searchResults { overflow-y: auto; }
-#searchResults .musica { cursor: default; padding: 10px 16px; }
-#searchResults .musica:hover { transform: none; }
+#addSearchResults { overflow-y: auto; }
+#addSearchResults .musica { cursor: default; padding: 10px 16px; }
+#addSearchResults .musica:hover { transform: none; }
 
 .btn-adicionar {
     flex-shrink: 0;
@@ -186,3 +187,12 @@
     .playlist-page { padding: 24px 5% 190px; }
     .playlist-titulo { font-size: 28px; }
 }
+
+/* ----- capa no player ----- */
+.player-capa { width: 45px; height: 45px; flex-shrink: 0; object-fit: cover; border-radius: 6px; }
+
+/* ----- nome da música (abre a música) e foto (abre o álbum) ----- */
+.musica-info strong a { color: inherit; text-decoration: none; }
+.musica-info strong a:hover { color: #ff9ec1; text-decoration: underline; }
+.musica-capa.link { cursor: pointer; transition: transform 0.15s; }
+.musica-capa.link:hover { transform: scale(1.08); }
