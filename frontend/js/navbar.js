@@ -36,7 +36,7 @@
 
     const NAVBAR_HTML = `
 <header class="admin-topbar">
-    <a href="${ROOT}index.html">i
+    <a href="${ROOT}index.html">
         <img src="${ROOT}imagens/Logo.png" alt="Logo do Soundy" class="logo">
     </a>
 
