@@ -88,3 +88,114 @@
     background: #ff5f96;
 }
 
+        /* ----- modal de criar playlist ----- */
+       #createDialog {
+    margin: auto;
+    inset: 0;
+    padding: 0;
+    width: 340px;
+    max-width: 90vw;
+    border-radius: 50px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    font-family: 'Space Grotesk', sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.048) 0%,
+        rgba(255, 255, 255, 0.027) 50%,
+        rgba(255, 255, 255, 0.055) 100%
+    );
+    backdrop-filter: saturate(170%);
+    -webkit-backdrop-filter: saturate(170%);
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+#createDialog::backdrop {
+    background: rgba(0, 0, 0, .45);
+    backdrop-filter: blur(4px);
+}
+
+#createForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+#createForm h2 { margin: 0 0 4px; }
+
+#createForm label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+#createForm input[type="text"],
+#createForm input[type="file"] {
+    width: 100%;
+    max-width: 260px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #000;
+    font: inherit;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+
+/* o campo de arquivo fica sobre o vidro, então o texto precisa ser branco */
+#createForm input[type="file"] {
+    color: #fff;
+    font-size: .8rem;
+}
+
+#createForm input[type="file"]::file-selector-button {
+    padding: 6px 10px;
+    margin-right: 8px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+}
+
+#createForm .check {
+    flex-direction: row;
+    justify-content: center;
+    font-weight: 400;
+}
+
+#createForm .acoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#createForm .acoes button {
+    flex: 1;
+    max-width: 130px;
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+}
+
+#formMessage {
+    margin: 0;
+    min-height: 1em;
+    font-size: .9rem;
+    color: #ff8a8a; /* o vermelho antigo ficava apagado no fundo escuro */
+}

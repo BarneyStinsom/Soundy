@@ -89,5 +89,17 @@ async login(email: string, password: string) {
     isAdmin: user.isAdmin
   };
 }
-
+async UpdaPic(id: string, pictureUrl: string){
+ const user = await db.orm.public.User
+        .where({ id: id as Char<36> })
+        .first();
+        if (!user) {
+            throw new NotFoundException('Usuário não encontrado');
+        }
+        return await db.orm.public.User
+        .where({ id: id as Char<36>})
+        .update({
+            pictureUrl
+        });
+    }
 }
