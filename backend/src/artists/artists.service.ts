@@ -7,7 +7,7 @@ import { db } from '../prisma/db.js';
 export class ArtistsService {
   async findAll() {
     return await db.orm.public.Artist
-      .select('id', 'name')
+      .select('id', 'name', 'coverUrl')
       .all();
   }
 
@@ -64,7 +64,6 @@ async delete(id: string) {
     }
     return await db.orm.public.Album 
      .where({ artistId: id as Char<36> }) 
-     .select('id', 'title', 'type') .all(); 
+     .select('id', 'title', 'type', 'coverUrl') .all(); 
     }
 }
-
