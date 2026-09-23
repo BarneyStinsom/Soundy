@@ -325,11 +325,11 @@ body {
 }
 
 .artist-photo {
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 240px;
     margin-top: 32px;
 
-    border-radius: 50%;
+    border-radius: 20px;
     object-fit: cover;
 
     background-color: #555;
