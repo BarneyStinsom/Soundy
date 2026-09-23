@@ -426,10 +426,6 @@
     flex: 1;
 
     min-width: 100px;
-
-    cursor: pointer;
-
-    accent-color: #ff5f96;
 }
 
 
@@ -458,10 +454,107 @@
 
 .player-volume {
     width: 90px;
+}
+
+
+/* =========================================================
+   SLIDERS (progresso + volume) — estilo alinhado ao botão play
+   ========================================================= */
+
+.player-progresso,
+.player-volume {
+    -webkit-appearance: none;
+    appearance: none;
+
+    height: 6px;
+    border-radius: 999px;
+
+    background: linear-gradient(
+        to right,
+        #ff5f96 var(--valor, 0%),
+        rgba(255, 255, 255, 0.18) var(--valor, 0%)
+    );
+
+    cursor: pointer;
+    outline: none;
+
+    transition: box-shadow 0.2s;
+}
+
+.player-progresso:hover,
+.player-volume:hover {
+    box-shadow: 0 0 0 4px rgba(255, 95, 150, 0.12);
+}
+
+/* thumb — Chrome / Edge / Safari */
+.player-progresso::-webkit-slider-thumb,
+.player-volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+
+    width: 14px;
+    height: 14px;
+
+    border-radius: 50%;
+    background: #ff5f96;
+
+    box-shadow: 0 2px 10px rgba(255, 95, 150, 0.65);
 
     cursor: pointer;
 
-    accent-color: #ff5f96;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.player-progresso:hover::-webkit-slider-thumb,
+.player-volume:hover::-webkit-slider-thumb {
+    transform: scale(1.15);
+}
+
+.player-progresso:active::-webkit-slider-thumb,
+.player-volume:active::-webkit-slider-thumb {
+    transform: scale(0.95);
+}
+
+/* trilho — Firefox */
+.player-progresso::-moz-range-track,
+.player-volume::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.player-progresso::-moz-range-progress,
+.player-volume::-moz-range-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: #ff5f96;
+}
+
+/* thumb — Firefox */
+.player-progresso::-moz-range-thumb,
+.player-volume::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+
+    border: none;
+    border-radius: 50%;
+    background: #ff5f96;
+
+    box-shadow: 0 2px 10px rgba(255, 95, 150, 0.65);
+
+    cursor: pointer;
+
+    transition: transform 0.2s;
+}
+
+.player-progresso:hover::-moz-range-thumb,
+.player-volume:hover::-moz-range-thumb {
+    transform: scale(1.15);
+}
+
+.player-progresso:active::-moz-range-thumb,
+.player-volume:active::-moz-range-thumb {
+    transform: scale(0.95);
 }
 
 .fundo {

@@ -157,6 +157,25 @@
             document.getElementById("playerArtista");
 
 
+        function atualizarPreenchimento(input) {
+
+            const min = Number(input.min) || 0;
+            const max = Number(input.max) || 100;
+            const valor = Number(input.value);
+
+            const percentual =
+                max > min
+                    ? ((valor - min) / (max - min)) * 100
+                    : 0;
+
+            input.style.setProperty(
+                "--valor",
+                `${percentual}%`
+            );
+
+        }
+
+
         function formatarTempo(segundos) {
 
             if (!Number.isFinite(segundos)) {
@@ -210,6 +229,8 @@
 
             }
 
+            atualizarPreenchimento(bottomProgress);
+
         });
 
         audio.addEventListener("timeupdate", () => {
@@ -222,12 +243,16 @@
             bottomTime.textContent =
                 formatarTempo(audio.currentTime);
 
+            atualizarPreenchimento(bottomProgress);
+
         });
 
         bottomProgress.addEventListener("input", () => {
 
             audio.currentTime =
                 Number(bottomProgress.value);
+
+            atualizarPreenchimento(bottomProgress);
 
         });
 
@@ -236,7 +261,12 @@
             audio.volume =
                 Number(bottomVolume.value);
 
+            atualizarPreenchimento(bottomVolume);
+
         });
+
+        atualizarPreenchimento(bottomProgress);
+        atualizarPreenchimento(bottomVolume);
 
 
         const titleElement =

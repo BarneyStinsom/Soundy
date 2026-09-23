@@ -36,6 +36,14 @@ const searchInput = $('#addSearchInput');
 const searchResults = $('#addSearchResults');
 const addMessage = $('#addMessage');
 
+function atualizarPreenchimento(input) {
+    const min = Number(input.min) || 0;
+    const max = Number(input.max) || 100;
+    const valor = Number(input.value);
+    const percentual = max > min ? ((valor - min) / (max - min)) * 100 : 0;
+    input.style.setProperty('--valor', `${percentual}%`);
+}
+
 const audio = $('#audioPlayer');
 const playPauseBtn = $('#playPauseBtn');
 const barraProgresso = $('#barraProgresso');
@@ -314,6 +322,7 @@ async function playSong(songId) {
         playerCapa.src = cover ? imageUrl(cover) : collectionCover;
         barraProgresso.value = 0;
         tempoAtual.textContent = formatTime(0);
+        atualizarPreenchimento(barraProgresso);
         notify('');
         markPlaying();
 
@@ -346,10 +355,14 @@ audio.addEventListener('pause', () => { playPauseBtn.textContent = '▶'; });
 
 audio.addEventListener('loadedmetadata', () => {
     if (Number.isFinite(audio.duration)) barraProgresso.max = Math.floor(audio.duration);
+    atualizarPreenchimento(barraProgresso);
 });
 
-barraProgresso.addEventListener('input', () => { audio.currentTime = Number(barraProgresso.value); });
-barraVolume.addEventListener('input', () => { audio.volume = Number(barraVolume.value); });
+barraProgresso.addEventListener('input', () => { audio.currentTime = Number(barraProgresso.value); atualizarPreenchimento(barraProgresso); });
+barraVolume.addEventListener('input', () => { audio.volume = Number(barraVolume.value); atualizarPreenchimento(barraVolume); });
+
+atualizarPreenchimento(barraProgresso);
+atualizarPreenchimento(barraVolume);
 
 audio.addEventListener('error', () => {
     if (audio.getAttribute('src')) notify('Não foi possível carregar o áudio desta música.');
@@ -393,6 +406,7 @@ audio.addEventListener('timeupdate', () => {
 
     barraProgresso.value = Math.floor(now);
     tempoAtual.textContent = formatTime(now);
+    atualizarPreenchimento(barraProgresso);
 
     if (!playingId || audio.paused || audio.seeking) return;
     if (delta > 0 && delta < 1.5) listened += delta; // avanços maiores são pulos
