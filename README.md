@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="frontend/Logo.png" alt="Soundy" width="180">
+<img src="frontend/imagens/Logo.png" alt="Soundy" width="180">
 
 # Soundy
 
