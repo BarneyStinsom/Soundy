@@ -26,21 +26,27 @@ loadProfilePhoto();
 
 async function loadTopHits() {
   try {
-    const response = await fetch(`${API_URL}/songs/top?limit=10`);
+    const response = await fetch(`${API_URL}/songs/top?limit=10`, {
+      cache: 'no-store'   // não reaproveita resposta antiga
+    });
 
     if (!response.ok) {
       throw new Error(`Erro HTTP: ${response.status}`);
     }
 
     const musicas = await response.json();
-
     renderTopHits(musicas);
-
   } catch (error) {
     console.error('Erro ao carregar top hits:', error);
   }
-} 
+}
 
+loadTopHits();
+
+// recarrega a lista quando a página é restaurada pelo botão voltar (bfcache)
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) loadTopHits();
+});
 function renderTopHits(musicas) {
   const ul = document.getElementById('topHitsList');
 
