@@ -93,12 +93,21 @@ async update(id: string, title: string, duration?: number, songUrl?: string,
 }
 async delete(id: string) {
   const song = await db.orm.public.Song
-      .where({ id: id as Char<36> })
-      .first();
-  
-    if (!song) {
-      throw new NotFoundException('Música não encontrada');
-    }
+    .where({ id: id as Char<36> })
+    .first();
+
+  if (!song) {
+    throw new NotFoundException('Música não encontrada');
+  }
+
+  await db.orm.public.PlayHistory
+    .where({ songId: id as Char<36> })
+    .delete();
+
+  await db.orm.public.PlaylistSong
+    .where({ songId: id as Char<36> })
+    .delete();
+
   return await db.orm.public.Song
     .where({ id: id as Char<36> })
     .delete();
