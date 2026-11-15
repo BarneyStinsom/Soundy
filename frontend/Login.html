@@ -7,6 +7,11 @@
     <title>Soundy</title>
     <link rel="icon" type="image/png" href="imagens/Logo.png">
     <link rel="stylesheet" href="css/style.css">
+    <script>
+             const ehCelular = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent);
+             const forcouDesktop = location.search.includes('desktop=1');
+             if (ehCelular && !forcouDesktop) location.replace('/m/');
+        </script>
         <script src="js/script.js" defer></script>
         <script src="js/scriptindex.js" defer></script>
 </head>

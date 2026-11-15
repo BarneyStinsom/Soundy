@@ -5,6 +5,11 @@
   <title>Soundy</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" href="imagens/Logo.png">
+   <script>
+             const ehCelular = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent);
+             const forcouDesktop = location.search.includes('desktop=1');
+             if (ehCelular && !forcouDesktop) location.replace('/m/');
+        </script>
 <script src="js/scriptondas.js" defer></script>
 </head>
 <div class="fundo">
